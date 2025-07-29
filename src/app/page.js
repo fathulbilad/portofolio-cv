@@ -51,7 +51,7 @@ export default function Home() {
     setIsMobileMenuOpen(false);
   };
 
-  const wordsTesting = [
+  const wordContactMe = [
     {
       text: "Let's make something together",
     },
@@ -124,7 +124,7 @@ export default function Home() {
             <ContentSectionPortofolio data={profileSection} />
           </section>
           <section ref={contactMeRef} className=" space-x-6">
-            <ContactMeSection wordsTesting={wordsTesting} />
+            <ContactMeSection wordContactMe={wordContactMe} />
           </section>
         </>
       ) : (
@@ -174,13 +174,13 @@ const ContentSectionPortofolio = ({ data }) => (
   </>
 );
 
-const ContactMeSection = ({ wordsTesting }) => (
+const ContactMeSection = ({ wordContactMe }) => (
   <div className="flex flex-col inset-x-0 justify-center items-center h-150 w-screen bg-black">
     <div className="flex flex-col items-center justify-center mt-5 mb-1 sm:mb-10 md:mb-10 xl:mb-10">
       <p className="text-neutral-600 dark:text-neutral-200 text-base sm:text-2xl md:text-2xl ">
         Turning Ideas Into Impactful Products
       </p>
-      <TypewriterEffectSmooth words={wordsTesting} />
+      <TypewriterEffectSmooth words={wordContactMe} />
     </div>
     <div className="flex items-center justify-center w-full">
       <FloatingDock items={links} />

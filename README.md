@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Fathul Bilad – Portfolio Website
 
-## Getting Started
+This repository contains the source code for my personal portfolio, built with Next.js and Tailwind CSS to showcase my professional experience, skills, and projects as a Full-Stack Software Engineer.
 
-First, run the development server:
+👤 Profile
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Software Engineer with 3+ years of experience in Full-Stack Development, System Optimization, and Scalable Web Applications.
+Proficient in:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    Frontend: Next.js, React.js, Vue.js, Angular, FlutterFlow
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+    Backend: Node.js, Express.js, Knex.js
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    Databases: MySQL, PostgreSQL
 
-## Learn More
+    DevOps: Jenkins, Docker, Harbor, Kubernetes, Azure DevOps, GitHub Actions
 
-To learn more about Next.js, take a look at the following resources:
+    Cloud Storage: Google Cloud Storage, Azure Blob Storage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+💼 Professional Experience
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+PT Mitra Integrasi Informatika (MII)
+Technician Consultant
+June 2025 – Present
 
-## Deploy on Vercel
+    Building internal mobile applications using FlutterFlow at PT KB Finansia Multi Finance (Kredit Plus)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    Setting up UI/UX layouts, screen navigation, and Firebase API integration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Technician Consultant
+Oct 2024 – Jun 2025 (Vendor for PT Indosat Ooredoo)
+
+    Enhanced Supplier Portal with React.js & Node.js
+
+    Fixed legacy UI bugs, developed dynamic modules (QnA CRUD, WYSIWYG Editor)
+
+    Optimized backend APIs, improved DB queries (PostgreSQL)
+
+Technician Consultant
+Aug 2023 – Oct 2024 (Vendor for PT Astra International – Auto2000)
+
+    Developed scalable CMS with Next.js + Tailwind CSS + Turborepo
+
+    Implemented SSR for website, CSR for CMS
+
+    Researched & integrated Rich Text Editors for Next.js CSR
+
+Technician Consultant
+Nov 2022 – Aug 2023 (Vendor for PT Indosat Ooredoo)
+
+    Full-stack React.js + Node.js development
+
+    Integrated Google Cloud Storage via Signed URLs for secure file handling
+
+DevOps Engineer
+Nov 2021 – Nov 2022 (Vendor for PT Dexa Medica)
+
+    Built Supplier Portal from scratch with Vue.js + Node.js
+
+    Configured CI/CD pipelines with Jenkins, Docker, Harbor, Kubernetes
+
+    Managed MySQL databases & optimized API performance
+
+🛠️ Tech Stack
+
+    Frontend: Next.js, React.js, Vue.js, Angular, FlutterFlow, Tailwind CSS, ANTD, PrimeVue
+
+    Backend: Node.js, Knex.js, Express, Prisma, Sequelize
+
+    Database: MySQL, PostgreSQL, Firebase
+
+    DevOps: Jenkins, Docker, Harbor, Kubernetes, NGINX, KONGA
+
+    Version Control: GitHub, GitLab, Azure DevOps, Bitbucket
+
+📬 Contact
+
+    📧 Email: fathulbilad@gmail.com
+
+    💻 GitHub: github.com/fathulbilad
+
+    🔗 LinkedIn: linkedin.com/in/fathul-bilad
+
+    💬 WhatsApp: Chat Now
