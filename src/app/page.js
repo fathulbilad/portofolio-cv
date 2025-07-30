@@ -100,7 +100,7 @@ export default function Home() {
                     key={`mobile-link-${idx}`}
                     href={item.link}
                     onClick={() => handleNavClickMobile(item?.refKey)}
-                    className="relative text-neutral-600 dark:text-neutral-300"
+                    className="relative text-neutral-300"
                   >
                     <span className="block">{item.name}</span>
                   </a>
@@ -177,7 +177,7 @@ const ContentSectionPortofolio = ({ data }) => (
 const ContactMeSection = ({ wordContactMe }) => (
   <div className="flex flex-col inset-x-0 justify-center items-center h-150 w-screen bg-black">
     <div className="flex flex-col items-center justify-center mt-5 mb-1 sm:mb-10 md:mb-10 xl:mb-10">
-      <p className="text-neutral-600 dark:text-neutral-200 text-base sm:text-2xl md:text-2xl ">
+      <p className="text-neutral-200 text-base sm:text-2xl md:text-2xl ">
         Turning Ideas Into Impactful Products
       </p>
       <TypewriterEffectSmooth words={wordContactMe} />
