@@ -91,7 +91,7 @@ export function FloatingDockWrapper() {
             title: "Home",
             icon: <Home className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
+              const lenis = (window as any).__lenis;
               lenis?.scrollTo("#hero", { duration: 1.6 });
             },
           },
@@ -99,7 +99,7 @@ export function FloatingDockWrapper() {
             title: "Work",
             icon: <Briefcase className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
+              const lenis = (window as any).__lenis;
               lenis?.scrollTo("#work", { duration: 1.6 });
             },
           },
@@ -111,7 +111,7 @@ export function FloatingDockWrapper() {
             title: "Stack",
             icon: <Cpu className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
+              const lenis = (window as any).__lenis;
               // ScrollTrigger may be pinning — use native scrollTo as fallback
               const el = document.querySelector("#stack");
               if (el) lenis?.scrollTo(el, { duration: 1.6, offset: 0 });
@@ -121,7 +121,7 @@ export function FloatingDockWrapper() {
             title: "Contact",
             icon: <Mail className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
+              const lenis = (window as any).__lenis;
               lenis?.scrollTo("#contact", { duration: 1.6 });
             },
           },
