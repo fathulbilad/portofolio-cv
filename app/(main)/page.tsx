@@ -808,7 +808,7 @@ export default function AboutPage() {
         </div>
 
         <div ref={stackRef} className="relative">
-          <div className="scroll-stack-inner pt-[20vh] pb-[60vh] flex flex-col items-center">
+          <div className="scroll-stack-inner pt-[0vh] pb-[2vh] flex flex-col items-center">
             {workCards.map((card, i) => (
               <WorkStackCard key={card.title} card={card} index={i} />
             ))}
@@ -1061,11 +1061,20 @@ function WorkStackCard({
     const el = ref.current;
     if (!el) return;
 
+    if (window.innerWidth < 768) {
+      gsap.set(el, {
+        y: 0,
+        scale: 1,
+      });
+
+      return;
+    }
+
     const totalCards = workCards.length;
 
     gsap.set(el, {
       scale: 0.92 + index * 0.015,
-      y: index * 60,
+      y: index * 5,
       zIndex: 10 + index,
     });
 
@@ -1087,7 +1096,7 @@ function WorkStackCard({
         const baseScale = 1 - (totalCards - index - 1) * 0.03;
 
         const scale = baseScale + eased * (1 - baseScale);
-        const y = index * 60 - eased * index * 60;
+        const y = index * 5 - eased * index * 5;
 
         const blur = index < totalCards - 1 ? (1 - eased) * 2 : 0;
 
@@ -1108,10 +1117,10 @@ function WorkStackCard({
       ref={ref}
       className="
         relative
-        w-[92vw] md:w-[95vw]
+        w-[94vw] md:w-[88vw]
         max-w-[1600px]
-        min-h-[65vh] md:min-h-[75vh]
-        my-16 md:my-32
+        min-h-[38vh] md:min-h-[58vh]
+        my-1 md:my-6
         p-6 sm:p-8 md:p-16 lg:p-24
         rounded-2xl md:rounded-[32px]
         border
@@ -1123,7 +1132,7 @@ function WorkStackCard({
       }}
     >
       {/* ── HEADER ── */}
-      <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-0 mb-8 md:mb-12">
+      <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-0 mb-6 md:mb-12">
         {/* LEFT */}
         <div className="max-w-full md:max-w-4xl">
           <p
@@ -1164,7 +1173,7 @@ function WorkStackCard({
       </div>
 
       {/* ── CONTENT ── */}
-      <div className="flex flex-col gap-8 md:gap-16">
+      <div className="flex flex-col gap-4 md:gap-10">
         {/* PROBLEM */}
         <div>
           <p className="text-[15px] sm:text-xl md:text-2xl font-mono text-white/40 mb-2 md:mb-4 tracking-[0.2em]">
@@ -1189,7 +1198,7 @@ function WorkStackCard({
           grid grid-cols-1
           sm:grid-cols-1
           md:grid-cols-3
-          gap-6 sm:gap-8 md:gap-20
+          gap-4 sm:gap-4 md:gap-10
         "
         >
           {/* ARCH */}

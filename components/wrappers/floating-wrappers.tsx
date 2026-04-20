@@ -11,8 +11,7 @@ export function FloatingDockWrapper() {
 
   useEffect(() => {
     const checkTheme = () => {
-      const theme = localStorage.getItem("theme");
-      setIsDark(theme === "dark");
+      setIsDark(document.documentElement.classList.contains("dark"));
     };
 
     checkTheme();

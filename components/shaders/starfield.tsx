@@ -40,23 +40,37 @@ export function StarfieldBackground({
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    const rect = container.getBoundingClientRect();
-    let width = rect.width;
-    let height = rect.height;
-    canvas.width = width;
-    canvas.height = height;
+    let width = 0;
+    let height = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 2); // cap for perf
+
+    const resize = () => {
+      const rect = container.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    resize();
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(container);
 
     let animationId: number;
     let tick = 0;
 
-    const _centerX = width / 2;
-    const _centerY = height / 2;
     const maxDepth = 1500;
 
-    // Create stars
     const createStar = (initialZ?: number): Star => ({
       x: (Math.random() - 0.5) * width * 2,
       y: (Math.random() - 0.5) * height * 2,
@@ -67,89 +81,84 @@ export function StarfieldBackground({
 
     const stars: Star[] = Array.from({ length: count }, () => createStar());
 
-    // Resize handler
-    const handleResize = () => {
-      const rect = container.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
-      canvas.width = width;
-      canvas.height = height;
-    };
+    // precompute sin values (huge win for Safari)
+    const sinCache = new Float32Array(1000);
+    for (let i = 0; i < 1000; i++) {
+      sinCache[i] = Math.sin(i * 0.01);
+    }
 
-    const ro = new ResizeObserver(handleResize);
-    ro.observe(container);
-
-    // Animation
     const animate = () => {
       tick++;
 
-      // Fade effect for trails
-      ctx.fillStyle = "rgba(10, 10, 15, 0.2)";
+      // Safari prefers clearRect over alpha fill
+      ctx.fillStyle = "#0a0a0f";
+      ctx.globalAlpha = 0.25;
       ctx.fillRect(0, 0, width, height);
+      ctx.globalAlpha = 1;
 
       const cx = width / 2;
       const cy = height / 2;
 
-      for (const star of stars) {
-        // Move star toward camera
+      ctx.fillStyle = starColor;
+      ctx.strokeStyle = starColor;
+
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+
         star.z -= speed * 2;
 
-        // Reset if passed camera
         if (star.z <= 0) {
           star.x = (Math.random() - 0.5) * width * 2;
           star.y = (Math.random() - 0.5) * height * 2;
           star.z = maxDepth;
         }
 
-        // Project to 2D
         const scale = 400 / star.z;
         const x = cx + star.x * scale;
         const y = cy + star.y * scale;
 
-        // Skip if off screen
         if (x < -10 || x > width + 10 || y < -10 || y > height + 10) continue;
 
-        // Size based on depth (closer = bigger)
-        const size = Math.max(0.5, (1 - star.z / maxDepth) * 3);
+        const depthRatio = 1 - star.z / maxDepth;
 
-        // Opacity based on depth (closer = brighter)
-        let opacity = (1 - star.z / maxDepth) * 0.9 + 0.1;
+        const size = Math.max(0.5, depthRatio * 3);
 
-        // Twinkle effect
+        let opacity = depthRatio * 0.9 + 0.1;
+
+        // 🔥 cheaper twinkle (no Math.sin per frame)
         if (twinkle && star.twinkleSpeed > 0.015) {
-          opacity *=
-            0.7 + 0.3 * Math.sin(tick * star.twinkleSpeed + star.twinkleOffset);
+          const idx = (tick + i) % 1000;
+          opacity *= 0.7 + 0.3 * sinCache[idx];
         }
 
-        // Draw star
-        ctx.beginPath();
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fillStyle = starColor;
         ctx.globalAlpha = opacity;
-        ctx.fill();
 
-        // Draw subtle streak for fast/close stars
+        // ⚡ faster than arc()
+        ctx.fillRect(x, y, size, size);
+
+        // streak
         if (star.z < maxDepth * 0.3 && speed > 0.3) {
-          const streakLength = (1 - star.z / maxDepth) * speed * 8;
+          const streakLength = depthRatio * speed * 8;
           const angle = Math.atan2(star.y, star.x);
+
+          ctx.globalAlpha = opacity * 0.3;
+          ctx.lineWidth = size * 0.5;
+
           ctx.beginPath();
           ctx.moveTo(x, y);
           ctx.lineTo(
             x - Math.cos(angle) * streakLength,
             y - Math.sin(angle) * streakLength,
           );
-          ctx.strokeStyle = starColor;
-          ctx.globalAlpha = opacity * 0.3;
-          ctx.lineWidth = size * 0.5;
           ctx.stroke();
         }
       }
 
       ctx.globalAlpha = 1;
+
       animationId = requestAnimationFrame(animate);
     };
 
-    // Initial clear
     ctx.fillStyle = "#0a0a0f";
     ctx.fillRect(0, 0, width, height);
 
