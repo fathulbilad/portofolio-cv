@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -431,7 +431,7 @@ export default function AboutPage() {
     });
 
     lenisRef.current = lenis;
-    (window as any).__lenis = lenis;
+    window.__lenis = lenis;
 
     const tickerFn = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tickerFn);
@@ -474,11 +474,13 @@ export default function AboutPage() {
         onComplete: initScrollAnimations,
       });
 
-      tl.to(
-        heroLabel,
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        0,
-      );
+      if (heroLabel) {
+        tl.to(
+          heroLabel,
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0,
+        );
+      }
       tl.add(() => {
         if (!heroHeading) return;
 
@@ -513,21 +515,29 @@ export default function AboutPage() {
           },
         );
       }, 0.15);
-      tl.to(
-        heroStats,
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        0.5,
-      );
-      tl.to(
-        heroBody,
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        0.62,
-      );
-      tl.to(
-        heroBadge,
-        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
-        0.74,
-      );
+      if (heroStats) {
+        tl.to(
+          heroStats,
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.5,
+        );
+      }
+
+      if (heroBody) {
+        tl.to(
+          heroBody,
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.62,
+        );
+      }
+
+      if (heroBadge) {
+        tl.to(
+          heroBadge,
+          { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" },
+          0.74,
+        );
+      }
     }, pageRef);
 
     function initScrollAnimations() {
@@ -639,7 +649,10 @@ export default function AboutPage() {
             ref={(el) => {
               navDotsRef.current[i] = el;
             }}
-            onClick={() => scrollTo(s.id)}
+            onClick={() => {
+              const lenis = window.__lenis;
+              lenis?.scrollTo(`#${s.id}`, { duration: 1.2 });
+            }}
             title={s.label}
             style={{
               width: i === 0 ? "24px" : "8px",
@@ -695,18 +708,15 @@ export default function AboutPage() {
             DEPLOYMENTS · PIPELINES · ARCHITECTURE
           </p>
 
-          {/* 🔥 FIXED PARAGRAPH */}
           <p className="text-base md:text-3xl text-white/60 leading-relaxed max-w-[90%] md:max-w-lg">
             I build and scale systems used in real production — helping teams
             ship faster, reduce failures, and keep things running as they grow.
           </p>
 
-          {/* 🔥 FIXED CTA SPACING */}
           <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4">
-            {/* PRIMARY CTA */}
             <button
               onClick={() => {
-                const lenis = (window as any).__lenis;
+                const lenis = window.__lenis;
                 lenis?.scrollTo("#work", { duration: 1.6 });
               }}
               className="

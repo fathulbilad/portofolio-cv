@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Children, type ReactNode } from "react";
 
-export function NewScrollStack({ children }: { children: React.ReactNode }) {
+export function NewScrollStack({ children }: { children: ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
@@ -48,7 +48,7 @@ export function NewScrollStack({ children }: { children: React.ReactNode }) {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="pt-[20vh] pb-[50rem]">
-        {React.Children.map(children, (child, i) => (
+        {Children.map(children, (child, i) => (
           <div
             ref={(el) => {
               if (el) cardsRef.current[i] = el;
