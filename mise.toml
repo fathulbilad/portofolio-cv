@@ -1,0 +1,46 @@
+[tools]
+node = "lts"
+npm = "latest"
+bun = "latest"
+
+[env]
+APP_ENV = "development"
+API_PORT = "8000"
+NEXT_PUBLIC_URL = "http://localhost:3000"
+NEXT_TELEMETRY_DISABLED = "1"
+
+# API
+API_URL = "http://localhost:8000"
+
+# Logging
+LOG_LEVEL = "debug"
+
+[tasks.install]
+description = "Install project dependencies"
+run = [
+  "bun install"
+]
+
+[tasks.dev]
+description = "Start development server"
+run = [
+  "bun run dev"
+]
+
+[tasks.build]
+description = "Build production app"
+run = [
+  "bun run build"
+]
+
+[tasks.start]
+description = "Start production server"
+run = [
+  "bun run start"
+]
+
+[tasks.lint]
+description = "Run linter"
+run = [
+  "bun run lint"
+]
