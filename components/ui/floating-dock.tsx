@@ -51,7 +51,7 @@ const FloatingDockMobile = ({
   return (
     <div
       className={cn(
-        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden",
+        "fixed bottom-0 left-1/2 -translate-x-1/2 z-50 md:hidden",
         className,
       )}
     >

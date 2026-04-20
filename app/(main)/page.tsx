@@ -408,6 +408,7 @@ export default function AboutPage() {
   const navDotsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const stackRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileLayout();
+  const marqueeAnimations = useRef<gsap.core.Tween[]>([]);
 
   const activateDot = (active: number) => {
     navDotsRef.current.forEach((dot, i) => {
@@ -434,6 +435,8 @@ export default function AboutPage() {
     window.__lenis = lenis;
 
     const tickerFn = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.remove(tickerFn);
+
     gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
@@ -488,6 +491,9 @@ export default function AboutPage() {
           gsap.set(heroHeading, { opacity: 1 });
           return;
         }
+
+        if (heroHeading.dataset.split === "true") return;
+        heroHeading.dataset.split = "true";
 
         const lines = Array.from(heroHeading.children);
         heroHeading.innerHTML = "";
@@ -562,21 +568,27 @@ export default function AboutPage() {
         });
       });
 
+      marqueeAnimations.current.forEach((t) => t.kill());
+      marqueeAnimations.current = [];
+
       gsap.utils.toArray<HTMLElement>(".marquee-inner").forEach((el) => {
-        gsap.to(el, { xPercent: -50, duration: 20, ease: "none", repeat: -1 });
+        const tween = gsap.to(el, {
+          xPercent: -50,
+          duration: 20,
+          ease: "none",
+          repeat: -1,
+        });
+        marqueeAnimations.current.push(tween);
       });
 
       gsap.utils.toArray<HTMLElement>(".split-heading").forEach((el) => {
         if (el.closest("#hero")) return;
 
-        // ✅ MOBILE: just show it (no animation)
-        if (isMobile) {
-          gsap.set(el, { opacity: 1, y: 0 });
-          return;
-        }
+        if (el.dataset.split === "true") return;
+        el.dataset.split = "true";
 
-        // 💻 DESKTOP: full animation
-        const lines = (el as HTMLElement).innerText.split("\n");
+        const text = el.innerText;
+        const lines = text.split("\n");
 
         el.innerHTML = "";
 
@@ -605,7 +617,11 @@ export default function AboutPage() {
             stagger: 0.03,
             duration: 0.7,
             ease: "power4.out",
-            scrollTrigger: { trigger: el, start: "top 90%" },
+            scrollTrigger: {
+              trigger: el,
+              start: "top 90%",
+              once: true,
+            },
           },
         );
       });
@@ -630,11 +646,14 @@ export default function AboutPage() {
 
     return () => {
       ctx.revert();
+      marqueeAnimations.current.forEach((tween) => tween.kill());
+      marqueeAnimations.current = [];
+      ScrollTrigger.getAll().forEach((t) => t.kill());
       lenis.destroy();
       gsap.ticker.remove(tickerFn);
       (window as any).__lenis = null;
     };
-  }, [isMobile]);
+  }, []);
 
   return (
     <div
@@ -1120,7 +1139,7 @@ function WorkStackCard({
         w-[94vw] md:w-[88vw]
         max-w-[1600px]
         min-h-[38vh] md:min-h-[58vh]
-        my-1 md:my-6
+        my-2 md:my-6
         p-6 sm:p-8 md:p-16 lg:p-24
         rounded-2xl md:rounded-[32px]
         border
