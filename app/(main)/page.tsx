@@ -1048,7 +1048,7 @@ export default function AboutPage() {
         {/* ── RIGHT BOTTOM (GLOBE SLOT) ── */}
         {/*<div className="absolute right-10 md:right-20 bottom-24 z-0 pointer-events-none">
           <div className="w-[180px] h-[180px] rounded-full border border-white/5 opacity-20">
-            {/* placeholder for globe */}
+
           </div>
         </div>*/}
 
