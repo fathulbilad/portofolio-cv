@@ -974,7 +974,7 @@ export default function AboutPage() {
               className={`split-heading ${HEADING} text-[clamp(4rem,14vw,10rem)] mb-6`}
               style={SG}
             >
-              Let's
+              Let&apos;s
               <br />
               <span style={{ color: "#A78BFA" }}>Build</span>
             </h2>
@@ -1019,11 +1019,6 @@ export default function AboutPage() {
                 href: "mailto:fathulbilad@gmail.com",
               },
               {
-                label: "Phone",
-                value: "+62 821 2923 7828",
-                href: "https://wa.me/6282129237828",
-              },
-              {
                 label: "Location",
                 value: "Depok, Indonesia",
                 href: null,
@@ -1060,7 +1055,7 @@ export default function AboutPage() {
         {/* MARQUEE */}
         <Marquee dim>
           AVAILABLE FOR WORK · JAKARTA · REMOTE · FULLSTACK · DEVOPS ·
-          ENTERPRISE SYSTEMS · LET'S BUILD ·&nbsp;
+          ENTERPRISE SYSTEMS · LET&apos;S BUILD ·&nbsp;
         </Marquee>
       </section>
     </div>
