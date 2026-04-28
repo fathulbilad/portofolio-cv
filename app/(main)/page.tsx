@@ -1010,7 +1010,7 @@ export default function AboutPage() {
         </div>
 
         {/* ── LEFT INFO (HR SAFE ZONE) ── */}
-        <div className="absolute left-6 md:left-20 bottom-24 z-10">
+        {/*<div className="absolute left-6 md:left-20 bottom-24 z-10">
           <div className="flex flex-col gap-2">
             {[
               {
@@ -1043,14 +1043,14 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
+        </div>*/}
 
         {/* ── RIGHT BOTTOM (GLOBE SLOT) ── */}
-        <div className="absolute right-10 md:right-20 bottom-24 z-0 pointer-events-none">
+        {/*<div className="absolute right-10 md:right-20 bottom-24 z-0 pointer-events-none">
           <div className="w-[180px] h-[180px] rounded-full border border-white/5 opacity-20">
             {/* placeholder for globe */}
           </div>
-        </div>
+        </div>*/}
 
         {/* MARQUEE */}
         <Marquee dim>
