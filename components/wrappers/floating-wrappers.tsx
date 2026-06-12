@@ -5,9 +5,11 @@ import { FloatingDock } from "@/components/ui/floating-dock";
 import { Home, Briefcase, Cpu, Mail } from "lucide-react";
 import { gsap } from "gsap";
 import { useLanguage } from "@/contexts/language-context";
+import { useLenis } from "@/contexts/lenis-context";
 
 export function FloatingDockWrapper() {
   const { t } = useLanguage();
+  const { scrollTo } = useLenis();
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,16 +75,14 @@ export function FloatingDockWrapper() {
             title: t.dock[0],
             icon: <Home className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
-              lenis?.scrollTo("#hero", { duration: 1.6 });
+              scrollTo("#hero", { duration: 1.6 });
             },
           },
           {
             title: t.dock[1],
             icon: <Briefcase className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
-              lenis?.scrollTo("#work", { duration: 1.6 });
+              scrollTo("#work", { duration: 1.6 });
             },
           },
           {
@@ -93,17 +93,15 @@ export function FloatingDockWrapper() {
             title: t.dock[3],
             icon: <Cpu className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
               const el = document.querySelector<HTMLElement>("#stack");
-              if (el) lenis?.scrollTo(el, { duration: 1.6, offset: 0 });
+              if (el) scrollTo(el, { duration: 1.6, offset: 0 });
             },
           },
           {
             title: t.dock[4],
             icon: <Mail className="w-5 h-5" />,
             onClick: () => {
-              const lenis = window.__lenis;
-              lenis?.scrollTo("#contact", { duration: 1.6 });
+              scrollTo("#contact", { duration: 1.6 });
             },
           },
         ]}

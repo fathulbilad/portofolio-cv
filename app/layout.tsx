@@ -6,6 +6,7 @@ import "./globals.css";
 import { StarfieldWrapper } from "@/components/wrappers/starfield-wrappers";
 import { FloatingDockWrapper } from "@/components/wrappers/floating-wrappers";
 import { LanguageProvider } from "@/contexts/language-context";
+import { LenisProvider } from "@/contexts/lenis-context";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -92,10 +93,12 @@ export default function RootLayout({
         <div className="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-700">
           <StarfieldWrapper className="opacity-0 dark:opacity-100 transition-opacity" />
         </div>
-        <LanguageProvider>
-          {children}
-          <FloatingDockWrapper />
-        </LanguageProvider>
+        <LenisProvider>
+          <LanguageProvider>
+            {children}
+            <FloatingDockWrapper />
+          </LanguageProvider>
+        </LenisProvider>
       </body>
     </html>
   );

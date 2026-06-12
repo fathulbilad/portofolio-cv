@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import dynamic from "next/dynamic";
@@ -17,6 +16,7 @@ const PipelineFlow = dynamic(
 );
 import useMobileLayout from "@/hooks/useMobileLayout";
 import { useLanguage } from "@/contexts/language-context";
+import { useLenis } from "@/contexts/lenis-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -148,8 +148,8 @@ function Marquee({
 // ── Page ───────────────────────────────────────────────────
 export default function AboutPage() {
   const { t, lang, toggleLang } = useLanguage();
+  const { scrollTo } = useLenis();
   const pageRef = useRef<HTMLDivElement>(null);
-  const lenisRef = useRef<Lenis | null>(null);
   const navDotsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const stackRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileLayout();
@@ -183,23 +183,6 @@ export default function AboutPage() {
   useEffect(() => {
     const page = pageRef.current;
     if (!page) return;
-
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    });
-
-    lenisRef.current = lenis;
-    window.__lenis = lenis;
-
-    const tickerFn = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.remove(tickerFn);
-
-    gsap.ticker.add(tickerFn);
-    gsap.ticker.lagSmoothing(0);
 
     const ctx = gsap.context(() => {
       const heroSection = page.querySelector<HTMLElement>("#hero");
@@ -409,9 +392,6 @@ export default function AboutPage() {
       ctx.revert();
       marqueeAnimations.current.forEach((tween) => tween.kill());
       marqueeAnimations.current = [];
-      lenis.destroy();
-      gsap.ticker.remove(tickerFn);
-      window.__lenis = undefined;
     };
   }, [isMobile, lang, sections]);
 
@@ -442,8 +422,7 @@ export default function AboutPage() {
               navDotsRef.current[i] = el;
             }}
             onClick={() => {
-              const lenis = window.__lenis;
-              lenis?.scrollTo(`#${s.id}`, { duration: 1.2 });
+              scrollTo(`#${s.id}`, { duration: 1.2 });
             }}
             title={s.label}
             style={{
@@ -508,8 +487,7 @@ export default function AboutPage() {
           <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4">
             <button
               onClick={() => {
-                const lenis = window.__lenis;
-                lenis?.scrollTo("#work", { duration: 1.6 });
+                scrollTo("#work", { duration: 1.6 });
               }}
               className="
                 group relative px-6 py-3 rounded-full
@@ -777,49 +755,6 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* ── LEFT INFO (HR SAFE ZONE) ── */}
-        {/*<div className="absolute left-6 md:left-20 bottom-24 z-10">
-          <div className="flex flex-col gap-2">
-            {[
-              {
-                label: "Email",
-                value: "fathulbilad@gmail.com",
-                href: "mailto:fathulbilad@gmail.com",
-              },
-              {
-                label: "Location",
-                value: "Depok, Indonesia",
-                href: null,
-              },
-            ].map((c) => (
-              <div key={c.label} className="flex items-center gap-3">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-white/25 w-14">
-                  {c.label}
-                </span>
-                {c.href ? (
-                  <a
-                    href={c.href}
-                    className="text-sm text-white/60 hover:text-white font-mono transition"
-                  >
-                    {c.value}
-                  </a>
-                ) : (
-                  <span className="text-sm text-white/60 font-mono">
-                    {c.value}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>*/}
-
-        {/* ── RIGHT BOTTOM (GLOBE SLOT) ── */}
-        {/*<div className="absolute right-10 md:right-20 bottom-24 z-0 pointer-events-none">
-          <div className="w-[180px] h-[180px] rounded-full border border-white/5 opacity-20">
-
-          </div>
-        </div>*/}
-
         {/* MARQUEE */}
         <Marquee dim>
           {t.contact.marquee}&nbsp;
@@ -866,8 +801,10 @@ const WorkStackCard = React.memo(function WorkStackCard({
 
     // totalCards passed as prop
 
+    const compressedScale = 0.80 + (index / totalCards) * 0.10;
+
     gsap.set(el, {
-      scale: 0.92 + index * 0.015,
+      scale: compressedScale,
       y: index * 5,
       zIndex: 10 + index,
     });
@@ -878,16 +815,11 @@ const WorkStackCard = React.memo(function WorkStackCard({
       end: "bottom top",
       scrub: true,
 
-      onUpdate: () => {
-        const rect = el.getBoundingClientRect();
-        const vh = window.innerHeight;
-
-        const center = rect.top + rect.height / 2;
-        const progress = 1 - Math.min(Math.max(center / vh, 0), 1);
-
+      onUpdate: (self) => {
+        const progress = self.progress;
         const eased = 1 - Math.pow(1 - progress, 3);
 
-        const baseScale = 1 - (totalCards - index - 1) * 0.03;
+        const baseScale = compressedScale;
 
         const scale = baseScale + eased * (1 - baseScale);
         const y = index * 5 - eased * index * 5;

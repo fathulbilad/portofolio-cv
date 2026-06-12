@@ -139,11 +139,6 @@
     visibility: hidden;
 }
 
-section {
-    content-visibility: auto;
-    contain-intrinsic-size: 100vh;
-}
-
 .scroll-stack-card {
     will-change: transform, filter;
     contain: layout style;
