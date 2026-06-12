@@ -16,342 +16,77 @@ const PipelineFlow = dynamic(
   { ssr: false },
 );
 import useMobileLayout from "@/hooks/useMobileLayout";
+import { useLanguage } from "@/contexts/language-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sections = [
-  { id: "hero", label: "01 — Intro", accent: "#7C9EFF" },
-  { id: "work", label: "02 — Work", accent: "#F97316" },
-  { id: "stack", label: "03 — Stack", accent: "#A78BFA" },
-  { id: "contact", label: "04 — Contact", accent: "#A78BFA" },
+const skillCardMeta = [
+  { number: "01", color: "#7C9EFF", rgb: "124,158,255" },
+  { number: "02", color: "#A78BFA", rgb: "167,139,250" },
+  { number: "03", color: "#38BDF8", rgb: "56,189,248" },
+  { number: "04", color: "#F97316", rgb: "249,115,22" },
+  { number: "05", color: "#22C55E", rgb: "34,197,94" },
+  { number: "06", color: "#EAB308", rgb: "234,179,8" },
+  { number: "07", color: "#EC4899", rgb: "236,72,153" },
+  { number: "08", color: "#14B8A6", rgb: "20,184,166" },
 ];
 
-const skillCards = [
-  {
-    number: "01",
-    title: "Frontend",
-    subtitle: "Framework · Rendering · UI",
-    items: [
-      "Next.js",
-      "React",
-      "Vue",
-      "TypeScript",
-      "Tailwind",
-      "GSAP",
-      "SSR / CSR",
-      "Performance Optimization",
-    ],
-    color: "#7C9EFF",
-    rgb: "124,158,255",
-  },
-  {
-    number: "02",
-    title: "Backend & APIs",
-    subtitle: "Runtime · Service · Auth",
-    items: [
-      "Node.js",
-      "Express",
-      "REST API",
-      "Service Design",
-      "Authentication",
-      "Integration",
-      "Performance Tuning",
-    ],
-    color: "#A78BFA",
-    rgb: "167,139,250",
-  },
-  {
-    number: "03",
-    title: "Databases",
-    subtitle: "Relational · Modeling · Query",
-    items: [
-      "PostgreSQL",
-      "MySQL",
-      "Supabase",
-      "Schema Design",
-      "Query Optimization",
-      "Data Modeling",
-    ],
-    color: "#38BDF8",
-    rgb: "56,189,248",
-  },
-  {
-    number: "04",
-    title: "DevOps",
-    subtitle: "Pipeline · Container · Deploy",
-    items: [
-      "Docker",
-      "Kubernetes",
-      "GitLab CI",
-      "Jenkins",
-      "Harbor",
-      "CI/CD Design",
-      "Automation",
-      "Environment Management",
-    ],
-    color: "#F97316",
-    rgb: "249,115,22",
-  },
-  {
-    number: "05",
-    title: "Cloud",
-    subtitle: "Infra · Storage · Deployment",
-    items: ["GCP", "Azure", "Cloud Deployment", "Storage", "Cloud Integration"],
-    color: "#22C55E",
-    rgb: "34,197,94",
-  },
-  {
-    number: "06",
-    title: "Architecture",
-    subtitle: "System · Flow · Design",
-    items: [
-      "System Design",
-      "Microservices",
-      "CI/CD Platform Architecture",
-      "Data Flow Design",
-      "Scalable Systems",
-    ],
-    color: "#EAB308",
-    rgb: "234,179,8",
-  },
-  {
-    number: "07",
-    title: "Tools",
-    subtitle: "Workflow · Quality · Delivery",
-    items: [
-      "GitHub",
-      "GitLab",
-      "Azure DevOps",
-      "NGINX",
-      "SonarQube",
-      "Versioning",
-      "Code Quality",
-    ],
-    color: "#EC4899",
-    rgb: "236,72,153",
-  },
-  {
-    number: "08",
-    title: "Methodologies",
-    subtitle: "Process · Structure · Delivery",
-    items: [
-      "Agile",
-      "Scrum",
-      "Kanban",
-      "Atomic Design",
-      "Iterative Delivery",
-      "Scalable Frontend Architecture",
-    ],
-    color: "#14B8A6",
-    rgb: "20,184,166",
-  },
-];
-
-const workCards = [
+const workCardMeta = [
   {
     title: "Telkomsel Deployment Platform",
     period: "Jan 2026 — Present",
     tag: "Platform · DevOps",
     color: "#7C9EFF",
     rgb: "124,158,255",
-
-    problem:
-      "Manual deployments created inconsistency, delays, and high operational risk across engineering teams.",
-
-    architecture: [
-      "Next.js Dashboard",
-      "Internal API Gateway",
-      "GitLab CI Pipelines",
-      "Docker",
-      "RBAC System",
-    ],
-
-    decisions: [
-      "Abstracted CI/CD into UI-driven workflows",
-      "Standardized deployment configs",
-      "Designed scalable service integration layer",
-    ],
-
-    impact: [
-      "↓ manual deployment steps",
-      "↑ consistency across teams",
-      "↑ engineering efficiency",
-    ],
   },
-
   {
     title: "CIMB DevOps Pipeline (PoC)",
     period: "Dec 2025 — Jan 2026",
     tag: "DevOps · CI/CD",
     color: "#F97316",
     rgb: "249,115,22",
-
-    problem:
-      "Software delivery relied heavily on manual processes with limited automation and validation.",
-
-    architecture: [
-      "CI/CD Pipelines",
-      "Automated Testing",
-      "Environment Provisioning",
-      "Build Automation",
-    ],
-
-    decisions: [
-      "Introduced automated pipelines for validation",
-      "Separated environments for safe testing",
-      "Focused on reproducible deployments",
-    ],
-
-    impact: [
-      "↓ manual workload",
-      "↑ deployment reliability",
-      "↑ delivery speed",
-    ],
   },
-
   {
     title: "Bank DKI Recruitment System",
     period: "Jul 2025 — Dec 2025",
     tag: "Dashboard · Internal System",
     color: "#A78BFA",
     rgb: "167,139,250",
-
-    problem:
-      "Recruitment tracking was manual, inefficient, and lacked real-time visibility.",
-
-    architecture: [
-      "React Dashboard",
-      "Auth System",
-      "Backend API",
-      "Real-time Monitoring",
-    ],
-
-    decisions: [
-      "Built centralized admin dashboard",
-      "Integrated authentication + role handling",
-      "Optimized frontend performance",
-    ],
-
-    impact: [
-      "↓ 80% manual tracking",
-      "↑ visibility",
-      "↑ operational efficiency",
-    ],
   },
-
   {
     title: "Kredit Plus Mobile Support",
     period: "Jun 2025 — Jul 2025",
     tag: "Mobile · Support",
     color: "#7C9EFF",
     rgb: "124,158,255",
-
-    problem:
-      "Mobile development workflows needed stabilization and faster issue resolution.",
-
-    architecture: ["Mobile App Support", "Dev Workflow Optimization"],
-
-    decisions: ["Improved debugging flow", "Assisted development lifecycle"],
-
-    impact: ["↑ dev efficiency", "↓ issue resolution time"],
   },
-
   {
     title: "Indosat Billing System (Lead Phase)",
     period: "Oct 2024 — Jun 2025",
     tag: "Fintech · System",
     color: "#F97316",
     rgb: "249,115,22",
-
-    problem:
-      "Supplier and billing systems suffered from slow queries and instability.",
-
-    architecture: [
-      "Node.js Backend",
-      "React Frontend",
-      "PostgreSQL",
-      "API Services",
-    ],
-
-    decisions: [
-      "Optimized database queries",
-      "Improved service structure",
-      "Focused on performance tuning",
-    ],
-
-    impact: ["↑ system performance", "↓ error rate", "↑ stability"],
   },
-
   {
     title: "Astra CMS & Website",
     period: "Aug 2023 — Oct 2024",
     tag: "CMS · Web",
     color: "#A78BFA",
     rgb: "167,139,250",
-
-    problem:
-      "CMS and website lacked performance and scalability for enterprise usage.",
-
-    architecture: ["CMS System", "Public Website", "Content Tools"],
-
-    decisions: [
-      "Rebuilt CMS architecture",
-      "Optimized frontend delivery",
-      "Improved SEO structure",
-    ],
-
-    impact: ["↑ performance", "↑ SEO visibility", "↑ maintainability"],
   },
-
   {
     title: "Indosat Billing System (Initial Phase)",
     period: "Nov 2022 — Aug 2023",
     tag: "Fintech · System",
     color: "#F97316",
     rgb: "249,115,22",
-
-    problem:
-      "Initial system required reliable architecture for internal operations.",
-
-    architecture: [
-      "Fullstack System",
-      "Database Optimization",
-      "Deployment Flow",
-    ],
-
-    decisions: [
-      "Built core system features",
-      "Improved reliability early",
-      "Supported production rollout",
-    ],
-
-    impact: ["↑ system reliability", "↑ internal operations efficiency"],
   },
-
   {
     title: "Dexa Medica DevOps Platform",
     period: "Nov 2021 — Nov 2022",
     tag: "DevOps · Platform",
     color: "#7C9EFF",
     rgb: "124,158,255",
-
-    problem:
-      "Deployment processes were slow, manual, and inconsistent across environments.",
-
-    architecture: [
-      "CI/CD Pipelines",
-      "Docker",
-      "System Integration",
-      "Web Platform",
-    ],
-
-    decisions: [
-      "Automated deployment pipelines",
-      "Standardized environments",
-      "Integrated services securely",
-    ],
-
-    impact: ["↓ 50% deployment time", "↑ deployment consistency"],
   },
 ];
 
@@ -412,12 +147,29 @@ function Marquee({
 
 // ── Page ───────────────────────────────────────────────────
 export default function AboutPage() {
+  const { t, lang, toggleLang } = useLanguage();
   const pageRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const navDotsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const stackRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileLayout();
   const marqueeAnimations = useRef<gsap.core.Tween[]>([]);
+
+  const sections = t.sections;
+  const skillCards = t.stack.cards.map((card, i) => ({
+    ...card,
+    number: skillCardMeta[i].number,
+    color: skillCardMeta[i].color,
+    rgb: skillCardMeta[i].rgb,
+  }));
+  const workCards = t.work.cards.map((card, i) => ({
+    ...card,
+    title: workCardMeta[i].title,
+    period: workCardMeta[i].period,
+    tag: workCardMeta[i].tag,
+    color: workCardMeta[i].color,
+    rgb: workCardMeta[i].rgb,
+  }));
 
   const activateDot = (active: number) => {
     navDotsRef.current.forEach((dot, i) => {
@@ -661,7 +413,7 @@ export default function AboutPage() {
       gsap.ticker.remove(tickerFn);
       window.__lenis = undefined;
     };
-  }, [isMobile]);
+  }, [isMobile, lang, sections]);
 
   return (
     <div
@@ -669,6 +421,19 @@ export default function AboutPage() {
       data-gsap-root
       className="relative text-white font-sans overflow-x-hidden"
     >
+      {/* LANGUAGE TOGGLE */}
+      <button
+        onClick={toggleLang}
+        className="fixed top-4 right-4 md:top-6 md:right-6 z-50 px-3 py-1.5 rounded-full font-mono text-xs tracking-widest uppercase border transition-all duration-300 hover:scale-105"
+        style={{
+          borderColor: "rgba(167,139,250,0.4)",
+          background: "rgba(167,139,250,0.1)",
+          color: "#A78BFA",
+        }}
+      >
+        {lang === "en" ? "ID" : "EN"}
+      </button>
+
       <nav className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 items-end">
         {sections.map((s, i) => (
           <button
@@ -709,10 +474,11 @@ export default function AboutPage() {
         />
 
         <div className="sc-text max-w-4xl md:max-w-6xl relative z-10">
-          <SectionLabel number="01" label="Intro" color="#7C9EFF" />
+          <SectionLabel number="01" label={t.sectionLabels[0]} color="#7C9EFF" />
 
           {/* 🔥 FIXED HEADING */}
           <h3
+            key={lang}
             className={`
               split-heading ${HEADING}
               text-[clamp(2.2rem,9vw,5.5rem)]
@@ -726,18 +492,17 @@ export default function AboutPage() {
               textWrap: "balance",
             }}
           >
-            <span className="block text-white/30">Systems That Actually</span>
-            <span className="block text-white">Hold Up in Production</span>
+            <span className="block text-white/30">{t.hero.heading1}</span>
+            <span className="block text-white">{t.hero.heading2}</span>
           </h3>
 
           {/* 🔧 LABEL */}
           <p className="text-[12px] md:text-[14px] font-mono tracking-[0.25em] md:tracking-[0.3em] uppercase text-white/30 mb-5 md:mb-6">
-            DEPLOYMENTS · PIPELINES · ARCHITECTURE
+            {t.hero.sublabel}
           </p>
 
           <p className="text-base md:text-3xl text-white/60 leading-relaxed max-w-[90%] md:max-w-lg">
-            I build and scale systems used in real production — helping teams
-            ship faster, reduce failures, and keep things running as they grow.
+            {t.hero.body}
           </p>
 
           <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-3 md:gap-4">
@@ -758,7 +523,7 @@ export default function AboutPage() {
               }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                See Work →
+                {t.hero.cta}
               </span>
 
               <div
@@ -787,7 +552,7 @@ export default function AboutPage() {
                 background: "rgba(157,134,255,0.08)",
               }}
             >
-              View Resume →
+              {t.hero.resume}
             </a>
           </div>
 
@@ -795,7 +560,7 @@ export default function AboutPage() {
           <div className="mt-6 md:mt-8 inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-[#7C9EFF]/30 bg-[#7C9EFF]/05">
             <span className="size-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-xs md:text-sm font-mono tracking-widest uppercase text-white/60">
-              Open for high-impact work
+              {t.hero.status}
             </span>
           </div>
         </div>
@@ -803,17 +568,15 @@ export default function AboutPage() {
         {/* DESKTOP SIDE PANEL */}
         <div className="absolute right-10 md:right-20 bottom-24 hidden md:block z-10">
           <div className="system-panel backdrop-blur-2xl bg-white/5 border border-white/10 rounded-2xl p-6 w-56">
-            <p className="text-xl text-white/40 mb-2">Current Focus</p>
+            <p className="text-xl text-white/40 mb-2">{t.hero.focusTitle}</p>
             <p className="text-lg font-semibold leading-snug text-white">
-              Designing high-performance web systems <br />& scalable DevOps
-              infrastructure
+              {t.hero.focusDesc}
             </p>
           </div>
         </div>
 
         <Marquee>
-          TECHNICAL CONSULTANT · FULLSTACK ENGINEER · NEXT.JS · NODE.JS · DEVOPS
-          · ENTERPRISE SYSTEMS ·&nbsp;
+          {t.hero.marquee}&nbsp;
         </Marquee>
       </section>
 
@@ -821,15 +584,16 @@ export default function AboutPage() {
       <section id="work" className="relative py-32">
         <PipelineFlow />
         <div className="px-6 md:px-20 mb-20">
-          <SectionLabel number="02" label="Selected Work" color="#F97316" />
+          <SectionLabel number="02" label={t.sectionLabels[1]} color="#F97316" />
 
           <h4
+            key={lang}
             className={`split-heading ${HEADING} text-[clamp(2.4rem,7vw,5.2rem)]`}
             style={SG}
           >
-            <span className="block">Real Systems</span>
+            <span className="block">{t.work.heading1}</span>
             <span className="block" style={{ color: "#F97316" }}>
-              Built for Production
+              {t.work.heading2}
             </span>
           </h4>
         </div>
@@ -837,7 +601,7 @@ export default function AboutPage() {
         <div ref={stackRef} className="relative">
           <div className="scroll-stack-inner pt-[0vh] pb-[2vh] flex flex-col items-center">
             {workCards.map((card, i) => (
-              <WorkStackCard key={card.title} card={card} index={i} />
+              <WorkStackCard key={card.title} card={card} index={i} totalCards={workCards.length} />
             ))}
 
             <div className="scroll-stack-end h-[1px]" />
@@ -868,21 +632,20 @@ export default function AboutPage() {
         <div className="relative z-10 w-full">
           {/* HEADER */}
           <div className="sc-text mb-16 md:mb-24 max-w-3xl">
-            <SectionLabel number="03" label="Tech Stack" color="#A78BFA" />
+            <SectionLabel number="03" label={t.sectionLabels[2]} color="#A78BFA" />
 
             <h2
+              key={lang}
               className={`split-heading ${HEADING} text-[clamp(3rem,10vw,8rem)]`}
               style={SG}
             >
-              My
+              {t.stack.heading1}
               <br />
-              <span style={{ color: "#A78BFA" }}>Techstack</span>
+              <span style={{ color: "#A78BFA" }}>{t.stack.heading2}</span>
             </h2>
 
             <p className="text-white/40 text-xl md:text-2xl leading-relaxed mt-6 max-w-md">
-              I design and engineer production-grade systems — spanning
-              frontend, backend, and infrastructure — built to scale, perform,
-              and endure real-world usage.
+              {t.stack.body}
             </p>
           </div>
 
@@ -976,20 +739,20 @@ export default function AboutPage() {
         {/* ── CENTER HERO ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-6">
           <div className="sc-text max-w-3xl">
-            <SectionLabel number="04" label="Contact" color="#A78BFA" />
+            <SectionLabel number="04" label={t.sectionLabels[3]} color="#A78BFA" />
 
             <h2
+              key={lang}
               className={`split-heading ${HEADING} text-[clamp(4rem,14vw,10rem)] mb-6`}
               style={SG}
             >
-              Let&apos;s
+              {t.contact.heading1}
               <br />
-              <span style={{ color: "#A78BFA" }}>Build</span>
+              <span style={{ color: "#A78BFA" }}>{t.contact.heading2}</span>
             </h2>
 
             <p className="text-white/50 text-lg md:text-xl max-w-sm mx-auto mb-8">
-              Building systems that scale, perform, and actually survive
-              production.
+              {t.contact.body}
             </p>
 
             {/* CTA */}
@@ -999,10 +762,7 @@ export default function AboutPage() {
                 className="group px-8 py-4 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-300"
                 style={{ background: "#A78BFA", color: "#05070D" }}
               >
-                Say Hello
-                <span className="ml-2 group-hover:translate-x-1 inline-block transition">
-                  →
-                </span>
+                {t.contact.cta}
               </a>
 
               <a
@@ -1011,7 +771,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="px-8 py-4 rounded-full font-mono text-sm tracking-widest uppercase border border-white/10 text-white/60 hover:border-white/40 hover:text-white transition"
               >
-                View Resume →
+                {t.contact.resume}
               </a>
             </div>
           </div>
@@ -1062,8 +822,7 @@ export default function AboutPage() {
 
         {/* MARQUEE */}
         <Marquee dim>
-          AVAILABLE FOR WORK · JAKARTA · REMOTE · FULLSTACK · DEVOPS ·
-          ENTERPRISE SYSTEMS · LET&apos;S BUILD ·&nbsp;
+          {t.contact.marquee}&nbsp;
         </Marquee>
       </section>
     </div>
@@ -1073,10 +832,23 @@ export default function AboutPage() {
 const WorkStackCard = React.memo(function WorkStackCard({
   card,
   index,
+  totalCards,
 }: {
-  card: (typeof workCards)[0];
+  card: {
+    title: string;
+    period: string;
+    tag: string;
+    color: string;
+    rgb: string;
+    problem: string;
+    architecture: string[];
+    decisions: string[];
+    impact: string[];
+  };
   index: number;
+  totalCards: number;
 }) {
+  const { t } = useLanguage();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -1092,7 +864,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
       return;
     }
 
-    const totalCards = workCards.length;
+    // totalCards passed as prop
 
     gsap.set(el, {
       scale: 0.92 + index * 0.015,
@@ -1132,7 +904,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
     });
 
     return () => trigger.kill();
-  }, [index]);
+  }, [index, totalCards]);
 
   return (
     <div
@@ -1199,7 +971,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
         {/* PROBLEM */}
         <div>
           <p className="text-[15px] sm:text-xl md:text-2xl font-mono text-white/40 mb-2 md:mb-4 tracking-[0.2em]">
-            PROBLEM
+            {t.work.cardLabels.problem}
           </p>
 
           <p
@@ -1226,7 +998,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
           {/* ARCH */}
           <div>
             <p className="text-[15px] sm:text-lg md:text-lg text-white/40 mb-2 md:mb-5 tracking-[0.2em]">
-              ARCHITECTURE
+              {t.work.cardLabels.architecture}
             </p>
             {card.architecture.map((i) => (
               <p
@@ -1241,7 +1013,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
           {/* DECISIONS */}
           <div>
             <p className="text-[15px] sm:text-lg md:text-lg text-white/40 mb-2 md:mb-5 tracking-[0.2em]">
-              DECISIONS
+              {t.work.cardLabels.decisions}
             </p>
             {card.decisions.map((i) => (
               <p
@@ -1256,7 +1028,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
           {/* IMPACT */}
           <div>
             <p className="text-[15px] sm:text-lg md:text-xl text-white/40 mb-2 md:mb-5 tracking-[0.2em]">
-              IMPACT
+              {t.work.cardLabels.impact}
             </p>
             {card.impact.map((i) => (
               <p

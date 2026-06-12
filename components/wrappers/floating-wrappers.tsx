@@ -4,8 +4,10 @@ import { useEffect, useRef } from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { Home, Briefcase, Cpu, Mail } from "lucide-react";
 import { gsap } from "gsap";
+import { useLanguage } from "@/contexts/language-context";
 
 export function FloatingDockWrapper() {
+  const { t } = useLanguage();
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export function FloatingDockWrapper() {
       <FloatingDock
         items={[
           {
-            title: "Home",
+            title: t.dock[0],
             icon: <Home className="w-5 h-5" />,
             onClick: () => {
               const lenis = window.__lenis;
@@ -76,7 +78,7 @@ export function FloatingDockWrapper() {
             },
           },
           {
-            title: "Work",
+            title: t.dock[1],
             icon: <Briefcase className="w-5 h-5" />,
             onClick: () => {
               const lenis = window.__lenis;
@@ -84,11 +86,11 @@ export function FloatingDockWrapper() {
             },
           },
           {
-            title: "Videos",
+            title: t.dock[2],
             video: "/videos/icon-video.mp4",
           },
           {
-            title: "Stack",
+            title: t.dock[3],
             icon: <Cpu className="w-5 h-5" />,
             onClick: () => {
               const lenis = window.__lenis;
@@ -97,7 +99,7 @@ export function FloatingDockWrapper() {
             },
           },
           {
-            title: "Contact",
+            title: t.dock[4],
             icon: <Mail className="w-5 h-5" />,
             onClick: () => {
               const lenis = window.__lenis;
