@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  compress: true,
+  reactStrictMode: false,
+  poweredByHeader: false,
+  experimental: {
+    optimizeServerReact: true,
+  },
 };
 
 export default nextConfig;

@@ -164,6 +164,7 @@ function IconContainer({
 
   const [hovered, setHovered] = useState(false);
   const [ready, setReady] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
 
   const isVideo = !!video;
 
@@ -214,20 +215,38 @@ function IconContainer({
     >
       {video && (
         <motion.video
+          key={video}
           ref={videoRef}
           src={video}
+          autoPlay
           loop
           muted
           playsInline
           preload="auto"
+          onLoadStart={() => {
+            setReady(false);
+            setVideoFailed(false);
+          }}
+          onCanPlay={() => {
+            setReady(true);
+          }}
           onLoadedData={() => {
             setReady(true);
             videoRef.current?.play().catch(() => {});
+          }}
+          onError={() => {
+            setVideoFailed(true);
           }}
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: ready ? 0.6 : 0 }}
         />
+      )}
+
+      {isVideo && videoFailed && (
+        <div className="z-10 text-[10px] font-mono uppercase tracking-[0.2em] text-white/55">
+          Video
+        </div>
       )}
 
       {!isVideo &&

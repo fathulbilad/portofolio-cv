@@ -45,7 +45,7 @@ export function StarfieldBackground({
 
     let width = 0;
     let height = 0;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2); // cap for perf
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
@@ -68,6 +68,22 @@ export function StarfieldBackground({
 
     let animationId: number;
     let tick = 0;
+    let isVisible = true;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (!isVisible) {
+            cancelAnimationFrame(animationId);
+          } else if (!animationId) {
+            animationId = requestAnimationFrame(animate);
+          }
+        });
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(container);
 
     const maxDepth = 1500;
 
@@ -81,16 +97,15 @@ export function StarfieldBackground({
 
     const stars: Star[] = Array.from({ length: count }, () => createStar());
 
-    // precompute sin values (huge win for Safari)
     const sinCache = new Float32Array(1000);
     for (let i = 0; i < 1000; i++) {
       sinCache[i] = Math.sin(i * 0.01);
     }
 
     const animate = () => {
+      if (!isVisible) return;
       tick++;
 
-      // Safari prefers clearRect over alpha fill
       ctx.fillStyle = "#0a0a0f";
       ctx.globalAlpha = 0.25;
       ctx.fillRect(0, 0, width, height);
@@ -125,7 +140,6 @@ export function StarfieldBackground({
 
         let opacity = depthRatio * 0.9 + 0.1;
 
-        // 🔥 cheaper twinkle (no Math.sin per frame)
         if (twinkle && star.twinkleSpeed > 0.015) {
           const idx = (tick + i) % 1000;
           opacity *= 0.7 + 0.3 * sinCache[idx];
@@ -133,10 +147,8 @@ export function StarfieldBackground({
 
         ctx.globalAlpha = opacity;
 
-        // ⚡ faster than arc()
         ctx.fillRect(x, y, size, size);
 
-        // streak
         if (star.z < maxDepth * 0.3 && speed > 0.3) {
           const streakLength = depthRatio * speed * 8;
           const angle = Math.atan2(star.y, star.x);
@@ -166,6 +178,7 @@ export function StarfieldBackground({
 
     return () => {
       cancelAnimationFrame(animationId);
+      io.disconnect();
       ro.disconnect();
     };
   }, [count, speed, starColor, twinkle]);

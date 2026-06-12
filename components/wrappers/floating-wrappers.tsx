@@ -1,46 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { Home, Briefcase, Cpu, Mail } from "lucide-react";
 import { gsap } from "gsap";
 
 export function FloatingDockWrapper() {
-  const [isDark, setIsDark] = useState(false);
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const checkTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-
-    checkTheme();
-
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!dockRef.current || !isDark) return;
-
     const el = dockRef.current;
+    if (!el) return;
 
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       const tl = gsap.timeline();
 
-      // 🚨 start BELOW viewport
       gsap.set(el, {
         y: window.innerHeight,
         opacity: 0,
         scale: 0.96,
       });
 
-      // 🔥 ENTER (smooth + slight overshoot)
       tl.to(el, {
         y: -8,
         opacity: 1,
@@ -48,15 +28,12 @@ export function FloatingDockWrapper() {
         duration: 1.2,
         ease: "power4.out",
       })
-
-        // ✨ settle back (important for premium feel)
         .to(el, {
           y: 0,
           duration: 0.6,
           ease: "power2.out",
         });
 
-      // 🌊 ORGANIC FLOAT (NOT robotic yoyo)
       gsap.to(el, {
         y: "+=6",
         duration: 3.2,
@@ -76,9 +53,12 @@ export function FloatingDockWrapper() {
         delay: 2,
       });
     });
-  }, [isDark]);
 
-  if (!isDark) return null;
+    return () => {
+      cancelAnimationFrame(rafId);
+      gsap.killTweensOf(el);
+    };
+  }, []);
 
   return (
     <div
@@ -91,7 +71,7 @@ export function FloatingDockWrapper() {
             title: "Home",
             icon: <Home className="w-5 h-5" />,
             onClick: () => {
-              const lenis = (window as any).__lenis;
+              const lenis = window.__lenis;
               lenis?.scrollTo("#hero", { duration: 1.6 });
             },
           },
@@ -99,7 +79,7 @@ export function FloatingDockWrapper() {
             title: "Work",
             icon: <Briefcase className="w-5 h-5" />,
             onClick: () => {
-              const lenis = (window as any).__lenis;
+              const lenis = window.__lenis;
               lenis?.scrollTo("#work", { duration: 1.6 });
             },
           },
@@ -111,9 +91,8 @@ export function FloatingDockWrapper() {
             title: "Stack",
             icon: <Cpu className="w-5 h-5" />,
             onClick: () => {
-              const lenis = (window as any).__lenis;
-              // ScrollTrigger may be pinning — use native scrollTo as fallback
-              const el = document.querySelector("#stack");
+              const lenis = window.__lenis;
+              const el = document.querySelector<HTMLElement>("#stack");
               if (el) lenis?.scrollTo(el, { duration: 1.6, offset: 0 });
             },
           },
@@ -121,7 +100,7 @@ export function FloatingDockWrapper() {
             title: "Contact",
             icon: <Mail className="w-5 h-5" />,
             onClick: () => {
-              const lenis = (window as any).__lenis;
+              const lenis = window.__lenis;
               lenis?.scrollTo("#contact", { duration: 1.6 });
             },
           },

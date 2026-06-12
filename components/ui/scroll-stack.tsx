@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect, useRef, useCallback } from "react";
 import type { ReactNode } from "react";
 import Lenis from "lenis";
@@ -38,6 +40,13 @@ interface ScrollStackProps {
   onStackComplete?: () => void;
 }
 
+type CardTransform = {
+  translateY: number;
+  scale: number;
+  rotation: number;
+  blur: number;
+};
+
 const ScrollStack: React.FC<ScrollStackProps> = ({
   children,
   className = "",
@@ -58,7 +67,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const animationFrameRef = useRef<number | null>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
-  const lastTransformsRef = useRef(new Map<number, any>());
+  const lastTransformsRef = useRef(new Map<number, CardTransform>());
   const isUpdatingRef = useRef(false);
 
   const calculateProgress = useCallback(
@@ -114,7 +123,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     isUpdatingRef.current = true;
 
-    const { scrollTop, containerHeight, scrollContainer } = getScrollData();
+    const { scrollTop, containerHeight } = getScrollData();
     const stackPositionPx = parsePercentage(stackPosition, containerHeight);
     const scaleEndPositionPx = parsePercentage(
       scaleEndPosition,

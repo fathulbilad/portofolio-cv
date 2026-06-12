@@ -6,16 +6,14 @@ export default function useMobileLayout() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const check = () => setIsMobile(mediaQuery.matches);
 
     check();
-
-    window.addEventListener("resize", check);
+    mediaQuery.addEventListener("change", check);
 
     return () => {
-      window.removeEventListener("resize", check);
+      mediaQuery.removeEventListener("change", check);
     };
   }, []);
 

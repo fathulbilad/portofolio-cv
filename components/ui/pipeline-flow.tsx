@@ -16,39 +16,60 @@ type Particle = {
 
 export default function PipelineFlow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particles: Particle[] = [];
+  const particlesRef = useRef<Particle[]>([]);
 
   const isMobile = useMobileLayout();
 
   useEffect(() => {
+    if (isMobile) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    const parent = canvas.parentElement;
+    if (!parent) return;
 
     const ctx = canvas.getContext("2d")!;
     let width = canvas.offsetWidth;
     let height = canvas.offsetHeight;
+    let frameId = 0;
+    let isVisible = true;
 
     canvas.width = width;
     canvas.height = height;
+    const particles = particlesRef.current;
 
-    const centerX = width / 2;
-    const centerY = height / 2;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (!isVisible) {
+            cancelAnimationFrame(frameId);
+          } else if (!frameId) {
+            frameId = requestAnimationFrame(draw);
+          }
+        });
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(parent);
 
     const colors = [
-      "rgba(165,216,255,0.15)", // blue
-      "rgba(157,134,255,0.15)", // purple
-      "rgba(255,140,66,0.12)", // orange
-      "rgba(255,255,255,0.08)", // neutral
+      "rgba(165,216,255,0.15)",
+      "rgba(157,134,255,0.15)",
+      "rgba(255,140,66,0.12)",
+      "rgba(255,255,255,0.08)",
     ];
 
     function spawnParticle() {
       const angle = Math.random() * Math.PI * 2;
       const radius = Math.random() * (width * 0.6);
+      const centerX = width / 2;
+      const centerY = height / 2;
 
       const x = centerX + Math.cos(angle) * radius;
       const y = centerY + Math.sin(angle) * radius;
 
-      // direction toward center (with slight curve)
       const dx = centerX - x;
       const dy = centerY - y;
 
@@ -72,17 +93,20 @@ export default function PipelineFlow() {
     }
 
     function draw() {
+      if (!isVisible) return;
       ctx.clearRect(0, 0, width, height);
+      const centerX = width / 2;
+      const centerY = height / 2;
 
-      // spawn rate
       if (particles.length < 120) {
         spawnParticle();
       }
 
-      particles.forEach((p, i) => {
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+
         p.life++;
 
-        // subtle curve motion
         const curve = 0.0008;
         const dx = p.x - centerX;
         const dy = p.y - centerY;
@@ -107,10 +131,10 @@ export default function PipelineFlow() {
         if (p.life > p.maxLife) {
           particles.splice(i, 1);
         }
-      });
+      }
 
       ctx.globalAlpha = 1;
-      requestAnimationFrame(draw);
+      frameId = requestAnimationFrame(draw);
     }
 
     draw();
@@ -125,9 +149,12 @@ export default function PipelineFlow() {
     window.addEventListener("resize", handleResize);
 
     return () => {
+      cancelAnimationFrame(frameId);
+      io.disconnect();
+      particles.length = 0;
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isMobile]);
 
   if (isMobile) return <div></div>;
 

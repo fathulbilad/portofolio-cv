@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-import Script from "next/script";
 import { StarfieldWrapper } from "@/components/wrappers/starfield-wrappers";
-import { Space_Grotesk } from "next/font/google";
 import { FloatingDockWrapper } from "@/components/wrappers/floating-wrappers";
 
 const spaceGrotesk = Space_Grotesk({
@@ -51,7 +50,7 @@ export const metadata: Metadata = {
     title: "Fathul Bilad — Fullstack Engineer & DevOps",
     description:
       "Building scalable systems that actually hold up in production.",
-    url: "https://your-domain.com",
+    url: "https://fathul-bilad-cv.vercel.app",
     siteName: "Fathul Bilad Portfolio",
     images: [
       {
@@ -88,28 +87,12 @@ export default function RootLayout({
       className={`dark ${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden">
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`
-            (function () {
-              try {
-                const theme = localStorage.getItem("theme");
-                if (theme === "dark") {
-                  document.documentElement.classList.add("dark");
-                }
-              } catch (e) {}
-            })();
-          `}
-        </Script>
-
+      <body className="min-h-full overflow-x-hidden bg-background text-foreground">
         <div className="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-700">
           <StarfieldWrapper className="opacity-0 dark:opacity-100 transition-opacity" />
         </div>
-
         {children}
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 mb-3j">
-          <FloatingDockWrapper></FloatingDockWrapper>
-        </div>
+        <FloatingDockWrapper />
       </body>
     </html>
   );

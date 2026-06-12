@@ -1,11 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SystemCore from "@/components/ui/system-core";
-import PipelineFlow from "@/components/ui/pipeline-flow";
+import dynamic from "next/dynamic";
+
+const SystemCore = dynamic(
+  () => import("@/components/ui/system-core"),
+  { ssr: false },
+);
+
+const PipelineFlow = dynamic(
+  () => import("@/components/ui/pipeline-flow"),
+  { ssr: false },
+);
 import useMobileLayout from "@/hooks/useMobileLayout";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -648,12 +657,11 @@ export default function AboutPage() {
       ctx.revert();
       marqueeAnimations.current.forEach((tween) => tween.kill());
       marqueeAnimations.current = [];
-      ScrollTrigger.getAll().forEach((t) => t.kill());
       lenis.destroy();
       gsap.ticker.remove(tickerFn);
-      (window as any).__lenis = null;
+      window.__lenis = undefined;
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div
@@ -1062,7 +1070,7 @@ export default function AboutPage() {
   );
 }
 
-function WorkStackCard({
+const WorkStackCard = React.memo(function WorkStackCard({
   card,
   index,
 }: {
@@ -1263,4 +1271,4 @@ function WorkStackCard({
       </div>
     </div>
   );
-}
+});
