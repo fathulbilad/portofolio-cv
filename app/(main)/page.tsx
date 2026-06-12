@@ -33,8 +33,15 @@ const skillCardMeta = [
 
 const workCardMeta = [
   {
+    title: "Bank Indonesia Internal Platform",
+    period: "Apr 2026 — Present",
+    tag: "Platform · Security",
+    color: "#38BDF8",
+    rgb: "56,189,248",
+  },
+  {
     title: "Telkomsel Deployment Platform",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 — Jun 2026",
     tag: "Platform · DevOps",
     color: "#7C9EFF",
     rgb: "124,158,255",
@@ -61,9 +68,9 @@ const workCardMeta = [
     rgb: "124,158,255",
   },
   {
-    title: "Indosat Billing System (Lead Phase)",
-    period: "Oct 2024 — Jun 2025",
-    tag: "Fintech · System",
+    title: "Indosat PMIS Platform",
+    period: "Nov 2022 — Jun 2025",
+    tag: "Enterprise · System",
     color: "#F97316",
     rgb: "249,115,22",
   },
@@ -73,13 +80,6 @@ const workCardMeta = [
     tag: "CMS · Web",
     color: "#A78BFA",
     rgb: "167,139,250",
-  },
-  {
-    title: "Indosat Billing System (Initial Phase)",
-    period: "Nov 2022 — Aug 2023",
-    tag: "Fintech · System",
-    color: "#F97316",
-    rgb: "249,115,22",
   },
   {
     title: "Dexa Medica DevOps Platform",
@@ -574,10 +574,13 @@ export default function AboutPage() {
               {t.work.heading2}
             </span>
           </h4>
+          <p className="text-xs md:text-sm font-mono tracking-wider text-white/30 mt-4">
+            {t.work.employer}
+          </p>
         </div>
 
         <div ref={stackRef} className="relative">
-          <div className="scroll-stack-inner pt-[0vh] pb-[2vh] flex flex-col items-center">
+          <div className="scroll-stack-inner pt-[0vh] pb-[10vh] flex flex-col items-center">
             {workCards.map((card, i) => (
               <WorkStackCard key={card.title} card={card} index={i} totalCards={workCards.length} />
             ))}
@@ -795,11 +798,8 @@ const WorkStackCard = React.memo(function WorkStackCard({
         y: 0,
         scale: 1,
       });
-
       return;
     }
-
-    // totalCards passed as prop
 
     const compressedScale = 0.80 + (index / totalCards) * 0.10;
 
@@ -813,25 +813,16 @@ const WorkStackCard = React.memo(function WorkStackCard({
       trigger: el,
       start: "top bottom",
       end: "bottom top",
-      scrub: true,
+      scrub: 0.5,
 
       onUpdate: (self) => {
         const progress = self.progress;
         const eased = 1 - Math.pow(1 - progress, 3);
 
-        const baseScale = compressedScale;
-
-        const scale = baseScale + eased * (1 - baseScale);
+        const scale = compressedScale + eased * (1 - compressedScale);
         const y = index * 5 - eased * index * 5;
 
-        const blur = index < totalCards - 1 ? (1 - eased) * 2 : 0;
-
-        el.style.transform = `
-          translate3d(0, ${y}px, 0)
-          scale(${scale})
-        `;
-        el.style.filter = `blur(${blur}px)`;
-        el.style.zIndex = `${Math.round(200 + eased * 200 - index)}`;
+        el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
       },
     });
 

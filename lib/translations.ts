@@ -26,6 +26,7 @@ export const translations = {
     work: {
       heading1: "Real Systems",
       heading2: "Built for Production",
+      employer: "Fullstack Software Engineer \u00b7 via PT Mitra Integrasi Informatika (MII) \u00b7 Jakarta",
       cardLabels: {
         problem: "PROBLEM",
         architecture: "ARCHITECTURE",
@@ -35,129 +36,159 @@ export const translations = {
       cards: [
         {
           problem:
-            "Manual deployments created inconsistency, delays, and high operational risk across engineering teams.",
+            "PSP onboarding, fraud monitoring, and governance activities lacked a centralized platform with proper security controls and automated workflows.",
           architecture: [
-            "Next.js Dashboard",
-            "Internal API Gateway",
-            "GitLab CI Pipelines",
-            "Docker",
+            "Vue.js Portal",
+            "2FA Authentication",
+            "Approval Workflow Engine",
+            "REST API",
             "RBAC System",
           ],
           decisions: [
-            "Abstracted CI/CD into UI-driven workflows",
-            "Standardized deployment configs",
-            "Designed scalable service integration layer",
+            "Implemented 2FA for enhanced internal security",
+            "Built configurable multi-level approval workflows",
+            "Developed modular registration and participant management",
           ],
           impact: [
-            "\u2193 manual deployment steps",
-            "\u2191 consistency across teams",
-            "\u2191 engineering efficiency",
+            "\u2191 security posture",
+            "\u2191 operational stability",
+            "\u2191 onboarding efficiency",
           ],
         },
         {
           problem:
-            "Software delivery relied heavily on manual processes with limited automation and validation.",
+            "Developer onboarding, repository management, and CI/CD workflows were fragmented across teams with no centralized platform.",
           architecture: [
-            "CI/CD Pipelines",
-            "Automated Testing",
-            "Environment Provisioning",
-            "Build Automation",
+            "Next.js Portal",
+            "GitLab CI Pipelines",
+            "Pipeline Templates",
+            "Variable Management",
+            "Amazon Bedrock Integration",
           ],
           decisions: [
-            "Introduced automated pipelines for validation",
-            "Separated environments for safe testing",
-            "Focused on reproducible deployments",
+            "Built self-service pipeline template management",
+            "Developed GitLab integrations for repo configuration",
+            "Created reusable app boilerplates with Bedrock connectivity",
           ],
           impact: [
-            "\u2193 manual workload",
-            "\u2191 deployment reliability",
-            "\u2191 delivery speed",
+            "\u2191 CI/CD adoption across teams",
+            "\u2191 deployment consistency",
+            "\u2191 internal AI app development speed",
           ],
         },
         {
           problem:
-            "Recruitment tracking was manual, inefficient, and lacked real-time visibility.",
+            "API management platform deployment and OpenShift-based delivery lacked automation, code quality validation, and reliable rollback mechanisms.",
+          architecture: [
+            "Jenkins Pipelines",
+            "SonarQube",
+            "OpenShift",
+            "Container Registry",
+            "Image Signing",
+          ],
+          decisions: [
+            "Integrated Jenkins + SonarQube for automated build and quality validation",
+            "Optimized OpenShift deployment with alternative build strategies",
+            "Implemented container image signing and rollback mechanisms",
+          ],
+          impact: [
+            "\u2191 deployment reliability",
+            "\u2191 delivery governance",
+            "\u2193 deployment overhead",
+          ],
+        },
+        {
+          problem:
+            "Executive recruitment across regional enterprises relied on manual processes with no centralized digital platform for multi-stage selection.",
           architecture: [
             "React Dashboard",
-            "Auth System",
+            "Supabase Auth",
+            "Row-Level Security",
             "Backend API",
-            "Real-time Monitoring",
           ],
           decisions: [
-            "Built centralized admin dashboard",
-            "Integrated authentication + role handling",
-            "Optimized frontend performance",
+            "Built end-to-end recruitment platform covering admin, vacancies, and candidate reviews",
+            "Implemented multi-stage evaluation: screening, tests, psychological assessments, interviews",
+            "Applied Supabase RLS for granular recruitment data protection",
           ],
           impact: [
-            "\u2193 80% manual tracking",
-            "\u2191 visibility",
-            "\u2191 operational efficiency",
+            "\u2193 manual recruitment overhead",
+            "\u2191 data security",
+            "\u2191 process transparency",
           ],
         },
         {
           problem:
-            "Mobile development workflows needed stabilization and faster issue resolution.",
-          architecture: ["Mobile App Support", "Dev Workflow Optimization"],
-          decisions: ["Improved debugging flow", "Assisted development lifecycle"],
+            "Mobile development workflows needed stabilization and faster issue resolution across distributed teams.",
+          architecture: ["Issue Tracking", "Dev Communication", "Mobile Support"],
+          decisions: [
+            "Standardized issue tracking and collaboration processes",
+            "Improved communication workflows between technical and stakeholder teams",
+          ],
           impact: ["\u2191 dev efficiency", "\u2193 issue resolution time"],
         },
         {
           problem:
-            "Supplier and billing systems suffered from slow queries and instability.",
+            "Telecommunications infrastructure project management lacked a centralized system for approvals, documentation, and operational workflow tracking.",
           architecture: [
+            "Fullstack PMIS Platform",
+            "Approval Engine",
+            "Document Management",
+            "Notification System",
+            "GCS Integration",
+          ],
+          decisions: [
+            "Built ATP and milestone endorsement workflows with approval-chain visibility",
+            "Implemented change requests, issue ticketing, and baseline management",
+            "Migrated document storage from Azure to GCS with signed URL access",
+          ],
+          impact: [
+            "\u2191 approval process visibility",
+            "\u2191 operational efficiency",
+            "\u2191 document delivery speed",
+          ],
+        },
+        {
+          problem:
+            "AUTO2000\u2019s public digital platform and internal CMS lacked performance, SEO optimization, and scalable content management workflows.",
+          architecture: [
+            "Next.js Public Site",
+            "Internal CMS",
+            "Monorepo",
+            "SSR",
+            "Content Scheduling",
+          ],
+          decisions: [
+            "Transitioned metadata generation to SSR for proper SEO indexing",
+            "Built reusable frontend components in a monorepo architecture",
+            "Developed CMS content publishing, scheduling, and rich-text editing workflows",
+          ],
+          impact: [
+            "\u2191 SEO visibility",
+            "\u2191 content management efficiency",
+            "\u2191 development velocity via shared components",
+          ],
+        },
+        {
+          problem:
+            "Supplier and billing processes relied on legacy applications with manual workflows, slow deployments, and outdated Angular frontends.",
+          architecture: [
+            "Vue.js Frontend",
             "Node.js Backend",
-            "React Frontend",
-            "PostgreSQL",
-            "API Services",
+            "Jenkins CI/CD",
+            "Bitbucket",
+            "Harbor Registry",
           ],
           decisions: [
-            "Optimized database queries",
-            "Improved service structure",
-            "Focused on performance tuning",
+            "Migrated legacy Angular applications to Vue.js for maintainability",
+            "Automated deployment pipelines with Jenkins, Bitbucket, and Harbor",
+            "Built supplier management and billing features aligned with operational needs",
           ],
-          impact: ["\u2191 system performance", "\u2193 error rate", "\u2191 stability"],
-        },
-        {
-          problem:
-            "CMS and website lacked performance and scalability for enterprise usage.",
-          architecture: ["CMS System", "Public Website", "Content Tools"],
-          decisions: [
-            "Rebuilt CMS architecture",
-            "Optimized frontend delivery",
-            "Improved SEO structure",
+          impact: [
+            "\u2193 deployment time",
+            "\u2191 application maintainability",
+            "\u2191 operational alignment",
           ],
-          impact: ["\u2191 performance", "\u2191 SEO visibility", "\u2191 maintainability"],
-        },
-        {
-          problem:
-            "Initial system required reliable architecture for internal operations.",
-          architecture: [
-            "Fullstack System",
-            "Database Optimization",
-            "Deployment Flow",
-          ],
-          decisions: [
-            "Built core system features",
-            "Improved reliability early",
-            "Supported production rollout",
-          ],
-          impact: ["\u2191 system reliability", "\u2191 internal operations efficiency"],
-        },
-        {
-          problem:
-            "Deployment processes were slow, manual, and inconsistent across environments.",
-          architecture: [
-            "CI/CD Pipelines",
-            "Docker",
-            "System Integration",
-            "Web Platform",
-          ],
-          decisions: [
-            "Automated deployment pipelines",
-            "Standardized environments",
-            "Integrated services securely",
-          ],
-          impact: ["\u2193 50% deployment time", "\u2191 deployment consistency"],
         },
       ],
     },
@@ -186,6 +217,8 @@ export const translations = {
           items: [
             "Node.js",
             "Express",
+            "Hono",
+            "Golang",
             "REST API",
             "Service Design",
             "Authentication",
@@ -304,157 +337,171 @@ export const translations = {
     work: {
       heading1: "Sistem Nyata",
       heading2: "Dibangun untuk Produksi",
+      employer: "Fullstack Software Engineer \u00b7 via PT Mitra Integrasi Informatika (MII) \u00b7 Jakarta",
       cardLabels: {
         problem: "MASALAH",
         architecture: "ARSITEKTUR",
         decisions: "KEPUTUSAN",
         impact: "DAMPAK",
       },
-      cards: [
+            cards: [
         {
           problem:
-            "Deploy manual menyebabkan inkonsistensi, keterlambatan, dan risiko operasional tinggi di seluruh tim engineering.",
+            "Proses onboarding PSP, pemantauan fraud, dan aktivitas tata kelola tidak memiliki platform terpusat dengan kontrol keamanan dan alur kerja otomatis.",
           architecture: [
-            "Dashboard Next.js",
-            "Internal API Gateway",
-            "Pipeline GitLab CI",
-            "Docker",
+            "Portal Vue.js",
+            "Autentikasi 2FA",
+            "Mesin Alur Kerja Persetujuan",
+            "REST API",
             "Sistem RBAC",
           ],
           decisions: [
-            "Mengabstraksi CI/CD ke dalam alur kerja berbasis UI",
-            "Membakukan konfigurasi deploy",
-            "Merancang lapisan integrasi layanan yang skalabel",
+            "Menerapkan 2FA untuk keamanan internal",
+            "Membangun alur kerja persetujuan multi-level yang dapat dikonfigurasi",
+            "Mengembangkan modul registrasi dan manajemen peserta modular",
           ],
           impact: [
-            "\u2193 langkah deploy manual",
-            "\u2191 konsistensi antar tim",
-            "\u2191 efisiensi engineering",
+            "\u2191 postur keamanan",
+            "\u2191 stabilitas operasional",
+            "\u2191 efisiensi onboarding",
           ],
         },
         {
           problem:
-            "Pengiriman perangkat lunak sangat bergantung pada proses manual dengan otomatisasi dan validasi terbatas.",
+            "Onboarding developer, manajemen repositori, dan alur kerja CI/CD tersebar di berbagai tim tanpa platform terpusat.",
           architecture: [
-            "Pipeline CI/CD",
-            "Pengujian Otomatis",
-            "Provisioning Environment",
-            "Otomatisasi Build",
+            "Portal Next.js",
+            "Pipeline GitLab CI",
+            "Template Pipeline",
+            "Manajemen Variabel",
+            "Integrasi Amazon Bedrock",
           ],
           decisions: [
-            "Memperkenalkan pipeline otomatis untuk validasi",
-            "Memisahkan environment untuk pengujian yang aman",
-            "Fokus pada deployment yang reproducible",
+            "Membangun manajemen template pipeline self-service",
+            "Mengembangkan integrasi GitLab untuk konfigurasi repositori",
+            "Membuat boilerplate aplikasi reusable dengan konektivitas Bedrock",
           ],
           impact: [
-            "\u2193 beban kerja manual",
-            "\u2191 keandalan deployment",
-            "\u2191 kecepatan pengiriman",
+            "\u2191 adopsi CI/CD antar tim",
+            "\u2191 konsistensi deployment",
+            "\u2191 kecepatan pengembangan aplikasi AI internal",
           ],
         },
         {
           problem:
-            "Pelacakan rekrutmen dilakukan secara manual, tidak efisien, dan kurang visibilitas real-time.",
+            "Deployment platform API management dan pengiriman berbasis OpenShift kurang otomatisasi, validasi kualitas kode, dan mekanisme rollback yang andal.",
+          architecture: [
+            "Pipeline Jenkins",
+            "SonarQube",
+            "OpenShift",
+            "Container Registry",
+            "Image Signing",
+          ],
+          decisions: [
+            "Mengintegrasikan Jenkins + SonarQube untuk build dan validasi kualitas otomatis",
+            "Mengoptimalkan deployment OpenShift dengan strategi build alternatif",
+            "Menerapkan image signing container dan mekanisme rollback",
+          ],
+          impact: [
+            "\u2191 keandalan deployment",
+            "\u2191 tata kelola pengiriman",
+            "\u2193 overhead deployment",
+          ],
+        },
+        {
+          problem:
+            "Rekrutmen eksekutif di seluruh BUMD DKI Jakarta mengandalkan proses manual tanpa platform digital terpusat untuk seleksi multi-tahap.",
           architecture: [
             "Dashboard React",
-            "Sistem Auth",
+            "Supabase Auth",
+            "Row-Level Security",
             "Backend API",
-            "Monitoring Real-time",
           ],
           decisions: [
-            "Membangun dashboard admin terpusat",
-            "Mengintegrasikan autentikasi + penanganan peran",
-            "Mengoptimalkan performa frontend",
+            "Membangun platform rekrutmen end-to-end: admin, lowongan, dan review kandidat",
+            "Menerapkan evaluasi multi-tahap: screening, tes, psikotes, wawancara",
+            "Menggunakan Supabase RLS untuk perlindungan data rekrutmen granular",
           ],
           impact: [
-            "\u2193 80% pelacakan manual",
-            "\u2191 visibilitas",
-            "\u2191 efisiensi operasional",
+            "\u2193 overhead rekrutmen manual",
+            "\u2191 keamanan data",
+            "\u2191 transparansi proses",
           ],
         },
         {
           problem:
-            "Alur kerja pengembangan mobile perlu stabilisasi dan resolusi masalah yang lebih cepat.",
-          architecture: ["Dukungan Aplikasi Mobile", "Optimasi Alur Kerja Dev"],
+            "Alur kerja pengembangan mobile perlu stabilisasi dan resolusi masalah yang lebih cepat di tim yang tersebar.",
+          architecture: ["Issue Tracking", "Komunikasi Dev", "Dukungan Mobile"],
           decisions: [
-            "Meningkatkan alur debugging",
-            "Membantu siklus pengembangan",
+            "Membakukan proses issue tracking dan kolaborasi",
+            "Meningkatkan alur komunikasi antara tim teknis dan stakeholder",
           ],
           impact: ["\u2191 efisiensi dev", "\u2193 waktu resolusi masalah"],
         },
         {
           problem:
-            "Sistem supplier dan billing mengalami query lambat dan ketidakstabilan.",
+            "Manajemen proyek infrastruktur telekomunikasi tidak memiliki sistem terpusat untuk persetujuan, dokumentasi, dan pelacakan alur kerja operasional.",
           architecture: [
-            "Backend Node.js",
-            "Frontend React",
-            "PostgreSQL",
-            "Layanan API",
+            "Platform PMIS Fullstack",
+            "Mesin Persetujuan",
+            "Manajemen Dokumen",
+            "Sistem Notifikasi",
+            "Integrasi GCS",
           ],
           decisions: [
-            "Mengoptimalkan query database",
-            "Meningkatkan struktur layanan",
-            "Fokus pada tuning performa",
+            "Membangun alur kerja endorsement ATP dan milestone dengan visibilitas rantai persetujuan",
+            "Menerapkan change request, issue ticketing, dan baseline management",
+            "Migrasi penyimpanan dokumen dari Azure ke GCS dengan akses signed URL",
           ],
           impact: [
-            "\u2191 performa sistem",
-            "\u2193 tingkat error",
-            "\u2191 stabilitas",
+            "\u2191 visibilitas proses persetujuan",
+            "\u2191 efisiensi operasional",
+            "\u2191 kecepatan pengiriman dokumen",
           ],
         },
         {
           problem:
-            "CMS dan website kurang performa dan skalabilitas untuk penggunaan enterprise.",
-          architecture: ["Sistem CMS", "Website Publik", "Alat Konten"],
+            "Platform digital publik AUTO2000 dan CMS internal kurang performa, optimasi SEO, dan alur kerja manajemen konten yang skalabel.",
+          architecture: [
+            "Situs Publik Next.js",
+            "CMS Internal",
+            "Monorepo",
+            "SSR",
+            "Penjadwalan Konten",
+          ],
           decisions: [
-            "Membangun ulang arsitektur CMS",
-            "Mengoptimalkan pengiriman frontend",
-            "Meningkatkan struktur SEO",
+            "Mengalihkan generasi metadata ke SSR untuk indexing SEO yang tepat",
+            "Membangun komponen frontend reusable dalam arsitektur monorepo",
+            "Mengembangkan alur kerja penerbitan konten, penjadwalan, dan rich-text editing",
           ],
           impact: [
-            "\u2191 performa",
             "\u2191 visibilitas SEO",
-            "\u2191 maintainabilitas",
+            "\u2191 efisiensi manajemen konten",
+            "\u2191 kecepatan pengembangan via komponen bersama",
           ],
         },
         {
           problem:
-            "Sistem awal membutuhkan arsitektur yang andal untuk operasi internal.",
+            "Proses supplier dan billing bergantung pada aplikasi lawas dengan alur kerja manual, deployment lambat, dan frontend Angular yang usang.",
           architecture: [
-            "Sistem Fullstack",
-            "Optimasi Database",
-            "Alur Deployment",
+            "Frontend Vue.js",
+            "Backend Node.js",
+            "CI/CD Jenkins",
+            "Bitbucket",
+            "Harbor Registry",
           ],
           decisions: [
-            "Membangun fitur inti sistem",
-            "Meningkatkan keandalan sejak awal",
-            "Mendukung peluncuran produksi",
+            "Migrasi aplikasi Angular lawas ke Vue.js untuk maintainabilitas",
+            "Mengotomatiskan pipeline deployment dengan Jenkins, Bitbucket, dan Harbor",
+            "Membangun fitur manajemen supplier dan billing sesuai kebutuhan operasional",
           ],
           impact: [
-            "\u2191 keandalan sistem",
-            "\u2191 efisiensi operasi internal",
+            "\u2193 waktu deployment",
+            "\u2191 maintainabilitas aplikasi",
+            "\u2191 keselarasan operasional",
           ],
         },
-        {
-          problem:
-            "Proses deployment lambat, manual, dan tidak konsisten antar environment.",
-          architecture: [
-            "Pipeline CI/CD",
-            "Docker",
-            "Integrasi Sistem",
-            "Platform Web",
-          ],
-          decisions: [
-            "Mengotomatiskan pipeline deployment",
-            "Membakukan environment",
-            "Mengintegrasikan layanan secara aman",
-          ],
-          impact: [
-            "\u2193 50% waktu deployment",
-            "\u2191 konsistensi deployment",
-          ],
-        },
-      ],
+      ]
     },
     stack: {
       heading1: "Stack",
@@ -481,6 +528,8 @@ export const translations = {
           items: [
             "Node.js",
             "Express",
+            "Hono",
+            "Golang",
             "REST API",
             "Desain Service",
             "Autentikasi",
