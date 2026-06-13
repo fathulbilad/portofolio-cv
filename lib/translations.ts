@@ -10,18 +10,18 @@ export const translations = {
     ],
     sectionLabels: ["Intro", "Selected Work", "Tech Stack", "Contact"],
     hero: {
-      heading1: "Systems That Actually",
-      heading2: "Hold Up in Production",
-      sublabel: "DEPLOYMENTS · PIPELINES · ARCHITECTURE",
-      body: "I build and scale systems used in real production — helping teams ship faster, reduce failures, and keep things running as they grow.",
+      heading1: "Enterprise Applications",
+      heading2: "Built for Production",
+      sublabel: "FULLSTACK \u00b7 DEVOPS \u00b7 BANKING \u00b7 TELECOM",
+      body: "4+ years delivering internal platforms and enterprise applications across banking, telecommunications, healthcare, and automotive. I build workflow-driven systems that teams actually use.",
       cta: "See Work \u2192",
       resume: "View Resume \u2192",
-      status: "Open for high-impact work",
+      status: "Open for work",
       focusTitle: "Current Focus",
       focusDesc:
-        "Designing high-performance web systems & scalable DevOps infrastructure",
+        "Internal developer platforms & enterprise system architecture",
       marquee:
-        "TECHNICAL CONSULTANT \u00b7 FULLSTACK ENGINEER \u00b7 NEXT.JS \u00b7 NODE.JS \u00b7 DEVOPS \u00b7 ENTERPRISE SYSTEMS \u00b7",
+        "FULLSTACK ENGINEER \u00b7 DEVOPS \u00b7 BANKING \u00b7 TELECOM \u00b7 HEALTHCARE \u00b7 AUTOMOTIVE \u00b7 ENTERPRISE SYSTEMS \u00b7",
     },
     work: {
       heading1: "Real Systems",
@@ -321,18 +321,18 @@ export const translations = {
     ],
     sectionLabels: ["Intro", "Pengalaman Kerja", "Tech Stack", "Kontak"],
     hero: {
-      heading1: "Sistem yang Benar-Benar",
-      heading2: "Andal di Produksi",
-      sublabel: "DEPLOYMENTS \u00b7 PIPELINES \u00b7 ARSITEKTUR",
-      body: "Saya membangun dan menskalakan sistem yang digunakan di produksi nyata — membantu tim mengirim lebih cepat, mengurangi kegagalan, dan menjaga semuanya berjalan saat berkembang.",
+      heading1: "Aplikasi Enterprise",
+      heading2: "Dibangun untuk Produksi",
+      sublabel: "FULLSTACK \u00b7 DEVOPS \u00b7 PERBANKAN \u00b7 TELKOM",
+      body: "4+ tahun membangun platform internal dan aplikasi enterprise di bidang perbankan, telekomunikasi, kesehatan, dan otomotif. Saya membuat sistem berbasis alur kerja yang benar-benar dipakai tim.",
       cta: "Lihat Karya \u2192",
       resume: "Lihat Resume \u2192",
-      status: "Terbuka untuk proyek berdampak tinggi",
+      status: "Terbuka untuk kerja",
       focusTitle: "Fokus Saat Ini",
       focusDesc:
-        "Merancang sistem web berkinerja tinggi & infrastruktur DevOps yang skalabel",
+        "Platform developer internal & arsitektur sistem enterprise",
       marquee:
-        "KONSULTAN TEKNIS \u00b7 FULLSTACK ENGINEER \u00b7 NEXT.JS \u00b7 NODE.JS \u00b7 DEVOPS \u00b7 SISTEM ENTERPRISE \u00b7",
+        "FULLSTACK ENGINEER \u00b7 DEVOPS \u00b7 PERBANKAN \u00b7 TELKOM \u00b7 KESEHATAN \u00b7 OTOMOTIF \u00b7 SISTEM ENTERPRISE \u00b7",
     },
     work: {
       heading1: "Sistem Nyata",
