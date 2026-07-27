@@ -515,7 +515,7 @@ export default function AboutPage() {
 
             {/* SECONDARY CTA */}
             <a
-              href="https://drive.google.com/file/d/1JXA9puiGzrHeR6RucJd02MDnu8Krq7Oq/view?usp=sharing"
+              href="/Fathul_Bilad_CV_Cert.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="
@@ -706,7 +706,77 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── SECTION 4 — CONTACT ── */}
+      {/* ── SECTION 4 — CREDENTIALS ── */}
+      <section
+        id="credentials"
+        className={`${SECTION_BASE} min-h-screen py-24 md:py-32`}
+      >
+        <Blob
+          className="absolute top-1/4 -right-1/4 md:-right-[10%] size-[320px] md:size-[620px]"
+          color="rgba(56,189,248,0.1)"
+        />
+
+        <div className="sc-text relative z-10 w-full max-w-6xl mx-auto">
+          <SectionLabel number="04" label={t.sectionLabels[3]} color="#38BDF8" />
+          <h2
+            key={lang}
+            className={`split-heading ${HEADING} text-[clamp(3rem,9vw,7rem)] mb-12 md:mb-16`}
+            style={SG}
+          >
+            <span className="block">{t.credentials.heading1}</span>
+            <span className="block" style={{ color: "#38BDF8" }}>
+              {t.credentials.heading2}
+            </span>
+          </h2>
+
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:p-8">
+              <p className="text-xs font-mono tracking-[0.25em] uppercase text-[#38BDF8] mb-6">
+                {t.credentials.education}
+              </p>
+              <div className="space-y-7">
+                {t.credentials.schools.map((school) => (
+                  <div key={school.institution}>
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-1">
+                      <h3 className="text-xl md:text-2xl font-semibold">{school.institution}</h3>
+                      <span className="text-sm text-white/40">{school.location}</span>
+                    </div>
+                    <p className="text-white/70 mt-1">{school.program}</p>
+                    <p className="text-sm text-white/40 mt-1">{school.graduation}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-xs font-mono tracking-[0.25em] uppercase text-[#38BDF8] mt-10 mb-4">
+                {t.credentials.languages}
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {t.credentials.languageItems.map((item) => (
+                  <span key={item} className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/70">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:p-8">
+              <p className="text-xs font-mono tracking-[0.25em] uppercase text-[#38BDF8] mb-6">
+                {t.credentials.certificates}
+              </p>
+              <ul className="space-y-4">
+                {t.credentials.certificateItems.map((item, index) => (
+                  <li key={item} className="flex gap-4 text-white/75">
+                    <span className="font-mono text-[#38BDF8]">{String(index + 1).padStart(2, "0")}</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SECTION 5 — CONTACT ── */}
       <section
         id="contact"
         className={`${SECTION_BASE} min-h-screen md:h-screen`}
@@ -720,7 +790,7 @@ export default function AboutPage() {
         {/* ── CENTER HERO ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-6">
           <div className="sc-text max-w-3xl">
-            <SectionLabel number="04" label={t.sectionLabels[3]} color="#A78BFA" />
+            <SectionLabel number="05" label={t.sectionLabels[4]} color="#A78BFA" />
 
             <h2
               key={lang}
@@ -747,7 +817,7 @@ export default function AboutPage() {
               </a>
 
               <a
-                href="https://drive.google.com/file/d/1JXA9puiGzrHeR6RucJd02MDnu8Krq7Oq/view?usp=sharing"
+                href="/Fathul_Bilad_CV_Cert.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 rounded-full font-mono text-sm tracking-widest uppercase border border-white/10 text-white/60 hover:border-white/40 hover:text-white transition"
