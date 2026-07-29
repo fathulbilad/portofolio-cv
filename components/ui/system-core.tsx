@@ -2,14 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import useMobileLayout from "@/hooks/useMobileLayout";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 export default function SystemCore() {
   const ref = useRef<HTMLDivElement>(null);
-  const isMobile = useMobileLayout();
+  const { ambientMotion, isMobile, resolved } = useMotionProfile();
 
   useEffect(() => {
-    if (isMobile) return;
+    if (!resolved || isMobile || !ambientMotion) return;
 
     const el = ref.current;
     if (!el) return;
@@ -72,11 +72,9 @@ export default function SystemCore() {
       ctx?.revert();
       io.disconnect();
     };
-  }, [isMobile]);
+  }, [ambientMotion, isMobile, resolved]);
 
-  if (isMobile) {
-    return <div></div>;
-  }
+  if (!resolved || isMobile || !ambientMotion) return null;
 
   return (
     <div

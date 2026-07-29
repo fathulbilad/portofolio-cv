@@ -6,15 +6,24 @@ import { Home, Briefcase, Cpu, Mail } from "lucide-react";
 import { gsap } from "gsap";
 import { useLanguage } from "@/contexts/language-context";
 import { useLenis } from "@/contexts/lenis-context";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 export function FloatingDockWrapper() {
   const { t } = useLanguage();
   const { scrollTo } = useLenis();
+  const { level, resolved } = useMotionProfile();
   const dockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!resolved) return;
+
     const el = dockRef.current;
     if (!el) return;
+
+    if (level === "reduced") {
+      gsap.set(el, { clearProps: "transform,opacity" });
+      return () => gsap.killTweensOf(el);
+    }
 
     const rafId = requestAnimationFrame(() => {
       const tl = gsap.timeline();
@@ -37,32 +46,15 @@ export function FloatingDockWrapper() {
           duration: 0.6,
           ease: "power2.out",
         });
-
-      gsap.to(el, {
-        y: "+=6",
-        duration: 3.2,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        delay: 1.8,
-      });
-
-      // 🫧 micro scale breathing (this is subtle but BIG impact)
-      gsap.to(el, {
-        scale: 1.015,
-        duration: 4,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        delay: 2,
-      });
     });
 
     return () => {
       cancelAnimationFrame(rafId);
       gsap.killTweensOf(el);
     };
-  }, []);
+  }, [level, resolved]);
+
+  if (!resolved) return null;
 
   return (
     <div

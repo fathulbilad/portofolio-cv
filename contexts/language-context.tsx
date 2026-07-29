@@ -56,12 +56,12 @@ export function LanguageProvider({
   const [lang, setLang] = useState<Language>("en");
 
   useEffect(() => {
-    const saved = loadSavedLanguage();
-    if (saved) {
-      setLang(saved);
-    } else {
-      setLang(detectBrowserLanguage());
-    }
+    const initialLanguage = loadSavedLanguage() ?? detectBrowserLanguage();
+
+    // The server and first client render stay in English to avoid a hydration
+    // mismatch; the browser preference is intentionally applied after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLang(initialLanguage);
   }, []);
 
   const toggleLang = useCallback(() => {

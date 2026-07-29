@@ -14,9 +14,9 @@ const PipelineFlow = dynamic(
   () => import("@/components/ui/pipeline-flow"),
   { ssr: false },
 );
-import useMobileLayout from "@/hooks/useMobileLayout";
 import { useLanguage } from "@/contexts/language-context";
 import { useLenis } from "@/contexts/lenis-context";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -152,7 +152,13 @@ export default function AboutPage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const navDotsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const stackRef = useRef<HTMLDivElement>(null);
-  const isMobile = useMobileLayout();
+  const {
+    ambientMotion,
+    isMobile,
+    level: motionLevel,
+    parallax,
+    resolved: motionProfileResolved,
+  } = useMotionProfile();
   const marqueeAnimations = useRef<gsap.core.Tween[]>([]);
 
   const sections = t.sections;
@@ -183,6 +189,17 @@ export default function AboutPage() {
   useEffect(() => {
     const page = pageRef.current;
     if (!page) return;
+    if (!motionProfileResolved) return;
+
+    if (motionLevel === "reduced") {
+      gsap.set(page, { visibility: "visible" });
+      gsap.set(page.querySelectorAll(".sc-text, .split-heading"), {
+        opacity: 1,
+        y: 0,
+      });
+      activateDot(0);
+      return;
+    }
 
     const ctx = gsap.context(() => {
       const heroSection = page.querySelector<HTMLElement>("#hero");
@@ -236,31 +253,16 @@ export default function AboutPage() {
           return;
         }
 
-        if (heroHeading.dataset.split === "true") return;
-        heroHeading.dataset.split = "true";
-
         const lines = Array.from(heroHeading.children);
-        heroHeading.innerHTML = "";
-        lines.forEach((line) => {
-          const lineWrapper = document.createElement("div");
-          lineWrapper.style.display = "block";
-          (line.textContent || "").split("").forEach((ch) => {
-            const span = document.createElement("span");
-            span.innerHTML = ch === " " ? "&nbsp;" : ch;
-            span.style.display = "inline-block";
-            lineWrapper.appendChild(span);
-          });
-          heroHeading.appendChild(lineWrapper);
-        });
         gsap.set(heroHeading, { opacity: 1 });
         gsap.fromTo(
-          heroHeading.querySelectorAll("span"),
-          { yPercent: 110, opacity: 0 },
+          lines,
+          { y: 48, opacity: 0 },
           {
-            yPercent: 0,
+            y: 0,
             opacity: 1,
-            stagger: 0.022,
-            duration: 0.6,
+            stagger: 0.08,
+            duration: 0.65,
             ease: "power4.out",
           },
         );
@@ -316,6 +318,11 @@ export default function AboutPage() {
       marqueeAnimations.current = [];
 
       gsap.utils.toArray<HTMLElement>(".marquee-inner").forEach((el) => {
+        if (!ambientMotion) {
+          gsap.set(el, { xPercent: 0 });
+          return;
+        }
+
         const tween = gsap.to(el, {
           xPercent: -50,
           duration: 20,
@@ -327,38 +334,14 @@ export default function AboutPage() {
 
       gsap.utils.toArray<HTMLElement>(".split-heading").forEach((el) => {
         if (el.closest("#hero")) return;
-
-        if (el.dataset.split === "true") return;
-        el.dataset.split = "true";
-
-        const text = el.innerText;
-        const lines = text.split("\n");
-
-        el.innerHTML = "";
-
-        lines.forEach((line) => {
-          const lineWrapper = document.createElement("div");
-          lineWrapper.style.display = "block";
-
-          line.split("").forEach((ch) => {
-            const span = document.createElement("span");
-            span.innerHTML = ch === " " ? "&nbsp;" : ch;
-            span.style.display = "inline-block";
-            lineWrapper.appendChild(span);
-          });
-
-          el.appendChild(lineWrapper);
-        });
-
-        gsap.set(el, { opacity: 1 });
+        if (el.closest(".sc-text")) return;
 
         gsap.fromTo(
-          el.querySelectorAll("span"),
-          { yPercent: 110, opacity: 0 },
+          el,
+          { y: 40, opacity: 0 },
           {
-            yPercent: 0,
+            y: 0,
             opacity: 1,
-            stagger: 0.03,
             duration: 0.7,
             ease: "power4.out",
             scrollTrigger: {
@@ -370,7 +353,7 @@ export default function AboutPage() {
         );
       });
 
-      if (!isMobile) {
+      if (parallax) {
         gsap.utils.toArray<HTMLElement>(".blob").forEach((el) => {
           gsap.to(el, {
             yPercent: -30,
@@ -393,7 +376,15 @@ export default function AboutPage() {
       marqueeAnimations.current.forEach((tween) => tween.kill());
       marqueeAnimations.current = [];
     };
-  }, [isMobile, lang, sections]);
+  }, [
+    ambientMotion,
+    isMobile,
+    lang,
+    motionLevel,
+    motionProfileResolved,
+    parallax,
+    sections,
+  ]);
 
   return (
     <div
@@ -857,13 +848,15 @@ const WorkStackCard = React.memo(function WorkStackCard({
   totalCards: number;
 }) {
   const { t } = useLanguage();
+  const { backdropBlur, parallax, isMobile, resolved } = useMotionProfile();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (!resolved) return;
 
-    if (window.innerWidth < 768) {
+    if (isMobile || !parallax) {
       gsap.set(el, {
         y: 0,
         scale: 1,
@@ -897,7 +890,7 @@ const WorkStackCard = React.memo(function WorkStackCard({
     });
 
     return () => trigger.kill();
-  }, [index, totalCards]);
+  }, [index, isMobile, parallax, resolved, totalCards]);
 
   return (
     <div
@@ -913,9 +906,11 @@ const WorkStackCard = React.memo(function WorkStackCard({
         border
       "
       style={{
-        background: `rgba(${card.rgb},0.08)`,
+        background: backdropBlur
+          ? `rgba(${card.rgb},0.08)`
+          : `linear-gradient(135deg, rgba(${card.rgb},0.14), rgba(8,10,18,0.96) 58%)`,
         borderColor: `rgba(${card.rgb},0.25)`,
-        backdropFilter: "blur(20px)",
+        backdropFilter: backdropBlur ? "blur(12px)" : undefined,
       }}
     >
       {/* ── HEADER ── */}

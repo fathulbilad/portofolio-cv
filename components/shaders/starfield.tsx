@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 export interface StarfieldBackgroundProps {
   className?: string;
@@ -27,15 +28,18 @@ interface Star {
 export function StarfieldBackground({
   className,
   children,
-  count = 400,
+  count,
   speed = 0.5,
   starColor = "#ffffff",
   twinkle = true,
 }: StarfieldBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { resolved, starfield } = useMotionProfile();
 
   useEffect(() => {
+    if (!resolved) return;
+
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -45,7 +49,9 @@ export function StarfieldBackground({
 
     let width = 0;
     let height = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, starfield.dpr);
+    const starCount = count ?? starfield.count;
+    const frameInterval = 1000 / starfield.fps;
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
@@ -63,22 +69,33 @@ export function StarfieldBackground({
 
     resize();
 
-    const ro = new ResizeObserver(resize);
-    ro.observe(container);
-
-    let animationId: number;
+    let animationId: number | null = null;
+    let lastFrameTime = 0;
     let tick = 0;
-    let isVisible = true;
+    let isVisible = false;
+
+    const stop = () => {
+      if (animationId !== null) cancelAnimationFrame(animationId);
+      animationId = null;
+    };
+
+    const schedule = () => {
+      if (
+        animationId === null &&
+        isVisible &&
+        !document.hidden &&
+        starfield.animated
+      ) {
+        animationId = requestAnimationFrame(animate);
+      }
+    };
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           isVisible = entry.isIntersecting;
-          if (!isVisible) {
-            cancelAnimationFrame(animationId);
-          } else if (!animationId) {
-            animationId = requestAnimationFrame(animate);
-          }
+          if (isVisible) schedule();
+          else stop();
         });
       },
       { rootMargin: "300px" },
@@ -95,15 +112,14 @@ export function StarfieldBackground({
       twinkleOffset: Math.random() * Math.PI * 2,
     });
 
-    const stars: Star[] = Array.from({ length: count }, () => createStar());
+    const stars: Star[] = Array.from({ length: starCount }, () => createStar());
 
     const sinCache = new Float32Array(1000);
     for (let i = 0; i < 1000; i++) {
       sinCache[i] = Math.sin(i * 0.01);
     }
 
-    const animate = () => {
-      if (!isVisible) return;
+    const draw = (advance: boolean) => {
       tick++;
 
       ctx.fillStyle = "#0a0a0f";
@@ -120,7 +136,7 @@ export function StarfieldBackground({
       for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
 
-        star.z -= speed * 2;
+        if (advance) star.z -= speed * 2;
 
         if (star.z <= 0) {
           star.x = (Math.random() - 0.5) * width * 2;
@@ -149,7 +165,11 @@ export function StarfieldBackground({
 
         ctx.fillRect(x, y, size, size);
 
-        if (star.z < maxDepth * 0.3 && speed > 0.3) {
+        if (
+          starfield.streaks &&
+          star.z < maxDepth * 0.3 &&
+          speed > 0.3
+        ) {
           const streakLength = depthRatio * speed * 8;
           const angle = Math.atan2(star.y, star.x);
 
@@ -167,21 +187,44 @@ export function StarfieldBackground({
       }
 
       ctx.globalAlpha = 1;
+    };
 
-      animationId = requestAnimationFrame(animate);
+    function animate(timestamp: number) {
+      animationId = null;
+      if (!isVisible || document.hidden) return;
+
+      if (timestamp - lastFrameTime >= frameInterval) {
+        draw(true);
+        lastFrameTime = timestamp;
+      }
+
+      schedule();
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) stop();
+      else schedule();
     };
 
     ctx.fillStyle = "#0a0a0f";
     ctx.fillRect(0, 0, width, height);
+    draw(false);
 
-    animationId = requestAnimationFrame(animate);
+    const ro = new ResizeObserver(() => {
+      resize();
+      draw(false);
+    });
+    ro.observe(container);
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      cancelAnimationFrame(animationId);
+      stop();
       io.disconnect();
       ro.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [count, speed, starColor, twinkle]);
+  }, [count, resolved, speed, starColor, starfield, twinkle]);
 
   return (
     <div

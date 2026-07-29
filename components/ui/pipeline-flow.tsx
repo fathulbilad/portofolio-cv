@@ -1,7 +1,7 @@
 "use client";
 
-import useMobileLayout from "@/hooks/useMobileLayout";
 import { useEffect, useRef } from "react";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 type Particle = {
   x: number;
@@ -17,11 +17,10 @@ type Particle = {
 export default function PipelineFlow() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-
-  const isMobile = useMobileLayout();
+  const { pipeline, resolved } = useMotionProfile();
 
   useEffect(() => {
-    if (isMobile) return;
+    if (!resolved || !pipeline.enabled) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -32,22 +31,32 @@ export default function PipelineFlow() {
     const ctx = canvas.getContext("2d")!;
     let width = canvas.offsetWidth;
     let height = canvas.offsetHeight;
-    let frameId = 0;
-    let isVisible = true;
+    let frameId: number | null = null;
+    let lastFrameTime = 0;
+    let isVisible = false;
+    const frameInterval = 1000 / pipeline.fps;
 
     canvas.width = width;
     canvas.height = height;
     const particles = particlesRef.current;
 
+    const stop = () => {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      frameId = null;
+    };
+
+    const schedule = () => {
+      if (frameId === null && isVisible && !document.hidden) {
+        frameId = requestAnimationFrame(draw);
+      }
+    };
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           isVisible = entry.isIntersecting;
-          if (!isVisible) {
-            cancelAnimationFrame(frameId);
-          } else if (!frameId) {
-            frameId = requestAnimationFrame(draw);
-          }
+          if (isVisible) schedule();
+          else stop();
         });
       },
       { rootMargin: "300px" },
@@ -92,13 +101,21 @@ export default function PipelineFlow() {
       });
     }
 
-    function draw() {
-      if (!isVisible) return;
+    function draw(timestamp: number) {
+      frameId = null;
+      if (!isVisible || document.hidden) return;
+
+      if (timestamp - lastFrameTime < frameInterval) {
+        schedule();
+        return;
+      }
+      lastFrameTime = timestamp;
+
       ctx.clearRect(0, 0, width, height);
       const centerX = width / 2;
       const centerY = height / 2;
 
-      if (particles.length < 120) {
+      if (particles.length < pipeline.particles) {
         spawnParticle();
       }
 
@@ -134,10 +151,8 @@ export default function PipelineFlow() {
       }
 
       ctx.globalAlpha = 1;
-      frameId = requestAnimationFrame(draw);
+      schedule();
     }
-
-    draw();
 
     const handleResize = () => {
       width = canvas.offsetWidth;
@@ -146,17 +161,24 @@ export default function PipelineFlow() {
       canvas.height = height;
     };
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) stop();
+      else schedule();
+    };
+
     window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      cancelAnimationFrame(frameId);
+      stop();
       io.disconnect();
       particles.length = 0;
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [isMobile]);
+  }, [pipeline, resolved]);
 
-  if (isMobile) return <div></div>;
+  if (!resolved || !pipeline.enabled) return null;
 
   return (
     <canvas

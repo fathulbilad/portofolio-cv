@@ -11,6 +11,7 @@ import {
 } from "motion/react";
 
 import { useRef, useState } from "react";
+import { useMotionProfile } from "@/contexts/motion-context";
 
 type DockItem = {
   title: string;
@@ -30,11 +31,19 @@ export const FloatingDock = ({
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
-  return (
-    <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
-    </>
+  const { autoplayVideo, isMobile, resolved } = useMotionProfile();
+  if (!resolved) return null;
+
+  const activeItems = items.map((item) =>
+    item.video && !autoplayVideo
+      ? { ...item, video: undefined, emoji: item.emoji ?? "FB" }
+      : item,
+  );
+
+  return isMobile ? (
+    <FloatingDockMobile items={activeItems} className={mobileClassName} />
+  ) : (
+    <FloatingDockDesktop items={activeItems} className={desktopClassName} />
   );
 };
 
@@ -87,6 +96,7 @@ const FloatingDockMobile = ({
                     loop
                     muted
                     playsInline
+                    preload="metadata"
                     className="absolute inset-0 w-full h-full object-cover opacity-60"
                   />
                 )}
@@ -222,7 +232,7 @@ function IconContainer({
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onLoadStart={() => {
             setReady(false);
             setVideoFailed(false);

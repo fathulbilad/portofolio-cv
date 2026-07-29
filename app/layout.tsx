@@ -7,6 +7,7 @@ import { StarfieldWrapper } from "@/components/wrappers/starfield-wrappers";
 import { FloatingDockWrapper } from "@/components/wrappers/floating-wrappers";
 import { LanguageProvider } from "@/contexts/language-context";
 import { LenisProvider } from "@/contexts/lenis-context";
+import { MotionProvider } from "@/contexts/motion-context";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -46,13 +47,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Fathul Bilad" }],
   creator: "Fathul Bilad",
 
-  metadataBase: new URL("https://fathul-bilad-cv.vercel.app"),
+  metadataBase: new URL("https://fathulbilad.is-a.dev"),
 
   openGraph: {
     title: "Fathul Bilad — Fullstack Engineer & DevOps",
     description:
       "Building scalable systems that actually hold up in production.",
-    url: "https://fathul-bilad-cv.vercel.app",
+    url: "https://fathulbilad.is-a.dev",
     siteName: "Fathul Bilad Portfolio",
     images: [
       {
@@ -90,15 +91,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full overflow-x-hidden bg-background text-foreground">
-        <div className="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-700">
-          <StarfieldWrapper className="opacity-0 dark:opacity-100 transition-opacity" />
-        </div>
-        <LenisProvider>
-          <LanguageProvider>
-            {children}
-            <FloatingDockWrapper />
-          </LanguageProvider>
-        </LenisProvider>
+        <MotionProvider>
+          <div className="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-700">
+            <StarfieldWrapper className="opacity-0 dark:opacity-100 transition-opacity" />
+          </div>
+          <LenisProvider>
+            <LanguageProvider>
+              {children}
+              <FloatingDockWrapper />
+            </LanguageProvider>
+          </LenisProvider>
+        </MotionProvider>
       </body>
     </html>
   );
