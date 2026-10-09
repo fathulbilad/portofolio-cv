@@ -339,7 +339,7 @@ export const translations = {
         "CI/CD Associate — GitLab, 2026",
         "Fundamentals Associate — GitLab, 2026",
         "Certified Security Associate — GitLab, 2026",
-        "Anthropic MCP (Model Context Protocol) — Anthropic, 2025",
+        "Introduction to Model Context Protocol — Anthropic, 2025",
       ],
     },
     contact: {
@@ -691,7 +691,7 @@ export const translations = {
         "CI/CD Associate — GitLab, 2026",
         "Fundamentals Associate — GitLab, 2026",
         "Certified Security Associate — GitLab, 2026",
-        "Anthropic MCP (Model Context Protocol) — Anthropic, 2025",
+        "Introduction to Model Context Protocol — Anthropic, 2025",
       ],
     },
     contact: {

@@ -88,6 +88,8 @@ try {
   checkOpen("/skills", "right");
   closeDrawer();
   assert.equal(evaluate(() => document.activeElement?.getAttribute("href")), "/skills");
+  checkOpen("/certificates", "bottom");
+  closeDrawer();
   console.log("Back, forward, nested details, and focus restoration passed.");
   browser(["set", "offline", "off"]);
   browser(["set", "viewport", "390", "844"]);
@@ -97,6 +99,21 @@ try {
   }
   browser(["reload"]);
   assert.equal(evaluate(() => !!document.querySelector(".section-page") && !document.querySelector(".route-drawer")), true);
+  browser(["open", url.href]);
+  const mobileCertificates = evaluate(clickAndMeasure, "/certificates");
+  assert.ok(mobileCertificates.opened);
+  assert.equal(mobileCertificates.side, "bottom");
+  assert.equal(mobileCertificates.edge, "0px");
+  assert.equal(evaluate(() => document.querySelectorAll(".certificate-fan-card").length), 5);
+  evaluate(() => document.querySelector('.certificate-fan-card[aria-label*="Introduction to Model Context Protocol"]').click());
+  browser(["wait", "--fn", "!!document.querySelector('.certificate-viewer')"]);
+  browser(["wait", "--fn", "document.querySelector('.certificate-viewer img')?.naturalWidth > 0"]);
+  assert.equal(evaluate(() => document.querySelector('.certificate-controls a')?.getAttribute('href')), "/certificates/anthropic-introduction-to-mcp.pdf");
+  browser(["press", "Escape"]);
+  browser(["wait", "--fn", "!document.querySelector('.certificate-viewer')"]);
+  assert.equal(evaluate(() => !!document.querySelector(".route-drawer") && document.activeElement?.classList.contains("certificate-fan-card")), true);
+  closeDrawer();
+  console.log("Desktop/mobile bottom certificate drawers and nested popup focus passed.");
   browser(["set", "viewport", "1280", "900"]);
   browser(["open", new URL("/experience", url).href]);
   assert.equal(evaluate(() => !!document.querySelector(".section-page") && !document.querySelector(".route-drawer")), true);

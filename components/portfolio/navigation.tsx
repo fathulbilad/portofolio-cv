@@ -1,13 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useSyncExternalStore, type ReactNode } from "react";
-import { parseSectionPath, type SectionRoute } from "@/lib/portfolio-paths";
+import { parseSectionPath } from "@/lib/portfolio-paths";
 import { PortfolioDrawer } from "./drawer";
-import { NavigationContext, type DrawerSide } from "./navigation-context";
+import { NavigationContext, type DrawerEntry } from "./navigation-context";
 
 const historyKey = "portfolioDrawer";
 const drawerEvent = "portfolio:drawer";
-type DrawerEntry = SectionRoute & { id: string; side: DrawerSide };
 
 function subscribeHistory(notify: () => void) {
   window.addEventListener("popstate", notify);
@@ -46,12 +45,12 @@ export function PortfolioNavigation({ children }: { children: ReactNode }) {
 
   const openDrawer = useCallback((href: string, opener: HTMLElement | null, replace: boolean) => {
     const route = parseSectionPath(href);
-    if (!route || !isDesktop()) return false;
+    if (!route || (!isDesktop() && route.section !== "certificates")) return false;
     session.current ??= crypto.randomUUID();
     const previous = replace ? readEntry(getSnapshot()) : null;
     const card = opener?.closest(".bento-card") ?? opener;
     const bounds = card?.getBoundingClientRect();
-    const side = previous?.side ?? (bounds && bounds.left + bounds.width / 2 < window.innerWidth / 2 ? "left" : "right");
+    const side = route.section === "certificates" ? "bottom" : previous?.side ?? (bounds && bounds.left + bounds.width / 2 < window.innerWidth / 2 ? "left" : "right");
     const next: DrawerEntry = { ...route, id: previous?.id ?? crypto.randomUUID(), side };
     if (!previous && opener) openers.current.set(next.id, opener);
 
@@ -64,16 +63,16 @@ export function PortfolioNavigation({ children }: { children: ReactNode }) {
   }, [getSnapshot]);
 
   useEffect(() => {
-    if (entry && desktop === false) window.location.replace(`/${entry.section}${entry.slug ? `/${entry.slug}` : ""}`);
+    if (entry && entry.section !== "certificates" && desktop === false) window.location.replace(`/${entry.section}${entry.slug ? `/${entry.slug}` : ""}`);
   }, [entry, desktop]);
 
   const navigation = useMemo(() => ({ desktop, openDrawer }), [desktop, openDrawer]);
   return (
     <NavigationContext.Provider value={navigation}>
       {children}
-      {entry && desktop && <PortfolioDrawer section={entry.section} slug={entry.slug} side={entry.side}
+      {desktop !== null && <PortfolioDrawer entry={entry}
         onClose={() => window.history.back()}
-        onRestoreFocus={() => openers.current.get(entry.id)?.focus({ preventScroll: true })} />}
+        onRestoreFocus={(id) => openers.current.get(id)?.focus({ preventScroll: true })} />}
     </NavigationContext.Provider>
   );
 }

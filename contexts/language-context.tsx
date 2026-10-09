@@ -13,12 +13,6 @@ import type { TranslationSet } from "@/lib/translations";
 
 const STORAGE_KEY = "cv-language";
 
-function detectBrowserLanguage(): Language {
-  if (typeof navigator === "undefined") return "en";
-  const lang = navigator.language || "";
-  return lang.startsWith("id") ? "id" : "en";
-}
-
 function loadSavedLanguage(): Language | null {
   if (typeof window === "undefined") return null;
   try {
@@ -60,10 +54,10 @@ export function LanguageProvider({
   }, [lang]);
 
   useEffect(() => {
-    const initialLanguage = loadSavedLanguage() ?? detectBrowserLanguage();
+    const initialLanguage = loadSavedLanguage() ?? "en";
 
     // The server and first client render stay in English to avoid a hydration
-    // mismatch; the browser preference is intentionally applied after mount.
+    // mismatch; an explicitly saved choice is applied after mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLang(initialLanguage);
   }, []);

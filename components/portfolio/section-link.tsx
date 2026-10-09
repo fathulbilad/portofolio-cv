@@ -12,7 +12,7 @@ export function SectionLink({ href, children, className, style, ariaLabel }: {
   const inDrawer = useContext(DrawerContext);
   const navigation = useContext(NavigationContext);
   const link = useRef<HTMLAnchorElement>(null);
-  const useDrawer = navigation?.desktop === true && (pathname === "/" || inDrawer);
+  const useDrawer = (navigation?.desktop === true || (navigation?.desktop === false && href === "/certificates")) && (pathname === "/" || inDrawer);
 
   return (
     <Link href={href} ref={link} className={className} style={style} aria-label={ariaLabel}

@@ -110,7 +110,7 @@ function Band() {
 
   return (
     <>
-      <group position={[0, 2.7, 0]}>
+      <group position={[0, 3.7, 0]}>
         <RigidBody ref={fixed} {...bodyProps} type="fixed" />
         <RigidBody ref={firstJoint} {...bodyProps} position={[0, -1, 0]}><BallCollider args={[0.1]} /></RigidBody>
         <RigidBody ref={secondJoint} {...bodyProps} position={[0, -2, 0]}><BallCollider args={[0.1]} /></RigidBody>

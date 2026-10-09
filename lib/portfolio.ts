@@ -104,12 +104,22 @@ export const sideProjects = [
   },
 ];
 
-export const certificates = [
+export type Certificate = {
+  name: string;
+  issuer: string;
+  year: string;
+  image: string | null;
+  pdf?: string;
+  width?: number;
+  height?: number;
+};
+
+export const certificates: Certificate[] = [
   { name: "Agile Portfolio Management Associate", issuer: "GitLab", year: "2026", image: "/certificates/gitlab-certified-agile-portfolio-management-associa.png" },
   { name: "CI/CD Associate", issuer: "GitLab", year: "2026", image: "/certificates/gitlab-certified-ci-cd-associate.2.png" },
   { name: "Fundamentals Associate", issuer: "GitLab", year: "2026", image: "/certificates/gitlab-certified-fundamentals-associate (1).png" },
   { name: "Certified Security Associate", issuer: "GitLab", year: "2026", image: "/certificates/gitlab-certified-security-associate.png" },
-  { name: "MCP (Model Context Protocol)", issuer: "Anthropic", year: "2025", image: null },
+  { name: "Introduction to Model Context Protocol", issuer: "Anthropic", year: "2025", image: "/certificates/anthropic-introduction-to-mcp.png", pdf: "/certificates/anthropic-introduction-to-mcp.pdf", width: 1800, height: 1391 },
 ];
 
 export const ui = {

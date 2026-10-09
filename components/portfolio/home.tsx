@@ -44,7 +44,7 @@ export function PortfolioHome() {
             <p>{copy.heroBody}</p>
             <div className="hero-actions"><SectionLink href="/about" className="button button-blue">{copy.intro}<ArrowRight size={17} /></SectionLink><LanyardDialog /></div>
           </div>
-          <Image src="/illustrations/Bento1.png" alt="" width={330} height={260} sizes="(max-width: 560px) 130px, 250px" className="hero-illustration" priority />
+          <Image src="/illustrations/Bento1-glasses.png" alt="" width={330} height={260} sizes="(max-width: 560px) 130px, 250px" className="hero-illustration" priority />
         </section>
         <section className="bento-card overview-card" aria-label={copy.overview}>
           <div className="card-label"><ChartNoAxesColumnIncreasing size={21} strokeWidth={1.7} /><span>{copy.overview}</span></div>

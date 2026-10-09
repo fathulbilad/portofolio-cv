@@ -1,6 +1,6 @@
 # Fathul Bilad — CV & Portfolio
 
-A bilingual portfolio built with Next.js, React, and TypeScript. The pastel cards and illustrations come from the Rick and Morty frontend project, adapted around professional experience, skills, education, certifications, contact details, and side projects, currently featuring the six Cardio projects.
+A bilingual portfolio built with Next.js, React, and TypeScript. English is the default regardless of browser language; a visitor's explicit language choice is remembered. The pastel cards and illustrations come from the Rick and Morty frontend project, adapted around professional experience, skills, education, certifications, contact details, and side projects, currently featuring the six Cardio projects.
 
 ## Development
 
@@ -23,9 +23,11 @@ bun run build
 
 At widths of 900px and above, overview cards open a drawer from their side of the screen. The shared CV content is already loaded; opening a drawer updates browser history without requesting a new page. Client and side project detail links replace its contents and keep the original side. Closing returns to the overview and restores the originating card's focus and scroll position; Back and Forward work too. Direct links and page refreshes show standalone pages.
 
-Below 900px, section and detail links use prefetched standalone pages with client navigation. Resizing an open desktop drawer to mobile opens its standalone page. Certificate images open in an accessible Radix dialog on both screen sizes, with zoom and an original-image link. The Anthropic certification stays listed without a preview until an image is supplied.
+Below 900px, section and detail links use prefetched standalone pages with client navigation. Resizing an open desktop drawer to mobile opens its standalone page. Certificates are the exception: the section opens from the bottom on desktop and mobile, with the original elastic bouncing card fan. Individual previews also slide up from the bottom, with zoom and an original-image link. The Anthropic MCP certificate includes a preview and its original PDF.
 
-The hero's ID badge button and About section reuse the draggable 3D lanyard from the Rick and Morty frontend. Three.js and the physics engine load only when the badge is shown. Pause and reset controls are available, reduced-motion preferences start it paused, and animation stops when the browser tab is hidden. The homepage illustrations use Next.js image optimization.
+The homepage entrance, card hover effects, layered left/right drawer slides, and section animations reuse the Rick and Morty frontend's timing and easing. Reduced-motion preferences disable these animations. The hero developer illustration now wears glasses.
+
+The hero's ID badge button and About section reuse the draggable 3D lanyard from the Rick and Morty frontend. The badge hangs higher to leave room beneath it. Three.js and the physics engine load only when the badge is shown. Pause and reset controls are available, reduced-motion preferences start it paused, and animation stops when the browser tab is hidden. The homepage illustrations use Next.js image optimization.
 
 ## Content and assets
 
@@ -40,6 +42,12 @@ The hero's ID badge button and About section reuse the draggable 3D lanyard from
 
 The site uses static CV content and does not depend on the Rick and Morty backend. Cardio descriptions cover the projects' curricula and workflows without implying that every exercise is complete.
 
+## Glasses illustration
+
+Saved asset: `public/illustrations/Bento1-glasses.png`. Edited with the built-in image generation tool, preserving transparency.
+
+Final prompt: "Use case: precise-object-edit. Edit the supplied transparent hero illustration. Add simple thin black-framed glasses to the developer's face. Change only the glasses; preserve his face, hair, hoodie, pose, laptop, little doodles, original hand-drawn ink style, colors, composition, and transparent background."
+
 ## Drawer regression check
 
 With `agent-browser` installed on your PATH and a production preview running, run:
@@ -48,4 +56,4 @@ With `agent-browser` installed on your PATH and a production preview running, ru
 node scripts/check-drawers.mjs http://127.0.0.1:3105
 ```
 
-This local-only check loads the overview, switches the browser offline, and verifies left/right drawers, nested details, Back/Forward, and keyboard focus. Drawer content must appear within 200ms while offline, so a new route request fails the check.
+This local-only check loads the overview, switches the browser offline, and verifies left/right and bottom drawers, nested details, Back/Forward, and keyboard focus. It also checks mobile navigation and the nested MCP certificate preview and PDF link. Drawer content must appear within 200ms while offline, so a new route request fails the check.
