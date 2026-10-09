@@ -146,6 +146,7 @@ button:disabled { cursor: default; }
 .contact-list a:hover h2 { color: #34628f; }
 .drawer-overlay { position: fixed; inset: 0; z-index: 60; background: #26312f45; animation: fade-in 140ms ease; }
 .route-drawer { position: fixed; top: 18px; right: 18px; bottom: 18px; z-index: 70; width: min(820px, calc(100vw - 100px)); display: flex; flex-direction: column; background: #fffefa; border: 1px solid #d8d9cd; border-radius: 19px; box-shadow: 0 12px 45px #1a25331c; overflow: hidden; animation: drawer-in 180ms ease-out; }
+.route-drawer[data-side="left"] { left: 18px; right: auto; --drawer-offset: -20px; }
 .drawer-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-shrink: 0; padding: 15px 26px; background: var(--section-color); border-bottom: 1px solid #1a253312; }
 .drawer-header h2 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 14px; font-weight: 800; }
 .drawer-header h2:focus { outline: none; }
@@ -192,7 +193,7 @@ button:disabled { cursor: default; }
 .badge-still small { font-size: 9px; color: #526170; }
 .lanyard-fallback-message { display: grid; place-items: center; padding: 30px; font-size: 15px; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes drawer-in { from { opacity: .5; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes drawer-in { from { opacity: .5; transform: translateX(var(--drawer-offset, 20px)); } to { opacity: 1; transform: translateX(0); } }
 @media (max-width: 1200px) {
   .site-header, .site-footer, .portfolio-home { width: calc(100% - 48px); }
   .bento-card { padding: 24px; }
@@ -233,6 +234,7 @@ button:disabled { cursor: default; }
   .site-footer > span:nth-child(2) { display: none; }
   .section-page { width: calc(100% - 48px); }
   .route-drawer { width: 100%; top: 0; right: 0; bottom: 0; border-radius: 0; }
+  .route-drawer[data-side="left"] { left: 0; }
 }
 @media (max-width: 560px) {
   .site-header, .site-footer, .portfolio-home { width: calc(100% - 32px); }

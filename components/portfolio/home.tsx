@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, FileText, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { sideProjects, certificates, cvFolderUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
-import { SectionLink } from "./navigation";
+import { SectionLink } from "./section-link";
 import { sectionIcons } from "./icons";
 import { LanyardDialog } from "./lanyard";
 

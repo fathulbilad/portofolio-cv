@@ -21,9 +21,9 @@ bun run build
 
 ## Browsing
 
-At widths of 900px and above, overview cards open a route-backed drawer. Client and side project detail links replace its contents; closing returns to the overview and restores the originating card's focus and scroll position. Direct links and page refreshes show standalone pages.
+At widths of 900px and above, overview cards open a drawer from their side of the screen. The shared CV content is already loaded; opening a drawer updates browser history without requesting a new page. Client and side project detail links replace its contents and keep the original side. Closing returns to the overview and restores the originating card's focus and scroll position; Back and Forward work too. Direct links and page refreshes show standalone pages.
 
-Below 900px, section and detail links use standalone pages. Certificate images open in an accessible Radix dialog on both screen sizes, with zoom and an original-image link. The Anthropic certification stays listed without a preview until an image is supplied.
+Below 900px, section and detail links use prefetched standalone pages with client navigation. Resizing an open desktop drawer to mobile opens its standalone page. Certificate images open in an accessible Radix dialog on both screen sizes, with zoom and an original-image link. The Anthropic certification stays listed without a preview until an image is supplied.
 
 The hero's ID badge button and About section reuse the draggable 3D lanyard from the Rick and Morty frontend. Three.js and the physics engine load only when the badge is shown. Pause and reset controls are available, reduced-motion preferences start it paused, and animation stops when the browser tab is hidden. The homepage illustrations use Next.js image optimization.
 
@@ -33,9 +33,19 @@ The hero's ID badge button and About section reuse the draggable 3D lanyard from
 - `lib/translations.ts`: existing bilingual client case studies, skills, and education.
 - `components/portfolio/`: overview, shared section content, navigation, drawers, and certificate previews.
 - `app/(main)/[section]/`: standalone section and detail routes.
-- `app/(main)/@drawer/`: intercepted desktop routes and empty fallback slots.
+- `lib/portfolio-paths.ts`: shared section and detail URL validation.
 - `public/illustrations/`: reused illustrations and the matching Cardio illustration.
 - `public/lanyard/`: the original Fathul/MII badge model and strap texture.
 - `cvFolderUrl` in `lib/portfolio.ts`: the permanent Google Drive folder for the CV. Every CV button opens it in a new tab, so updating the folder requires no website change.
 
 The site uses static CV content and does not depend on the Rick and Morty backend. Cardio descriptions cover the projects' curricula and workflows without implying that every exercise is complete.
+
+## Drawer regression check
+
+With `agent-browser` installed on your PATH and a production preview running, run:
+
+```sh
+node scripts/check-drawers.mjs http://127.0.0.1:3105
+```
+
+This local-only check loads the overview, switches the browser offline, and verifies left/right drawers, nested details, Back/Forward, and keyboard focus. Drawer content must appear within 200ms while offline, so a new route request fails the check.

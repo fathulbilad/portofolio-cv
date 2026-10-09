@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Mail, MapPin, MessageCir
 import { Github, Linkedin } from "./brand-icons";
 import { useLanguage } from "@/contexts/language-context";
 import { sideProjects, cvFolderUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
-import { SectionLink } from "./navigation";
+import { SectionLink } from "./section-link";
 import { CertificateGallery } from "./certificates";
 import { sectionIcons, sideProjectIcons, skillIcons } from "./icons";
 import { LanyardView } from "./lanyard";

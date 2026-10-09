@@ -1,13 +1,11 @@
 import { notFound } from "next/navigation";
-import { sideProjects, isSection, sections, work } from "./portfolio";
+import { sideProjects, sections, work } from "./portfolio";
+import { parseSectionPath } from "./portfolio-paths";
 
 export function resolveSection(section: string, slug?: string) {
-  if (!isSection(section)) notFound();
-  if (slug) {
-    const valid = section === "projects" ? work.some((item) => item.slug === slug) : section === "side-projects" && sideProjects.some((item) => item.slug === slug);
-    if (!valid) notFound();
-  }
-  return section;
+  const route = parseSectionPath(`/${section}${slug ? `/${slug}` : ""}`);
+  if (!route || route.section !== section || route.slug !== slug) notFound();
+  return route.section;
 }
 
 export function sectionMetadata(section: string, slug?: string) {
