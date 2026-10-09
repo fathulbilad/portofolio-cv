@@ -1,36 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Space_Grotesk } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 
-import { StarfieldWrapper } from "@/components/wrappers/starfield-wrappers";
-import { FloatingDockWrapper } from "@/components/wrappers/floating-wrappers";
 import { LanguageProvider } from "@/contexts/language-context";
-import { LenisProvider } from "@/contexts/lenis-context";
-import { MotionProvider } from "@/contexts/motion-context";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Fathul Bilad — Fullstack Engineer & DevOps",
+    default: "Fathul Bilad — Full Stack Software Engineer",
     template: "%s | Fathul Bilad",
   },
   description:
-    "Fullstack Engineer & DevOps specialist building scalable, production-grade systems. Focused on performance, reliability, and real-world impact.",
+    "Explore Fathul Bilad’s enterprise work, full stack and DevOps experience, side projects, and certifications.",
 
   keywords: [
     "Fathul Bilad",
@@ -50,14 +34,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://fathulbilad.is-a.dev"),
 
   openGraph: {
-    title: "Fathul Bilad — Fullstack Engineer & DevOps",
+    title: "Fathul Bilad — Full Stack Software Engineer",
     description:
       "Building scalable systems that actually hold up in production.",
     url: "https://fathulbilad.is-a.dev",
     siteName: "Fathul Bilad Portfolio",
     images: [
       {
-        url: "/og-image.png", // optional (can add later)
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
       },
@@ -68,14 +52,14 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Fathul Bilad — Fullstack Engineer & DevOps",
+    title: "Fathul Bilad — Full Stack Software Engineer",
     description:
       "Building scalable systems that actually hold up in production.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
 
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
   },
 };
 
@@ -87,21 +71,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${manrope.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full overflow-x-hidden bg-background text-foreground">
-        <MotionProvider>
-          <div className="fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-700">
-            <StarfieldWrapper className="opacity-0 dark:opacity-100 transition-opacity" />
-          </div>
-          <LenisProvider>
-            <LanguageProvider>
-              {children}
-              <FloatingDockWrapper />
-            </LanguageProvider>
-          </LenisProvider>
-        </MotionProvider>
+      <body>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

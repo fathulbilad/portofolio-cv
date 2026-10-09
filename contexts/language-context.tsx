@@ -56,6 +56,10 @@ export function LanguageProvider({
   const [lang, setLang] = useState<Language>("en");
 
   useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  useEffect(() => {
     const initialLanguage = loadSavedLanguage() ?? detectBrowserLanguage();
 
     // The server and first client render stay in English to avoid a hydration
