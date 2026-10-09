@@ -31,13 +31,13 @@ export const metadata: Metadata = {
   authors: [{ name: "Fathul Bilad" }],
   creator: "Fathul Bilad",
 
-  metadataBase: new URL("https://fathulbilad.is-a.dev"),
+  metadataBase: new URL("https://fathul-bilad-cv.vercel.app"),
 
   openGraph: {
     title: "Fathul Bilad — Full Stack Software Engineer",
     description:
       "Building scalable systems that actually hold up in production.",
-    url: "https://fathulbilad.is-a.dev",
+    url: "/",
     siteName: "Fathul Bilad Portfolio",
     images: [
       {
