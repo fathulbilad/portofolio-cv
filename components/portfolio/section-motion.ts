@@ -7,7 +7,7 @@ export function useSectionMotion(container: RefObject<HTMLDivElement | null>, ro
   useLayoutEffect(() => {
     if (!open || !container.current) return;
     const media = gsap.matchMedia(container.current);
-    media.add("(prefers-reduced-motion: no-preference)", () => {
+    media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
       const select = gsap.utils.selector(container.current);
       // Original rise-in, BubbleMenu back easing, and StaggeredMenu label motion.
       gsap.fromTo(select(".section-intro, .project-detail > h1, .project-detail > .intro-text"),

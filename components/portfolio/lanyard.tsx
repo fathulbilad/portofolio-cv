@@ -11,6 +11,13 @@ function BadgeStill() {
   return <div className="badge-still"><span>Full Stack Software Engineer</span><Image src="/illustrations/Bento7.png" alt="" width={100} height={115} unoptimized /><strong>Fathul Bilad</strong><small>PT Mitra Integrasi Informatika</small></div>;
 }
 
+function StaticLanyard() {
+  return <div className="lanyard-static"><div className="welcome-badge" aria-hidden="true">
+    <span className="welcome-strap" /><span className="welcome-clip" />
+    <div className="welcome-badge-card"><Image src="/lanyard/badge-artwork.webp" alt="" width={800} height={770} sizes="400px" /></div>
+  </div></div>;
+}
+
 const LanyardScene = dynamic(() => import("./lanyard-scene"), { ssr: false, loading: () => <BadgeStill /> });
 
 class BadgeBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
@@ -30,13 +37,25 @@ function subscribeToVisibility(callback: () => void) {
   return () => document.removeEventListener("visibilitychange", callback);
 }
 
+function subscribeToDesktop(callback: () => void) {
+  const desktop = window.matchMedia("(min-width: 900px)");
+  desktop.addEventListener("change", callback);
+  return () => desktop.removeEventListener("change", callback);
+}
+const isDesktop = () => window.matchMedia("(min-width: 900px)").matches;
+const serverDesktop = () => false;
+
 export function LanyardView({ compact = false }: { compact?: boolean }) {
   const { lang } = useLanguage();
+  const desktop = useSyncExternalStore(subscribeToDesktop, isDesktop, serverDesktop);
   const reducedMotion = useSyncExternalStore(subscribeToMotion, () => window.matchMedia("(prefers-reduced-motion: reduce)").matches, () => false);
   const hidden = useSyncExternalStore(subscribeToVisibility, () => document.hidden, () => false);
   const [playing, setPlaying] = useState<boolean | null>(null);
   const [reset, setReset] = useState(0);
   const paused = playing === null ? reducedMotion : !playing;
+  if (!desktop) return <div className={`lanyard-view ${compact ? "is-compact" : ""}`}>
+    <div className="lanyard-stage" role="img" aria-label={lang === "en" ? "Fathul Bilad ID badge" : "ID badge Fathul Bilad"}><StaticLanyard /></div>
+  </div>;
   return <div className={`lanyard-view ${compact ? "is-compact" : ""}`}>
     <div className="lanyard-stage" role="img" aria-label={lang === "en" ? "Interactive Fathul Bilad ID badge on a lanyard" : "ID badge Fathul Bilad interaktif dengan lanyard"}>
       <BadgeBoundary key={reset}><LanyardScene paused={paused || hidden} /></BadgeBoundary>
@@ -50,9 +69,10 @@ export function LanyardView({ compact = false }: { compact?: boolean }) {
 
 export function LanyardDialog() {
   const { lang } = useLanguage();
+  const desktop = useSyncExternalStore(subscribeToDesktop, isDesktop, serverDesktop);
   return <Dialog.Root><Dialog.Trigger className="button badge-trigger"><IdCard size={18} />{lang === "en" ? "My ID badge" : "ID badge saya"}</Dialog.Trigger>
     <Dialog.Portal><Dialog.Overlay className="certificate-overlay" /><Dialog.Content className="lanyard-dialog" aria-describedby={undefined}>
-      <header className="lanyard-dialog-header"><Dialog.Title><IdCard size={20} />{lang === "en" ? "A little something to play with." : "Sedikit interaksi dengan badge saya."}</Dialog.Title><Dialog.Close className="icon-button" aria-label={lang === "en" ? "Close" : "Tutup"}><X size={21} /></Dialog.Close></header>
+      <header className="lanyard-dialog-header"><Dialog.Title><IdCard size={20} />{lang === "en" ? desktop ? "A little something to play with." : "My ID badge." : desktop ? "Sedikit interaksi dengan badge saya." : "ID badge saya."}</Dialog.Title><Dialog.Close className="icon-button" aria-label={lang === "en" ? "Close" : "Tutup"}><X size={21} /></Dialog.Close></header>
       <LanyardView />
     </Dialog.Content></Dialog.Portal>
   </Dialog.Root>;

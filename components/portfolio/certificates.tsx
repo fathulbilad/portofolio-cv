@@ -26,12 +26,10 @@ export function CertificateGallery() {
   useLayoutEffect(() => {
     if (!fan.current) return;
     const media = gsap.matchMedia(fan.current);
-    media.add({ desktop: "(min-width: 768px)", mobile: "(max-width: 767px)", motion: "(prefers-reduced-motion: no-preference)" }, (context) => {
+    media.add("(min-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
       const cards = gsap.utils.toArray<HTMLButtonElement>(".certificate-fan-card", fan.current);
-      const spread = context.conditions?.desktop ? 75 : 35;
-      const rotation = context.conditions?.desktop ? 10 : 5;
-      gsap.set(cards, { x: (index) => (index - (cards.length - 1) / 2) * spread, rotation: (index) => (index - (cards.length - 1) / 2) * rotation });
-      if (context.conditions?.motion) gsap.fromTo(cards,
+      gsap.set(cards, { x: (index) => (index - (cards.length - 1) / 2) * 75, rotation: (index) => (index - (cards.length - 1) / 2) * 10 });
+      gsap.fromTo(cards,
         { scale: 0, opacity: 0, y: 80 },
         { scale: 1, opacity: 1, y: 0, stagger: 0.08, delay: 0.5, duration: 1, ease: "elastic.out(1, 0.5)" });
     });
@@ -39,7 +37,7 @@ export function CertificateGallery() {
   }, []);
 
   function spreadCards(hovered: number | null) {
-    if (!window.matchMedia("(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)").matches) return;
+    if (!window.matchMedia("(min-width: 900px) and (hover: hover) and (prefers-reduced-motion: no-preference)").matches) return;
     const cards = gsap.utils.toArray<HTMLButtonElement>(".certificate-fan-card", fan.current);
     cards.forEach((card, index) => {
       const offset = index - (cards.length - 1) / 2;

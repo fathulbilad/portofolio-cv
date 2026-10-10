@@ -80,6 +80,7 @@ try {
   const mobileFrames = evaluate(() => window.__welcomeFrames);
   const mobileReveal = mobileFrames.find(frame => frame.state === "revealing");
   assert.ok(mobileReveal?.pixels > 0 && mobileReveal.pixels < frames[1].pixels, "Mobile keeps the pixel animation with fewer tiles.");
+  assert.equal(evaluate(() => getComputedStyle(document.querySelector(".portfolio-home .bento-card")).animationName), "none");
   assert.equal(evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   browser(["set", "media", "light", "reduced-motion"]);
   clearVisit();
@@ -88,6 +89,7 @@ try {
   console.log("Mobile first visit and reduced-motion bypass passed.");
 
   browser(["set", "media", "light"]);
+  browser(["set", "viewport", "1280", "900"]);
   clearVisit();
   browser(["open", new URL("/contact", url).href]);
   assertBypassed();
