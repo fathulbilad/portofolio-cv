@@ -3,7 +3,7 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Github, Linkedin } from "./brand-icons";
 import { useLanguage } from "@/contexts/language-context";
-import { sideProjects, cvFolderUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
+import { sideProjects, cvUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
 import { SectionLink } from "./section-link";
 import { CertificateGallery } from "./certificates";
 import { sectionIcons, sideProjectIcons, skillIcons } from "./icons";
@@ -107,7 +107,7 @@ export function SectionContent({ section, slug }: { section: SectionKey; slug?: 
           <a href="https://www.linkedin.com/in/fathul-bilad/" target="_blank" rel="noopener noreferrer"><Linkedin size={21} /><div><h2>LinkedIn</h2><p>Fathul Bilad</p></div><ArrowUpRight size={20} /></a>
           <a href="https://github.com/fathulbilad" target="_blank" rel="noopener noreferrer"><Github size={21} /><div><h2>GitHub</h2><p>@fathulbilad</p></div><ArrowUpRight size={20} /></a>
           <a href="https://wa.me/6282129237828" target="_blank" rel="noopener noreferrer"><MessageCircle size={21} /><div><h2>{copy.phone}</h2><p>+62 821-2923-7828</p></div><ArrowUpRight size={20} /></a>
-        </div><a href={cvFolderUrl} target="_blank" rel="noopener noreferrer" className="button button-blue"><ArrowUpRight size={17} />{copy.openCV}</a>
+        </div><a href={cvUrl} target="_blank" rel="noopener noreferrer" className="button button-blue"><ArrowUpRight size={17} />{copy.openCV}</a>
       </>}
     </div>
   );

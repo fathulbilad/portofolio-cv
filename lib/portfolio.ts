@@ -1,6 +1,6 @@
 import type { Language } from "./translations";
 
-export const cvFolderUrl = "https://drive.google.com/drive/folders/16kq6MkBvcPnNjHA9zuIuA0FkKFi4onD2?hl=ID";
+export const cvUrl = "https://drive.google.com/file/d/13rzTXpfzJfs4zx0fRzNYkKztfdVv0XIr/view?usp=sharing";
 
 export const sectionKeys = ["experience", "projects", "side-projects", "skills", "certificates", "education", "about", "contact"] as const;
 export type SectionKey = (typeof sectionKeys)[number];

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FileText } from "lucide-react";
 import { Github } from "./brand-icons";
 import { useLanguage } from "@/contexts/language-context";
-import { cvFolderUrl, ui } from "@/lib/portfolio";
+import { cvUrl, ui } from "@/lib/portfolio";
 
 export function SiteHeader() {
   const { lang, toggleLang } = useLanguage();
@@ -19,7 +19,7 @@ export function SiteHeader() {
           <span className={lang === "en" ? "active" : ""}>EN</span><span aria-hidden="true">/</span><span className={lang === "id" ? "active" : ""}>ID</span>
         </button>
         <a href="https://github.com/fathulbilad" target="_blank" rel="noopener noreferrer" className="icon-button github-link" aria-label="GitHub"><Github size={19} /></a>
-        <a className="button header-cv" href={cvFolderUrl} target="_blank" rel="noopener noreferrer" aria-label={ui[lang].openCV}><FileText size={16} /><span>{ui[lang].openCV}</span></a>
+        <a className="button header-cv" href={cvUrl} target="_blank" rel="noopener noreferrer" aria-label={ui[lang].openCV}><FileText size={16} /><span>{ui[lang].openCV}</span></a>
       </nav>
     </header>
   );

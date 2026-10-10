@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowRight, BookOpen, ChartNoAxesColumnIncreasing, FileText, MapPin } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
-import { sideProjects, certificates, cvFolderUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
+import { sideProjects, certificates, cvUrl, sections, text, ui, work, type SectionKey } from "@/lib/portfolio";
 import { SectionLink } from "./section-link";
 import { sectionIcons } from "./icons";
 import { LanyardDialog } from "./lanyard";
@@ -57,7 +57,7 @@ export function PortfolioHome() {
       </div>
       <div className="explore-grid">
         {homeSections.map((section) => <ExploreCard key={section} section={section} />)}
-        <a href={cvFolderUrl} target="_blank" rel="noopener noreferrer" className="bento-card explore-card" style={{ backgroundColor: "#E8F3FF", "--card-accent": "#34628F" } as React.CSSProperties}>
+        <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="bento-card explore-card" style={{ backgroundColor: "#E8F3FF", "--card-accent": "#34628F" } as React.CSSProperties}>
           <div className="card-label"><FileText size={21} strokeWidth={1.7} /><span>{copy.resume}</span></div>
           <h2>{copy.resumeTitle}</h2><p>{copy.resumeDescription}</p>
           <span className="card-action">{copy.openCV}<ArrowRight size={15} /></span>
