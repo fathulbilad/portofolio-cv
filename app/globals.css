@@ -16,6 +16,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 button, a { touch-action: manipulation; }
 button:disabled { cursor: default; }
 :focus-visible { outline: 3px solid #34628f; outline-offset: 5px; }
+[data-welcome-focus]:focus { outline: none; }
 ::selection { background: #bfdff0; color: #1a2533; }
 .skip-link { position: fixed; top: 10px; left: 10px; z-index: 200; padding: 12px 18px; border-radius: 8px; background: white; transform: translateY(-180%); }
 .skip-link:focus { transform: translateY(0); }
@@ -300,7 +301,7 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .card-action { left: 24px; font-size: 11px; }
   .site-footer { flex-wrap: wrap; }
   .site-footer > span:nth-child(2) { display: none; }
-  .section-page { width: calc(100% - 48px); }
+  .section-page { width: calc(100% - 48px); animation: rise-in 300ms cubic-bezier(0.16, 1, 0.3, 1) both; }
   .route-drawer { width: 100%; top: 0; right: 0; bottom: 0; border-radius: 0; }
   .route-drawer[data-side="left"] { left: 0; }
   .route-drawer[data-side="bottom"], .drawer-prelayers[data-side="bottom"] { --drawer-from: translateY(100%); --drawer-to: translateY(0); }

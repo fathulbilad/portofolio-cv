@@ -25,7 +25,9 @@ The first homepage visit in a browser shows the original badge artwork with a ge
 
 At widths of 900px and above, overview cards open a drawer from their side of the screen. The shared CV content is already loaded; opening a drawer updates browser history without requesting a new page. Client and side project detail links replace its contents and keep the original side. Closing returns to the overview and restores the originating card's focus and scroll position; Back and Forward work too. Direct links and page refreshes show standalone pages.
 
-Below 900px, section and detail links use prefetched standalone pages with client navigation. Resizing an open desktop drawer to mobile opens its standalone page. Certificates are the exception: the section opens from the bottom on desktop and mobile, with the original elastic bouncing card fan. Individual previews also slide up from the bottom, with zoom and an original-image link. The Anthropic MCP certificate includes a preview and its original PDF.
+Below 900px, section and detail links use prefetched standalone pages with client navigation and a brief 300ms fade and rise. The welcome keeps the badge swing and pixel reveal, with fewer pixel tiles on smaller screens. Reduced-motion preferences disable this motion. Resizing an open desktop drawer to mobile opens its standalone page. Certificates are the exception: the section opens from the bottom on desktop and mobile, with the original elastic bouncing card fan. Individual previews also slide up from the bottom, with zoom and an original-image link. The Anthropic MCP certificate includes a preview and its original PDF.
+
+After the welcome, keyboard and assistive navigation resumes at the CV heading without a visible outline on the heading. Links and buttons retain their keyboard focus outlines.
 
 The homepage entrance, card hover effects, layered left/right drawer slides, and section animations reuse the Rick and Morty frontend's timing and easing. Reduced-motion preferences disable these animations. The hero developer illustration now wears glasses.
 

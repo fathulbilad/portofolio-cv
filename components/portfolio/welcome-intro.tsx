@@ -12,7 +12,8 @@ const colors = ["#d6eeff", "#fff1b8", "#d8f5e8", "#e6ddf4"];
 function makePixels(container: HTMLDivElement) {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const size = Math.max(48, Math.ceil(Math.sqrt(width * height / 180)));
+  const targetPixels = window.matchMedia("(max-width: 899px)").matches ? 96 : 180;
+  const size = Math.max(48, Math.ceil(Math.sqrt(width * height / targetPixels)));
   const columns = Math.ceil(width / size);
   const rows = Math.ceil(height / size);
   const fragment = document.createDocumentFragment();
@@ -70,8 +71,18 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
       page.removeAttribute("aria-hidden");
       if (restoreFocus || intro.contains(document.activeElement)) {
         const heading = page.querySelector<HTMLElement>("h1");
-        heading?.setAttribute("tabindex", "-1");
-        heading?.focus({ preventScroll: true });
+        if (heading) {
+          const previousTabIndex = heading.getAttribute("tabindex");
+          // Keep the reading position without drawing an outline on plain text.
+          heading.setAttribute("tabindex", "-1");
+          heading.setAttribute("data-welcome-focus", "");
+          heading.addEventListener("blur", () => {
+            heading.removeAttribute("data-welcome-focus");
+            if (previousTabIndex === null) heading.removeAttribute("tabindex");
+            else heading.setAttribute("tabindex", previousTabIndex);
+          }, { once: true });
+          heading.focus({ preventScroll: true });
+        }
       }
     }
     dismiss.current = finish;

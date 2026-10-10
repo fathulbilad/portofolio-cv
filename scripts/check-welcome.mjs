@@ -20,7 +20,8 @@ function probe() {
       const card = document.querySelector(".portfolio-home .bento-card");
       window.__welcomeFrames.push({ state, ms: performance.now() - start,
         visibility: site && getComputedStyle(site).visibility,
-        cardMotion: card && getComputedStyle(card).animationPlayState });
+        cardMotion: card && getComputedStyle(card).animationPlayState,
+        pixels: document.querySelectorAll(".welcome-pixel").length });
       previous = state;
     }
     if (performance.now() - start < 6000) requestAnimationFrame(frame);
@@ -57,6 +58,10 @@ try {
   assert.equal(evaluate(() => localStorage.getItem("cv-welcome-seen")), "1");
   assert.equal(evaluate(() => performance.getEntriesByType("resource").some(entry => /\.glb|\.wasm/.test(entry.name))), false);
   assert.equal(evaluate(() => document.activeElement.tagName), "H1");
+  assert.equal(evaluate(() => getComputedStyle(document.activeElement).outlineStyle), "none", "The CV heading must not show an outline after the reveal.");
+  browser(["press", "Tab"]);
+  assert.equal(evaluate(() => document.activeElement.matches("a, button") && getComputedStyle(document.activeElement).outlineStyle === "solid"), true, "Keyboard users must still see focus on controls.");
+  assert.equal(evaluate(() => document.querySelector(".hero-copy h1").hasAttribute("data-welcome-focus")), false);
   console.log(`First visit: ${frames[2].ms.toFixed(0)}ms, no homepage flash or 3D model request.`);
 
   browser(["reload"]);
@@ -68,7 +73,13 @@ try {
   browser(["set", "viewport", "390", "844"]);
   clearVisit();
   browser(["reload"]);
+  browser(["wait", "--fn", "document.getElementById('cv-site').inert"]);
+  evaluate(probe); // The new tab needs its own frame observer.
+  assert.equal(evaluate(() => getComputedStyle(document.querySelector(".welcome-badge")).animationName), "welcome-swing");
   waitDone();
+  const mobileFrames = evaluate(() => window.__welcomeFrames);
+  const mobileReveal = mobileFrames.find(frame => frame.state === "revealing");
+  assert.ok(mobileReveal?.pixels > 0 && mobileReveal.pixels < frames[1].pixels, "Mobile keeps the pixel animation with fewer tiles.");
   assert.equal(evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   browser(["set", "media", "light", "reduced-motion"]);
   clearVisit();

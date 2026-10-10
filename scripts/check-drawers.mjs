@@ -69,7 +69,9 @@ async function navigateToPage(href) {
     observer.observe(document.body, {subtree:true, childList:true});
     link.click();
   });
-  return { arrived, sameDocument: document.documentElement.dataset.navigationProbe === "same-document" };
+  const page = document.querySelector(".section-page");
+  return { arrived, sameDocument: document.documentElement.dataset.navigationProbe === "same-document",
+    animation: page && getComputedStyle(page).animationName, duration: page && getComputedStyle(page).animationDuration };
 }
 
 try {
@@ -97,7 +99,12 @@ try {
   for (const href of ["/side-projects", "/side-projects/dev"]) {
     const result = evaluate(navigateToPage, href);
     assert.ok(result.arrived && result.sameDocument, `${href} must use a standalone page without reloading the document`);
+    assert.equal(result.animation, "rise-in", "Mobile sections should have a light entrance animation.");
+    assert.equal(result.duration, "0.3s");
   }
+  browser(["set", "media", "light", "reduced-motion"]);
+  assert.equal(evaluate(() => getComputedStyle(document.querySelector(".section-page")).animationName), "none");
+  browser(["set", "media", "light"]);
   browser(["reload"]);
   assert.equal(evaluate(() => !!document.querySelector(".section-page") && !document.querySelector(".route-drawer")), true);
   browser(["open", url.href]);

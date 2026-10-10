@@ -116,7 +116,7 @@ export function SectionContent({ section, slug }: { section: SectionKey; slug?: 
 export function SectionPage({ section, slug }: { section: SectionKey; slug?: string }) {
   const { lang } = useLanguage();
   return (
-    <main id="main-content" className="section-page" style={{ "--section-color": sections[section].color } as React.CSSProperties}>
+    <main key={`${section}/${slug ?? ""}`} id="main-content" className="section-page" style={{ "--section-color": sections[section].color } as React.CSSProperties}>
       <SectionLink href="/" className="text-link page-back"><ArrowLeft size={17} />{ui[lang].back}</SectionLink>
       <div className="page-paper"><SectionContent section={section} slug={slug} /></div>
     </main>
