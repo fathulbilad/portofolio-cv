@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, type ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
+import { welcomeDurationMs, welcomeRevealAtMs } from "@/lib/welcome-intro";
 
 const colors = ["#d6eeff", "#fff1b8", "#d8f5e8", "#e6ddf4"];
 
@@ -41,6 +42,7 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
   const welcome = useRef<HTMLDivElement>(null);
   const grid = useRef<HTMLDivElement>(null);
   const dismiss = useRef<() => void>(() => {});
+  const enter = useRef<() => void>(() => {});
 
   useEffect(() => {
     const root = document.documentElement;
@@ -49,6 +51,8 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
     const intro = welcome.current;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let stopped = false;
+    let swapping = false;
+    let restoreFocus = false;
     let animations: Animation[] = [];
     let timer: ReturnType<typeof setTimeout>;
     page.inert = true;
@@ -64,7 +68,7 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
       root.dataset.cvWelcome = "done";
       page.inert = false;
       page.removeAttribute("aria-hidden");
-      if (intro.contains(document.activeElement)) {
+      if (restoreFocus || intro.contains(document.activeElement)) {
         const heading = page.querySelector<HTMLElement>("h1");
         heading?.setAttribute("tabindex", "-1");
         heading?.focus({ preventScroll: true });
@@ -73,7 +77,10 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
     dismiss.current = finish;
 
     async function swap() {
-      if (stopped || !grid.current) return;
+      if (stopped || swapping || !grid.current) return;
+      swapping = true;
+      clearTimeout(timer);
+      restoreFocus = intro.contains(document.activeElement);
       // Avoid an awkward cut if the visitor rotates or resizes during the intro.
       const pixels = makePixels(grid.current);
       try {
@@ -93,10 +100,11 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
       }
       finish();
     }
+    enter.current = () => { void swap(); };
 
     const elapsed = Date.now() - Number(root.dataset.cvWelcomeStarted ?? Date.now());
-    if (motion.matches || elapsed > 1500) finish();
-    else timer = setTimeout(swap, Math.max(0, 650 - elapsed));
+    if (motion.matches || elapsed >= welcomeDurationMs) finish();
+    else timer = setTimeout(swap, Math.max(0, welcomeRevealAtMs - elapsed));
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") finish();
       if (!stopped && event.key === "Tab") {
@@ -112,6 +120,7 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
     return () => {
       finish();
       dismiss.current = () => {};
+      enter.current = () => {};
       document.removeEventListener("keydown", onKey);
       motion.removeEventListener("change", finish);
       window.removeEventListener("resize", finish);
@@ -131,9 +140,9 @@ export function WelcomeIntro({ children }: { children: ReactNode }) {
         <p className="welcome-eyebrow">A little corner of my work.</p>
         <h1 id="welcome-name">Fathul Bilad.</h1>
         <p id="welcome-role">Full Stack Software Engineer</p>
+        <button type="button" className="button button-blue welcome-enter" onClick={() => enter.current()}>View my CV<ArrowRight size={17} /></button>
       </div>
       <div className="welcome-pixels" ref={grid} aria-hidden="true" />
-      <button type="button" className="welcome-skip" onClick={() => dismiss.current()}>Skip intro<ArrowRight size={16} /></button>
     </div>
   </>;
 }

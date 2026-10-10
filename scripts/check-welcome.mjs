@@ -23,7 +23,7 @@ function probe() {
         cardMotion: card && getComputedStyle(card).animationPlayState });
       previous = state;
     }
-    if (performance.now() - start < 3000) requestAnimationFrame(frame);
+    if (performance.now() - start < 6000) requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
 }
@@ -52,7 +52,8 @@ try {
   assert.equal(frames[0].visibility, "hidden", "The homepage must not flash before the welcome.");
   assert.equal(frames[0].cardMotion, "paused");
   assert.equal(frames[1].cardMotion, "running", "Home card motion begins with the reveal.");
-  assert.ok(frames[2].ms < 2000, `Intro took ${frames[2].ms}ms`);
+  assert.ok(frames[1].ms >= 4000, `The badge disappeared too early: ${frames[1].ms}ms`);
+  assert.ok(frames[2].ms < 5250, `Intro exceeded the five-second maximum: ${frames[2].ms}ms`);
   assert.equal(evaluate(() => localStorage.getItem("cv-welcome-seen")), "1");
   assert.equal(evaluate(() => performance.getEntriesByType("resource").some(entry => /\.glb|\.wasm/.test(entry.name))), false);
   assert.equal(evaluate(() => document.activeElement.tagName), "H1");
@@ -86,16 +87,44 @@ try {
   browser(["open", url.href]);
   assert.equal(evaluate(() => document.documentElement.dataset.cvWelcome), "pending");
   browser(["press", "Tab"]);
-  assert.equal(evaluate(() => document.activeElement.className), "welcome-skip");
+  assert.equal(evaluate(() => document.activeElement.classList.contains("welcome-enter")), true);
   browser(["press", "Shift+Tab"]);
-  assert.equal(evaluate(() => document.activeElement.className), "welcome-skip");
+  assert.equal(evaluate(() => document.activeElement.classList.contains("welcome-enter")), true);
   browser(["press", "Escape"]);
   waitDone();
   clearVisit();
   browser(["reload"]);
-  browser(["click", ".welcome-skip"]);
+  browser(["wait", "--fn", "document.getElementById('cv-site').inert"]);
+  const entered = evaluate(async () => {
+    const button = document.querySelector(".welcome-enter");
+    const root = document.documentElement;
+    const start = performance.now();
+    return await new Promise(resolve => {
+      const states = [root.dataset.cvWelcome];
+      let pixelCount;
+      const observer = new MutationObserver(() => {
+        states.push(root.dataset.cvWelcome);
+        if (root.dataset.cvWelcome === "done") complete();
+      });
+      function complete() {
+        observer.disconnect();
+        clearTimeout(timeout);
+        resolve({ ms: performance.now() - start, pixelCount, states, state: root.dataset.cvWelcome });
+      }
+      const timeout = setTimeout(complete, 1500);
+      observer.observe(root, { attributes: true, attributeFilter: ["data-cv-welcome"] });
+      button.click();
+      button.click(); // A repeated click must not restart or duplicate the reveal.
+      pixelCount = document.querySelectorAll(".welcome-pixel").length;
+    });
+  });
+  assert.equal(entered.state, "done", "The entry button must finish the reveal without waiting for auto-entry.");
   waitDone();
-  console.log("Escape and Skip intro immediately restore the CV.");
+  assert.ok(entered.ms < 1200, `The entry button took ${entered.ms}ms`);
+  assert.ok(entered.pixelCount > 0 && entered.pixelCount <= 250, "The button must trigger one pixel reveal.");
+  assert.ok(entered.states.includes("revealing"), "Entering must preserve the pixel transition.");
+  assert.equal(evaluate(() => document.activeElement.tagName), "H1");
+  console.log(`Escape bypass and keyboard focus passed; View my CV reveals in ${entered.ms.toFixed(0)}ms.`);
 
   clearVisit();
   browser(["network", "route", "**/_next/static/**", "--abort", "--resource-type", "script"]);

@@ -1,4 +1,7 @@
 export const welcomeStorageKey = "cv-welcome-seen";
+export const welcomeDurationMs = 5000;
+// Leave room for both pixel phases before the independent deadline.
+export const welcomeRevealAtMs = 4100;
 
 // Runs in the head before paint. No script means the CV remains visible.
 // If hydration fails or is slow, the independent deadline also opens the CV.
@@ -22,5 +25,5 @@ export const welcomeBootstrap = `(() => {
       site?.removeAttribute('aria-hidden');
       window.dispatchEvent(new Event('cv:welcome-deadline'));
     }
-  }, 2400);
+  }, ${welcomeDurationMs});
 })();`;
