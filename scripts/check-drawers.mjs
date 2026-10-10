@@ -76,6 +76,7 @@ try {
   browser(["open", url.href]);
   browser(["set", "viewport", "1280", "900"]);
   browser(["wait", "--load", "networkidle"]);
+  browser(["wait", "--fn", "!['pending', 'revealing'].includes(document.documentElement.dataset.cvWelcome)"]);
   browser(["set", "offline", "on"]);
   checkOpen("/experience", "left");
   checkOpen("/projects/bank-indonesia", "left");

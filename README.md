@@ -21,6 +21,8 @@ bun run build
 
 ## Browsing
 
+The first homepage visit in a browser shows the original badge artwork with a gentle swing, followed by a pastel pixel reveal inspired by [React Bits Pixel Swap](https://reactbits.dev/animations/pixel-swap). The intro lasts about 1.45 seconds and remembers the first visit in local storage. Refreshes and future visits skip it. A visible Skip intro button and Escape dismiss it immediately. Direct section links, homepage anchors, and reduced-motion preferences bypass it. The CV remains accessible without JavaScript, and a separate 2.4-second deadline opens it if the intro fails. Card entrance animations start when the pixel reveal begins. The welcome uses a 36KB preview extracted from the existing badge model; the interactive 3D badge still loads on demand inside the CV.
+
 At widths of 900px and above, overview cards open a drawer from their side of the screen. The shared CV content is already loaded; opening a drawer updates browser history without requesting a new page. Client and side project detail links replace its contents and keep the original side. Closing returns to the overview and restores the originating card's focus and scroll position; Back and Forward work too. Direct links and page refreshes show standalone pages.
 
 Below 900px, section and detail links use prefetched standalone pages with client navigation. Resizing an open desktop drawer to mobile opens its standalone page. Certificates are the exception: the section opens from the bottom on desktop and mobile, with the original elastic bouncing card fan. Individual previews also slide up from the bottom, with zoom and an original-image link. The Anthropic MCP certificate includes a preview and its original PDF.
@@ -54,6 +56,9 @@ With `agent-browser` installed on your PATH and a production preview running, ru
 
 ```sh
 node scripts/check-drawers.mjs http://127.0.0.1:3105
+node scripts/check-welcome.mjs http://127.0.0.1:3105
 ```
 
 This local-only check loads the overview, switches the browser offline, and verifies left/right and bottom drawers, nested details, Back/Forward, and keyboard focus. It also checks mobile navigation and the nested MCP certificate preview and PDF link. Drawer content must appear within 200ms while offline, so a new route request fails the check.
+
+The welcome check verifies first-paint visibility, reveal timing, persisted return visits, mobile layout, reduced motion, direct links, Skip/Escape, and recovery when application scripts fail to load.

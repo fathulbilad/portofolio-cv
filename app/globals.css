@@ -19,6 +19,34 @@ button:disabled { cursor: default; }
 ::selection { background: #bfdff0; color: #1a2533; }
 .skip-link { position: fixed; top: 10px; left: 10px; z-index: 200; padding: 12px 18px; border-radius: 8px; background: white; transform: translateY(-180%); }
 .skip-link:focus { transform: translateY(0); }
+.welcome-intro { display: none; position: fixed; inset: 0; z-index: 300; overflow: hidden; outline: none; }
+html[data-cv-welcome="pending"] body, html[data-cv-welcome="revealing"] body { overflow: hidden; }
+html[data-cv-welcome="pending"] #cv-site { visibility: hidden; }
+html[data-cv-welcome="pending"] .portfolio-home .bento-card { animation-play-state: paused; }
+html[data-cv-welcome="pending"] .welcome-intro, html[data-cv-welcome="revealing"] .welcome-intro { display: grid; place-items: center; }
+.welcome-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 36px 20px; background: var(--paper); }
+html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
+.welcome-badge { position: relative; padding-top: 70px; margin-bottom: 27px; transform-origin: 50% 0; animation: welcome-swing 1450ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.welcome-strap { position: absolute; left: calc(50% - 6px); top: -100dvh; width: 12px; height: calc(100dvh + 55px); background: #17242c; border-inline: 2px solid #344c54; border-radius: 0 0 5px 5px; }
+.welcome-strap::after { content: ""; position: absolute; inset: 0 3px; background: repeating-linear-gradient(to bottom, transparent 0 18px, #62bfd0 18px 23px, transparent 23px 40px); }
+.welcome-clip { position: absolute; z-index: 1; left: calc(50% - 10px); top: 49px; width: 20px; height: 30px; border: 3px solid #24313a; border-radius: 5px 5px 8px 8px; background: #fdfbf4; }
+.welcome-badge-card { position: relative; width: clamp(154px, 20vh, 194px); aspect-ratio: 392 / 558; overflow: hidden; border-radius: 14px; background: #fffefa; box-shadow: 0 13px 30px #1a25331a; }
+.welcome-badge-card img { position: absolute; left: -1.02041%; top: -2.15054%; width: 204.08163%; max-width: none; height: auto; }
+.welcome-eyebrow { margin: 0 0 12px; color: #6a736d; font-size: 12px; }
+.welcome-content h1 { margin: 0 0 10px; font-size: clamp(32px, 5vw, 52px); line-height: 1.12; font-weight: 850; letter-spacing: -1.8px; }
+#welcome-role { margin: 0; color: var(--muted); font-size: clamp(12px, 2vw, 15px); }
+.welcome-skip { position: absolute; z-index: 2; right: max(22px, env(safe-area-inset-right)); bottom: max(22px, env(safe-area-inset-bottom)); display: inline-flex; align-items: center; gap: 8px; padding: 11px 14px; background: #fffefad9; border: 1px solid #1a25331c; border-radius: 11px; font-size: 12px; font-weight: 700; }
+.welcome-pixels { position: absolute; inset: 0; pointer-events: none; }
+.welcome-pixel { position: absolute; opacity: 0; }
+@keyframes welcome-swing { 0% { transform: rotate(-4deg); } 55% { transform: rotate(2deg); } 100% { transform: rotate(0); } }
+@media (max-height: 560px) {
+  .welcome-content { padding: 14px; }
+  .welcome-badge { padding-top: 30px; margin-bottom: 12px; }
+  .welcome-badge-card { width: min(28vh, 132px); }
+  .welcome-strap { height: calc(100dvh + 17px); }
+  .welcome-clip { top: 10px; }
+  .welcome-eyebrow { display: none; }
+}
 .site-header, .site-footer, .portfolio-home { width: min(1440px, calc(100% - 80px)); margin-inline: auto; }
 .site-header { display: flex; align-items: center; justify-content: space-between; padding: 28px 0 22px; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 800; }

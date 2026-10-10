@@ -3,6 +3,8 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 
 import { LanguageProvider } from "@/contexts/language-context";
+import { WelcomeIntro } from "@/components/portfolio/welcome-intro";
+import { welcomeBootstrap } from "@/lib/welcome-intro";
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -74,8 +76,9 @@ export default function RootLayout({
       className={`${manrope.variable} antialiased`}
       suppressHydrationWarning
     >
+      <head><script dangerouslySetInnerHTML={{ __html: welcomeBootstrap }} /></head>
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider><WelcomeIntro>{children}</WelcomeIntro></LanguageProvider>
       </body>
     </html>
   );
