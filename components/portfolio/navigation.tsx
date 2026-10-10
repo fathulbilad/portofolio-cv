@@ -50,7 +50,8 @@ export function PortfolioNavigation({ children }: { children: ReactNode }) {
     const previous = replace ? readEntry(getSnapshot()) : null;
     const card = opener?.closest(".bento-card") ?? opener;
     const bounds = card?.getBoundingClientRect();
-    const side = route.section === "certificates" ? "bottom" : previous?.side ?? (bounds && bounds.left + bounds.width / 2 < window.innerWidth / 2 ? "left" : "right");
+    const opensFromBottom = route.section === "certificates" || route.section === "education" || route.section === "contact";
+    const side = opensFromBottom ? "bottom" : previous?.side ?? (bounds && bounds.left + bounds.width / 2 < window.innerWidth / 2 ? "left" : "right");
     const next: DrawerEntry = { ...route, id: previous?.id ?? crypto.randomUUID(), side };
     if (!previous && opener) openers.current.set(next.id, opener);
 

@@ -91,8 +91,11 @@ try {
   checkOpen("/skills", "right");
   closeDrawer();
   assert.equal(evaluate(() => document.activeElement?.getAttribute("href")), "/skills");
-  checkOpen("/certificates", "bottom");
-  closeDrawer();
+  for (const href of ["/certificates", "/education", "/contact"]) {
+    checkOpen(href, "bottom");
+    closeDrawer();
+    assert.equal(evaluate(() => document.activeElement?.getAttribute("href")), href);
+  }
   console.log("Back, forward, nested details, and focus restoration passed.");
   browser(["set", "offline", "off"]);
   browser(["set", "viewport", "390", "844"]);
@@ -107,6 +110,11 @@ try {
   browser(["set", "media", "light"]);
   browser(["reload"]);
   assert.equal(evaluate(() => !!document.querySelector(".section-page") && !document.querySelector(".route-drawer")), true);
+  for (const href of ["/education", "/contact"]) {
+    browser(["open", url.href]);
+    const result = evaluate(navigateToPage, href);
+    assert.ok(result.arrived && result.sameDocument, `${href} must keep standalone mobile navigation`);
+  }
   browser(["open", url.href]);
   const mobileCertificates = evaluate(clickAndMeasure, "/certificates");
   assert.ok(mobileCertificates.opened);
