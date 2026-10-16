@@ -161,6 +161,12 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
 .cardio-note { display: flex; align-items: flex-start; gap: 15px; padding: 22px; margin-bottom: 27px; background: #fff5ed; border-left: 3px solid #e2ae88; }
 .cardio-note svg { flex-shrink: 0; margin-top: 3px; color: #a57551; }
 .cardio-note p { font-size: 13px; line-height: 1.85; margin: 7px 0 0; color: #626863; }
+.cardio-track-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cardio-track { padding: 18px; border: 1px solid #e5e5dc; border-radius: 12px; background: #fffefa; }
+.cardio-track h3 { font-size: 15px; }
+.cardio-track p { margin: 8px 0 0; color: #526170; font-size: 13px; line-height: 1.7; }
+.cardio-track .text-link { margin-top: 15px; }
+.cardio-track .muted { display: inline-block; margin-top: 15px; font-size: 12px; }
 .practice-number { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; font-size: 13px; font-weight: 800; flex-shrink: 0; }
 .small-note { color: #66736c; font-size: 12px; line-height: 1.8; margin: 24px 0 0; }
 .detail-back { margin-bottom: 24px; }
@@ -371,6 +377,7 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .project-summary { font-size: 12px; }
   .row-arrow { width: 16px; }
   .cardio-note { padding: 17px; gap: 10px; }
+  .cardio-track-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr; gap: 26px; }
   .about-layout { grid-template-columns: 1fr; }
   .about-illustration { width: 125px; justify-self: center; }

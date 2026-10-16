@@ -43,7 +43,13 @@ export function SectionContent({ section, slug }: { section: SectionKey; slug?: 
         <div className="tags">{practice.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
         <p className="body-text">{text(practice.details, lang)}</p>
         <section className="story-block"><h2>{copy.topics}</h2><ul className="readable-list">{practice.topics[lang].map((topic) => <li key={topic}>{topic}</li>)}</ul></section>
-        {practice.repository ? <a href={practice.repository} target="_blank" rel="noopener noreferrer" className="button"><Github size={17} />{copy.repository}<ArrowUpRight size={16} /></a> : <p className="muted">{copy.localProject}</p>}
+        <section className="story-block"><h2>{copy.cardioTracks}</h2><div className="cardio-track-grid">
+          {practice.projects.map((track) => <article className="cardio-track" key={track.name}>
+            <h3>{track.name}</h3><p>{text(track.description, lang)}</p>
+            <div className="tags">{track.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+            {track.repository ? <a href={track.repository} target="_blank" rel="noopener noreferrer" className="text-link"><Github size={15} />{copy.repository}<ArrowUpRight size={15} /></a> : <span className="muted">{copy.localProject}</span>}
+          </article>)}
+        </div></section>
       </article>
     );
   }
