@@ -91,9 +91,9 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; max-width: 70%; }
 .badge-trigger { background: #fff9d2; }
 .hero-illustration { position: absolute; width: 35%; height: auto; object-fit: contain; right: 18px; bottom: 25px; pointer-events: none; }
-.overview-card { display: flex; flex-direction: column; justify-content: space-between; background: #e8f3ff; }
+.overview-card { display: flex; flex-direction: column; justify-content: flex-start; gap: 12px; background: #e8f3ff; }
 .overview-card > .card-label { color: #426889; }
-.overview-body { display: flex; gap: 24px; align-items: center; padding-block: 20px; }
+.overview-body { display: flex; flex: 1; gap: 24px; align-items: center; justify-content: center; padding-block: 0; }
 .experience-ring { width: 185px; height: 185px; flex-shrink: 0; border-radius: 50%; padding: 9px; background: conic-gradient(#4a90d9 0 120deg, #d57550 120deg 240deg, #84b798 240deg 360deg); transform: rotate(-25deg); }
 .experience-ring > div { height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: #e8f3ff; transform: rotate(25deg); }
 .experience-ring strong { font-size: 58px; line-height: 1.2; font-weight: 850; letter-spacing: -3px; }
@@ -272,7 +272,7 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .bento-card { padding: 24px; }
   .hero-card { min-height: 385px; }
   .hero-copy h1 { font-size: 62px; }
-  .overview-body { flex-direction: column; gap: 12px; padding-block: 18px; }
+  .overview-body { flex-direction: column; gap: 12px; }
   .experience-ring { width: 140px; height: 140px; }
   .experience-ring strong { font-size: 44px; }
   .overview-stats { display: flex; gap: 12px; }
@@ -296,7 +296,6 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .overview-stats { display: block; max-width: 250px; }
   .overview-stats > div { flex-direction: row; justify-content: space-between; align-items: center; padding: 9px 0; }
   .overview-stats dt { font-size: 12px; }
-  .overview-card { gap: 16px; }
   .explore-card { min-height: 285px; }
   .card-label { font-size: 11px; }
   .explore-card h2 { font-size: 28px; }
