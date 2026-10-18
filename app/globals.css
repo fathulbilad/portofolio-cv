@@ -91,17 +91,20 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; max-width: 70%; }
 .badge-trigger { background: #fff9d2; }
 .hero-illustration { position: absolute; width: 35%; height: auto; object-fit: contain; right: 18px; bottom: 25px; pointer-events: none; }
-.overview-card { display: flex; flex-direction: column; justify-content: flex-start; gap: 20px; background: #e8f3ff; }
+.overview-card { display: flex; flex-direction: column; justify-content: space-between; background: #e8f3ff; }
 .overview-card > .card-label { color: #426889; }
-.overview-chart { display: grid; flex: 1; align-content: center; gap: 20px; width: 100%; margin: 0; }
-.overview-chart > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(145px, 1.35fr); align-items: center; gap: 14px; }
-.overview-chart dt { color: #263648; font-size: 12px; line-height: 1.4; }
-.overview-chart dd { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 10px; margin: 0; }
-.overview-chart dd > strong { font-size: 16px; line-height: 1; font-weight: 800; }
-.overview-bar { display: block; height: 8px; overflow: hidden; border-radius: 999px; background: #ffffffad; }
-.overview-bar i { display: block; height: 100%; border-radius: inherit; }
-.overview-period { margin: 0; color: #526f88; font-size: 11px; line-height: 1.5; }
-.overview-period strong { margin-left: 4px; color: #1a2533; font-size: 12px; font-weight: 700; }
+.overview-body { display: flex; gap: 24px; align-items: center; padding-block: 20px; }
+.experience-ring { width: 185px; height: 185px; flex-shrink: 0; border-radius: 50%; padding: 9px; background: conic-gradient(#4a90d9 0 120deg, #d57550 120deg 240deg, #84b798 240deg 360deg); transform: rotate(-25deg); }
+.experience-ring > div { height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: #e8f3ff; transform: rotate(25deg); }
+.experience-ring strong { font-size: 58px; line-height: 1.2; font-weight: 850; letter-spacing: -3px; }
+.experience-ring strong > span { font-size: 30px; font-weight: 700; vertical-align: super; }
+.experience-ring div > span { max-width: 100px; color: #526170; text-align: center; font-size: 12px; line-height: 1.6; }
+.overview-stats { width: 100%; margin: 0; }
+.overview-stats > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; border-bottom: 1px solid #4a90d91a; }
+.overview-stats > div:last-child { border-bottom: 0; }
+.overview-stats dt { display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 1.5; }
+.overview-stats dt i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.overview-stats dd { margin: 0; font-size: 20px; font-weight: 800; }
 .explore-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
 .explore-card { display: block; min-height: 315px; padding: 24px 24px 125px; transition: transform 200ms ease, border-color 200ms ease; }
 .explore-card:hover { transform: translateY(-2px); border-color: #1a253325; }
@@ -269,8 +272,14 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .bento-card { padding: 24px; }
   .hero-card { min-height: 385px; }
   .hero-copy h1 { font-size: 62px; }
-  .overview-chart { gap: 16px; }
-  .overview-chart > div { grid-template-columns: minmax(90px, 1fr) minmax(120px, 1.35fr); gap: 10px; }
+  .overview-body { flex-direction: column; gap: 12px; padding-block: 18px; }
+  .experience-ring { width: 140px; height: 140px; }
+  .experience-ring strong { font-size: 44px; }
+  .overview-stats { display: flex; gap: 12px; }
+  .overview-stats > div { flex: 1; display: flex; flex-direction: column-reverse; align-items: flex-start; justify-content: flex-end; padding: 0; border: 0; gap: 4px; }
+  .overview-stats dt { font-size: 10px; }
+  .overview-stats dd { font-size: 23px; }
+  .overview-stats dt i { display: none; }
   .explore-card { padding-bottom: 120px; }
   .card-label { font-size: 10px; letter-spacing: 1px; }
   .card-action { left: 18px; font-size: 10px; gap: 4px; }
@@ -283,6 +292,10 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .hero-copy h1 { font-size: 64px; }
   .hero-copy p { max-width: 62%; }
   .hero-illustration { width: 30%; max-width: 220px; }
+  .overview-body { flex-direction: row; justify-content: center; gap: 40px; }
+  .overview-stats { display: block; max-width: 250px; }
+  .overview-stats > div { flex-direction: row; justify-content: space-between; align-items: center; padding: 9px 0; }
+  .overview-stats dt { font-size: 12px; }
   .overview-card { gap: 16px; }
   .explore-card { min-height: 285px; }
   .card-label { font-size: 11px; }
@@ -326,8 +339,10 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .hero-actions .badge-trigger { font-size: 10px; }
   .hero-illustration { width: 130px; right: 3px; bottom: 9px; }
   .card-label { font-size: 9px; letter-spacing: 1.1px; }
-  .overview-chart > div { grid-template-columns: minmax(95px, 1fr) minmax(120px, 1.35fr); }
-  .overview-chart dt { font-size: 11px; }
+  .overview-body { gap: 20px; }
+  .experience-ring { width: 135px; height: 135px; }
+  .overview-stats dt { font-size: 11px; }
+  .overview-stats dd { font-size: 21px; }
   .explore-grid { grid-template-columns: 1fr; }
   .explore-card { min-height: 235px; padding-right: 120px; padding-bottom: 65px; }
   .explore-card h2 { font-size: 28px; }

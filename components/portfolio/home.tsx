@@ -33,7 +33,6 @@ export function PortfolioHome() {
     { count: sideProjects.length, label: copy.practices, color: "#D57550" },
     { count: certificates.length, label: copy.certifications, color: "#629C78" },
   ];
-  const maxStatistic = Math.max(...statistics.map((stat) => stat.count));
   return (
     <main id="main-content" className="portfolio-home">
       <div className="home-intro"><p>{copy.portfolio}</p><span><MapPin size={14} />Jakarta, Indonesia</span></div>
@@ -49,11 +48,10 @@ export function PortfolioHome() {
         </section>
         <section className="bento-card overview-card" aria-label={copy.overview}>
           <div className="card-label"><ChartNoAxesColumnIncreasing size={21} strokeWidth={1.7} /><span>{copy.overview}</span></div>
-          <dl className="overview-chart">{statistics.map((stat) => <div key={stat.label}>
-            <dt>{stat.label}</dt>
-            <dd><strong>{stat.count}</strong><span className="overview-bar" aria-hidden="true"><i style={{ width: `${(stat.count / maxStatistic) * 100}%`, backgroundColor: stat.color }} /></span></dd>
-          </div>)}</dl>
-          <p className="overview-period"><span>{copy.startedAt}</span><strong>Nov 2021</strong></p>
+          <div className="overview-body">
+            <div className="experience-ring"><div><strong>4<span>+</span></strong><span>{copy.years}</span></div></div>
+            <dl className="overview-stats">{statistics.map((stat) => <div key={stat.label}><dt><i style={{ background: stat.color }} />{stat.label}</dt><dd>{stat.count}</dd></div>)}</dl>
+          </div>
         </section>
       </div>
       <div className="explore-grid">
