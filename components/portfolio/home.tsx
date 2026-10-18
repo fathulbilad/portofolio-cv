@@ -49,7 +49,7 @@ export function PortfolioHome() {
         <section className="bento-card overview-card" aria-label={copy.overview}>
           <div className="card-label"><ChartNoAxesColumnIncreasing size={21} strokeWidth={1.7} /><span>{copy.overview}</span></div>
           <div className="overview-body">
-            <div className="experience-ring"><div><strong>{copy.since}</strong><span>2021</span></div></div>
+            <div className="experience-start"><span>{copy.startedAt}</span><strong>Nov 2021</strong></div>
             <dl className="overview-stats">{statistics.map((stat) => <div key={stat.label}><dt><i style={{ background: stat.color }} />{stat.label}</dt><dd>{stat.count}</dd></div>)}</dl>
           </div>
           <div className="overview-note"><BookOpen size={19} strokeWidth={1.7} /><div><strong>{copy.overviewNote}</strong><span>{copy.overviewSub}</span></div></div>

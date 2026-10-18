@@ -94,11 +94,9 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
 .overview-card { display: flex; flex-direction: column; justify-content: space-between; background: #e8f3ff; }
 .overview-card > .card-label { color: #426889; }
 .overview-body { display: flex; gap: 24px; align-items: center; padding-block: 20px; }
-.experience-ring { width: 185px; height: 185px; flex-shrink: 0; border-radius: 50%; padding: 9px; background: conic-gradient(#4a90d9 0 120deg, #d57550 120deg 240deg, #84b798 240deg 360deg); transform: rotate(-25deg); }
-.experience-ring > div { height: 100%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; background: #e8f3ff; transform: rotate(25deg); }
-.experience-ring strong { font-size: 58px; line-height: 1.2; font-weight: 850; letter-spacing: -3px; }
-.experience-ring strong > span { font-size: 30px; font-weight: 700; vertical-align: super; }
-.experience-ring div > span { max-width: 100px; color: #526170; text-align: center; font-size: 12px; line-height: 1.6; }
+.experience-start { display: flex; width: 185px; min-height: 112px; flex-shrink: 0; flex-direction: column; justify-content: center; padding: 18px; border-left: 3px solid #4a90d9; border-radius: 12px; background: #fff; }
+.experience-start > span { color: #526170; font-size: 11px; line-height: 1.6; }
+.experience-start strong { margin-top: 6px; font-size: 23px; line-height: 1.2; font-weight: 800; letter-spacing: -.8px; }
 .overview-stats { width: 100%; margin: 0; }
 .overview-stats > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0; border-bottom: 1px solid #4a90d91a; }
 .overview-stats > div:last-child { border-bottom: 0; }
@@ -277,8 +275,7 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .hero-card { min-height: 385px; }
   .hero-copy h1 { font-size: 62px; }
   .overview-body { flex-direction: column; gap: 12px; padding-block: 18px; }
-  .experience-ring { width: 140px; height: 140px; }
-  .experience-ring strong { font-size: 44px; }
+  .experience-start { width: 185px; }
   .overview-stats { display: flex; gap: 12px; }
   .overview-stats > div { flex: 1; display: flex; flex-direction: column-reverse; align-items: flex-start; justify-content: flex-end; padding: 0; border: 0; gap: 4px; }
   .overview-stats dt { font-size: 10px; }
@@ -345,7 +342,7 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
   .hero-illustration { width: 130px; right: 3px; bottom: 9px; }
   .card-label { font-size: 9px; letter-spacing: 1.1px; }
   .overview-body { gap: 20px; }
-  .experience-ring { width: 135px; height: 135px; }
+  .experience-start { width: 185px; }
   .overview-stats dt { font-size: 11px; }
   .overview-stats dd { font-size: 21px; }
   .overview-note { padding: 12px; }
