@@ -38,7 +38,7 @@ export function PortfolioHome() {
       <div className="home-intro"><p>{copy.portfolio}</p><span><MapPin size={14} />Jakarta, Indonesia</span></div>
       <div className="hero-grid">
         <section className="bento-card hero-card">
-          <div className="card-label"><span className="status-dot" /><span>Full Stack · DevOps · Enterprise</span></div>
+          <div className="card-label"><span className="status-dot" /><span>Full Stack · React/Next.js · Node.js</span></div>
           <div className="hero-copy">
             <h1>{copy.greeting}<br /><span>Fathul Bilad.</span></h1>
             <p>{copy.heroBody}</p>
@@ -49,7 +49,7 @@ export function PortfolioHome() {
         <section className="bento-card overview-card" aria-label={copy.overview}>
           <div className="card-label"><ChartNoAxesColumnIncreasing size={21} strokeWidth={1.7} /><span>{copy.overview}</span></div>
           <div className="overview-body">
-            <div className="experience-ring"><div><strong>4<span>+</span></strong><span>{copy.years}</span></div></div>
+            <div className="experience-ring"><div><strong>{copy.since}</strong><span>2021</span></div></div>
             <dl className="overview-stats">{statistics.map((stat) => <div key={stat.label}><dt><i style={{ background: stat.color }} />{stat.label}</dt><dd>{stat.count}</dd></div>)}</dl>
           </div>
           <div className="overview-note"><BookOpen size={19} strokeWidth={1.7} /><div><strong>{copy.overviewNote}</strong><span>{copy.overviewSub}</span></div></div>
