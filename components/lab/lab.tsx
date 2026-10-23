@@ -10,6 +10,7 @@ import pebble from "./vendor/pebble";
 import notch from "./vendor/notch";
 import { playSound, setSoundMuted, setSoundVolume } from "./vendor/react-bits-sound";
 import styles from "./lab.module.css";
+import { LabInk } from "./lab-ink";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
 
 const navigationEvent = "lab:navigate";
@@ -41,22 +42,6 @@ const serverFalse = () => false;
 const serverTrue = () => true;
 const readLarge = () => window.matchMedia(largeScreenQuery).matches;
 const readReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-function Ink({ section }: { section: LabSection | null }) {
-  const path = section && section !== "life"
-    ? "M540-150C620 50 635 170 550 300 460 440 570 480 555 640 530 780 615 880 600 1030L1660 1030 1660-150Z"
-    : "M465-180C600-30 785 130 1015 5L1445-150 1660-140 1650 1020C1420 1020 1310 985 1205 830 1095 690 820 795 724 650 632 513 440 570 485 385 527 216 685 230 628 95 578-25 390-110 465-180Z";
-  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <path id="lab-ink-path" d={path} />
-      <pattern id="lab-ink-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><circle cx="4" cy="4" r="2.7" fill="#111011" /></pattern>
-      <filter id="lab-ink-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18" /></filter>
-      <mask id="lab-ink-edge"><use href="#lab-ink-path" fill="white" stroke="white" strokeWidth="67" filter="url(#lab-ink-blur)" /></mask>
-    </defs>
-    <rect x="0" y="0" width="1440" height="900" fill="url(#lab-ink-dots)" mask="url(#lab-ink-edge)" />
-    <use href="#lab-ink-path" fill="#111011" />
-  </svg>;
-}
 
 function ExpressiveType({ text, enhanced, accent }: { text: string; enhanced: boolean; accent: string }) {
   return <span className={styles.type}>
@@ -187,7 +172,7 @@ export function Lab() {
       <Link href="/">← Back to my CV</Link>
     </div>
     <div className={`${styles.desktop} ${section ? styles.inRoom : ""}`}>
-      <Ink section={section} />
+      <LabInk section={section} mood={mood} animated={large && !reduced} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>
         {section ? <button type="button" onClick={() => go(null)}>← <span>Menu</span></button> : <LabRouteLink href="/">← <span>CV</span></LabRouteLink>}

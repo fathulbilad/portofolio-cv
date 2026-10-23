@@ -38,7 +38,11 @@ On desktop, the hero's ID badge button and About section reuse the draggable 3D 
 `/lab` is the personal side of the site. Its five destinations are Life Lately,
 Games, Music, Projects, and Odds & Ends. The entrance leaves the left side open
 around “off duty. / a little corner / of my own.” Hover and keyboard focus change
-the palette; selecting a destination opens its content through an ink wipe.
+the palette and morph the black contour over 650ms: soft ink for Life Lately,
+angular cuts for Games, a long wave for Music, folded planes for Projects, and
+uneven lobes for Odds & Ends. The halftone border follows the same animated path.
+Rapid hovers retarget the current shape; reduced motion changes shapes directly.
+Selecting a destination opens its content through an ink wipe.
 The CV's Playground link uses a roughly two-second layered pink-and-black wipe
 that covers the outgoing page and waits for the Lab and its font before revealing
 it. Returning to the CV uses the same handoff; reduced motion uses a short opacity fade.
@@ -65,9 +69,10 @@ With a local preview running, check the Lab with:
 node scripts/check-lab.mjs http://127.0.0.1:3105
 ```
 
-The check exercises all palettes and sections, selections, artwork loading,
-focus restoration, browser history, opt-in sound, tablet layouts, hidden phone
-entry, reduced motion, and invalid URL fragment recovery.
+The check exercises palettes, animated contours, rapid hovering, menu contrast,
+sections, selections, artwork loading, focus restoration, browser history,
+opt-in sound, tablet layouts, hidden phone entry, reduced motion, and invalid URL
+fragment recovery.
 
 ## CV content and assets
 

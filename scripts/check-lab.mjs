@@ -20,6 +20,23 @@ function open(path) { browser(["open", new URL(path, url).href]); foreground(); 
 function menuReady() { wait(`!!document.querySelector('nav[aria-label="Explore the Lab"]') && !document.querySelector('[data-phase]')`); }
 function roomReady(id) { wait(`location.hash === '#${id}' && !!document.getElementById('lab-heading') && !document.querySelector('[data-phase]')`); }
 function escaped() { browser(["press", "Escape"]); menuReady(); }
+function trackInk() {
+  evaluate(() => {
+    window.__labInkObserver?.disconnect();
+    const path = document.getElementById("lab-ink-path");
+    window.__labInk = { frames: [path.getAttribute("d")], changedAt: performance.now() };
+    window.__labInkObserver = new MutationObserver(() => {
+      const ink = window.__labInk;
+      const next = path.getAttribute("d");
+      if (ink.frames.at(-1) !== next) { ink.frames.push(next); ink.changedAt = performance.now(); }
+    });
+    window.__labInkObserver.observe(path, { attributes: true, attributeFilter: ["d"] });
+  });
+}
+function settledInk() {
+  wait("performance.now() - window.__labInk.changedAt > 150");
+  return evaluate(() => window.__labInk.frames);
+}
 function layoutFits(label) {
   const state = evaluate(() => ({
     horizontalOverflow: document.documentElement.scrollWidth > innerWidth + 1,
@@ -44,10 +61,24 @@ try {
   layoutFits("Desktop menu");
 
   const moods = { life: "rgb(234, 227, 210)", games: "rgb(240, 255, 0)", music: "rgb(39, 76, 255)", projects: "rgb(0, 213, 219)", odds: "rgb(255, 76, 120)" };
+  const contours = [];
   for (const [id, color] of Object.entries(moods)) {
     console.log(`Checking ${id}...`);
+    foreground();
+    trackInk();
     browser(["hover", `a[href="#${id}"]`]);
     wait(`document.querySelector('[data-lab-mood]').dataset.labMood === '${id}' && getComputedStyle(document.querySelector('[data-lab-mood]')).backgroundColor === '${color}'`);
+    const frames = settledInk();
+    assert.ok(frames.length > 4, `${id} morphs through intermediate contours instead of jumping.`);
+    contours.push(frames.at(-1));
+    assert.equal(evaluate(() => {
+      const path = document.getElementById("lab-ink-path");
+      const inverse = path.getScreenCTM().inverse();
+      return [...document.querySelectorAll('nav[aria-label="Explore the Lab"] a')].every(link => {
+        const box = link.getBoundingClientRect();
+        return [[box.left, box.top], [box.right, box.top], [box.left, box.bottom], [box.right, box.bottom]].every(([x, y]) => path.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse)));
+      });
+    }), true, "The whole menu remains over solid black.");
     browser(["click", `a[href="#${id}"]`]);
     roomReady(id);
     assert.equal(evaluate(() => document.activeElement.id), "lab-heading", "Focus enters each section.");
@@ -72,6 +103,11 @@ try {
     escaped();
     assert.equal(evaluate(() => document.activeElement.getAttribute("href")), `#${id}`, "Focus returns to the opener.");
   }
+  assert.equal(new Set(contours).size, 5, "Every menu has a distinct silhouette.");
+  foreground();
+  trackInk();
+  for (const id of Object.keys(moods)) browser(["hover", `a[href="#${id}"]`]);
+  assert.equal(settledInk().at(-1), contours.at(-1), "Rapid hovers settle on the final selection.");
 
   browser(["click", 'a[href="#games"]']); roomReady("games");
   evaluate(() => history.back()); menuReady();
@@ -112,6 +148,10 @@ try {
   browser(["set", "media", "light", "reduced-motion"]);
   open("/lab"); menuReady();
   assert.equal(evaluate(() => document.querySelectorAll("canvas").length), 0);
+  trackInk();
+  browser(["focus", 'a[href="#music"]']);
+  wait("document.querySelector('[data-lab-mood]').dataset.labMood === 'music'");
+  assert.ok(settledInk().length <= 2, "Reduced motion changes contour without intermediate animation frames.");
   browser(["click", 'a[href="#life"]']); roomReady("life");
   assert.equal(evaluate(() => !!document.querySelector("[data-phase]")), false, "Reduced motion skips the ink wipe.");
   escaped();
@@ -120,7 +160,7 @@ try {
   assert.equal(evaluate(() => document.querySelector('.lab-route-transition')?.getAttribute('data-reduced')), "true", "Reduced motion gets the route fade.");
   wait(`location.pathname === '/' && !document.querySelector('.lab-route-transition')`);
   open("/lab#unknown"); menuReady();
-  console.log("Lab passed: five hover palettes and sections; sample selections; images; keyboard focus; Back/Forward; opt-in sound; desktop/tablet layouts; phone entry hidden; CV/Lab route transition; reduced motion; invalid hash recovery.");
+  console.log("Lab passed: five animated silhouettes and palettes; rapid hover changes; menu contrast; sections; sample selections; images; keyboard focus; Back/Forward; opt-in sound; desktop/tablet layouts; phone entry hidden; CV/Lab route transition; reduced motion; invalid hash recovery.");
 } catch (error) {
   try {
     console.error(evaluate(() => ({ url: location.href, hidden: document.hidden, active: document.activeElement?.outerHTML.slice(0, 200), routePhase: document.querySelector('.lab-route-transition')?.getAttribute('data-route-phase'), inert: document.querySelectorAll('[inert]').length, sound: document.querySelector('[aria-label*="interface sounds"]')?.outerHTML.slice(0, 200), contexts: window.__labAudioContexts, audio: window.AudioContext.name, mood: document.querySelector("[data-lab-mood]")?.getAttribute("data-lab-mood"), images: [...document.querySelectorAll("#lab-content img")].map(img => ({ src: img.currentSrc, complete: img.complete, width: img.naturalWidth, box: img.getBoundingClientRect().toJSON() })) })));
