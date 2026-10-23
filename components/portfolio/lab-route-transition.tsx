@@ -28,7 +28,7 @@ export function LabRouteTransition({ children }: { children: ReactNode }) {
     scheduled.current.push(setTimeout(() => {
       setHandoff(current => current ? { ...current, phase: "waiting" } : null);
       router.push(href);
-    }, reduced ? 180 : 330));
+    }, reduced ? 180 : href === "/lab" ? 900 : 330));
     // A failed route request must never strand the visitor behind the cover.
     scheduled.current.push(setTimeout(() => { busy.current = false; setHandoff(null); }, 8000));
     return true;
@@ -47,7 +47,7 @@ export function LabRouteTransition({ children }: { children: ReactNode }) {
         busy.current = false;
         arrival.current = target;
         setHandoff(null);
-      }, reduced ? 220 : 520));
+      }, reduced ? 220 : target === "/lab" ? 1100 : 520));
     };
     void reveal();
     return () => { alive = false; };
@@ -74,7 +74,7 @@ export function LabRouteTransition({ children }: { children: ReactNode }) {
 
   return <HandoffContext.Provider value={navigate}>
     <div inert={handoff !== null}>{children}</div>
-    {handoff && <div className="lab-route-transition" data-route-phase={handoff.phase} data-reduced={handoff.reduced} aria-hidden="true">
+    {handoff && <div className="lab-route-transition" data-destination={handoff.target === "/lab" ? "lab" : "cv"} data-route-phase={handoff.phase} data-reduced={handoff.reduced} aria-hidden="true">
       <div className="lab-route-color" /><div className="lab-route-ink" />
       <span>{handoff.target === "/lab" ? "off duty." : "back to work."}</span>
     </div>}

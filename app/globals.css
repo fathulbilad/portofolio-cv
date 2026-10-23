@@ -61,16 +61,17 @@ html[data-cv-welcome="revealing"] .welcome-content { visibility: hidden; }
 .lab-entry span { color: #8c55a1; transition: transform 180ms ease; }
 .lab-entry:hover span { transform: translate(2px, -2px); }
 [data-lab-arrival-focus]:focus { outline: none; }
-.lab-route-transition { position: fixed; z-index: 500; inset: 0; overflow: hidden; display: grid; place-items: center; }
+.lab-route-transition { --route-cover: 270ms; --route-stagger: 60ms; --route-label-in: 120ms; --route-label-delay: 210ms; --route-reveal: 450ms; --route-label-out: 150ms; position: fixed; z-index: 500; inset: 0; overflow: hidden; display: grid; place-items: center; }
+.lab-route-transition[data-destination="lab"] { --route-cover: 780ms; --route-stagger: 120ms; --route-label-in: 200ms; --route-label-delay: 600ms; --route-reveal: 960ms; --route-label-out: 250ms; }
 .lab-route-color, .lab-route-ink { position: absolute; inset: -12% -16%; transform: skewX(-11deg); background: #ff4c78; }
 .lab-route-ink { background: #111011; }
 .lab-route-transition > span { position: relative; color: #fff9e9; font: 700 clamp(28px, 4vw, 64px)/1 "Courier New", monospace; letter-spacing: -2px; transform: rotate(-7deg); }
-.lab-route-transition[data-route-phase="cover"] .lab-route-color { animation: lab-route-cover 270ms cubic-bezier(.65, 0, .35, 1) both; }
-.lab-route-transition[data-route-phase="cover"] .lab-route-ink { animation: lab-route-cover 270ms 60ms cubic-bezier(.65, 0, .35, 1) both; }
-.lab-route-transition[data-route-phase="cover"] > span { animation: fade-in 120ms 210ms both; }
-.lab-route-transition[data-route-phase="reveal"] .lab-route-color { animation: lab-route-reveal 450ms 60ms cubic-bezier(.22, 1, .36, 1) both; }
-.lab-route-transition[data-route-phase="reveal"] .lab-route-ink { animation: lab-route-reveal 450ms cubic-bezier(.22, 1, .36, 1) both; }
-.lab-route-transition[data-route-phase="reveal"] > span { animation: fade-out 150ms both; }
+.lab-route-transition[data-route-phase="cover"] .lab-route-color { animation: lab-route-cover var(--route-cover) cubic-bezier(.65, 0, .35, 1) both; }
+.lab-route-transition[data-route-phase="cover"] .lab-route-ink { animation: lab-route-cover var(--route-cover) var(--route-stagger) cubic-bezier(.65, 0, .35, 1) both; }
+.lab-route-transition[data-route-phase="cover"] > span { animation: fade-in var(--route-label-in) var(--route-label-delay) both; }
+.lab-route-transition[data-route-phase="reveal"] .lab-route-color { animation: lab-route-reveal var(--route-reveal) var(--route-stagger) cubic-bezier(.22, 1, .36, 1) both; }
+.lab-route-transition[data-route-phase="reveal"] .lab-route-ink { animation: lab-route-reveal var(--route-reveal) cubic-bezier(.22, 1, .36, 1) both; }
+.lab-route-transition[data-route-phase="reveal"] > span { animation: fade-out var(--route-label-out) both; }
 .lab-route-transition[data-reduced="true"] { background: #111011; }
 .lab-route-transition[data-reduced="true"] .lab-route-color, .lab-route-transition[data-reduced="true"] .lab-route-ink { display: none; }
 .lab-route-transition[data-reduced="true"][data-route-phase="cover"] { animation: fade-in 180ms both !important; }

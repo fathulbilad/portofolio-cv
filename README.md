@@ -39,9 +39,9 @@ On desktop, the hero's ID badge button and About section reuse the draggable 3D 
 Games, Music, Projects, and Odds & Ends. The entrance leaves the left side open
 around “off duty. / a little corner / of my own.” Hover and keyboard focus change
 the palette; selecting a destination opens its content through an ink wipe.
-The CV's Playground link uses a layered pink-and-black wipe that covers the
-outgoing page and waits for the Lab and its font before revealing it. Returning
-to the CV uses the same handoff; reduced motion uses a short opacity fade.
+The CV's Playground link uses a roughly two-second layered pink-and-black wipe
+that covers the outgoing page and waits for the Lab and its font before revealing
+it. Returning to the CV uses the same handoff; reduced motion uses a short opacity fade.
 Escape and the Menu button return to the entrance. URL fragments support direct
 links, refresh, and browser Back/Forward. Reduced motion skips the wipe and canvas
 lettering. The first menu mood is pink.
