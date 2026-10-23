@@ -71,9 +71,9 @@ export const musicRecords: { title: string; artist: string; year: string; type: 
     title: "Popstar",
     artist: "Tinashe",
     year: "2026",
-    type: "track",
-    spotifyId: "7aF0puGulyEEJkOQZNKNyu",
-    url: "https://open.spotify.com/track/7aF0puGulyEEJkOQZNKNyu",
+    type: "album",
+    spotifyId: "06CjF89lLSSiVWXujVVtQs",
+    url: "https://open.spotify.com/album/06CjF89lLSSiVWXujVVtQs",
     cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8dc54881b35310061266cdf",
   },
 ];

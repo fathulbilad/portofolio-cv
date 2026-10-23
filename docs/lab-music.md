@@ -1,12 +1,12 @@
 # Music room sources
 
-The records are **Getting Killed — Geese (2025)**, an album, and
-**Popstar — Tinashe (2026)**, the song, both chosen by the site owner.
+The records are **Getting Killed — Geese (2025)** and
+**Popstar — Tinashe (2026)**, both full albums chosen by the site owner.
 
 - [Official Spotify album](https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC)
 - [Official oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F0eeXb23yMW6EaIgm63xxPC), retrieved October 23, 2026.
-- [Official Tinashe song](https://open.spotify.com/track/7aF0puGulyEEJkOQZNKNyu)
-- [Popstar oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Ftrack%2F7aF0puGulyEEJkOQZNKNyu), retrieved October 23, 2026.
+- [Official Tinashe album](https://open.spotify.com/album/06CjF89lLSSiVWXujVVtQs)
+- [Popstar oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F06CjF89lLSSiVWXujVVtQs), retrieved October 23, 2026.
 - Cover URL is the `thumbnail_url` supplied by that response, displayed directly
   from Spotify without downloading, proxying, caching locally, or altering it.
 - The official album player uses the supported compact height and dark theme.

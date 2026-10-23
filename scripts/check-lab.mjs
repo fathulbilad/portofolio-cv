@@ -122,9 +122,9 @@ try {
       assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Choose a record", "Close returns focus to the wheel.");
       browser(["press", "End"]);
       browser(["press", "Enter"]);
-      wait(`!!document.querySelector('iframe[title="Spotify track player: Popstar by Tinashe"]')`);
-      assert.equal(evaluate(() => document.querySelector('[aria-label="Popstar track detail"] h2').textContent), "Popstar");
-      assert.ok(evaluate(() => document.querySelector('iframe').src.includes('/track/7aF0puGulyEEJkOQZNKNyu')));
+      wait(`!!document.querySelector('iframe[title="Spotify album player: Popstar by Tinashe"]')`);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Popstar album detail"] h2').textContent), "Popstar");
+      assert.ok(evaluate(() => document.querySelector('iframe').src.includes('/album/06CjF89lLSSiVWXujVVtQs')));
       browser(["find", "role", "button", "click", "--name", "Close record", "--exact"]);
       browser(["press", "Home"]);
       browser(["click", '[role="option"][aria-selected="true"]']);

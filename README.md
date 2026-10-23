@@ -62,7 +62,7 @@ non-buffering playback. It settles back on pause, completion, close, record chan
 reduced motion and hidden tabs keep it still. This is a fixed eight-second contour
 cycle that acts as playback feedback, independent of the song's beat or loudness.
 The left-hand React Bits Option Wheel contains Geese's Getting Killed album and
-Tinashe's Popstar song. Click a record or press Enter/Space to open its official
+Tinashe's full Popstar album. Click a record or press Enter/Space to open its official
 cover and Spotify album or track embed on the right. React Bits Animated Content provides a
 680ms upward wheel entrance and a 520ms album pop. The wheel supports scrolling,
 dragging, arrow keys, and Home/End. There are two real records and no placeholders.
@@ -101,7 +101,7 @@ short touch-only landscape screens, the entry is hidden and a direct Lab visit
 offers a return to the CV. Mobile can receive its own design later.
 
 - `lib/lab.ts`: game and record picks, starter personal notes, colors, and project
-  links. The selected games, Geese album, and Tinashe song were requested by the site owner;
+  links. The selected games, Geese album, and Tinashe album were requested by the site owner;
   other starter content remains editable demonstration copy.
 - `components/lab/`: interface, scoped styles, and the official vendored React
   Bits Tech Text, Fade Content, Animated Content, Option Wheel, and Sound Lab
@@ -124,7 +124,7 @@ opt-in sound, tablet layouts, hidden phone entry, reduced motion, and invalid UR
 fragment recovery.
 The focused Music check uses a test controller to exercise playback, pause,
 buffering, completion, error recovery, hidden tabs, cleanup, reduced motion,
-the exact song selection, and a blocked-API iframe fallback without streaming audio.
+the full album selection, and a blocked-API iframe fallback without streaming audio.
 
 ## CV content and assets
 

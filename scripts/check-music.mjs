@@ -108,7 +108,7 @@ try {
   assert.equal(motion(), "resting", "Late events from a closed record are ignored.");
   browser(["press", "End"]); browser(["press", "Enter"]);
   wait("window.__spotifyTest !== window.__oldPlayer");
-  assert.ok(evaluate(() => window.__spotifyTest.url.includes("/track/7aF0puGulyEEJkOQZNKNyu")), "Popstar opens the exact Tinashe song.");
+  assert.ok(evaluate(() => window.__spotifyTest.url.includes("/album/06CjF89lLSSiVWXujVVtQs")), "Popstar opens the full Tinashe album.");
   evaluate(() => window.__spotifyTest.emit({ isPaused: false }));
   wait("document.querySelector('[data-ink-motion]').dataset.inkMotion === 'playing'");
   browser(["press", "Escape"]);
@@ -133,7 +133,7 @@ try {
   browser(["click", 'button[aria-label="Close record"]']);
   assert.equal(evaluate(() => document.querySelectorAll("iframe").length), 0);
   assert.equal(browser(["errors"]), "");
-  console.log("Music playback, pause, buffering, completion, errors, hidden tabs, cleanup, reduced motion, exact song, and blocked-API fallback passed.");
+  console.log("Music playback, pause, buffering, completion, errors, hidden tabs, cleanup, reduced motion, full album, and blocked-API fallback passed.");
 } finally {
   browser(["close"]);
 }
