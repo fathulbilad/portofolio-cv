@@ -1,10 +1,14 @@
-# Lab artwork
+# Original Lab artwork
 
-Created with the built-in image generation tool for this implementation. The
+The illustrations below were created with the built-in image generation tool. The
 artwork is original, illustrative imagery; game and album names in the starter
 collection do not identify the generated artwork. The monochrome artwork is
 tinted by the website's CSS. Images are encoded as WebP at quality 84, at a
 maximum width of 1200px, preserving the generated composition.
+
+The Games gallery now uses official game screenshots documented in
+[the game artwork notes](lab-game-artwork.md). The original abstract Games
+illustration below remains available as a separate asset.
 
 ## Saved assets and final prompts
 

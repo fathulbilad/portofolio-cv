@@ -60,7 +60,7 @@ try {
   assert.equal(evaluate(() => document.querySelectorAll("audio, video").length), 0, "No hosted or autoplay music.");
   layoutFits("Desktop menu");
 
-  const moods = { life: "rgb(234, 227, 210)", games: "rgb(240, 255, 0)", music: "rgb(39, 76, 255)", projects: "rgb(0, 213, 219)", odds: "rgb(255, 76, 120)" };
+  const moods = { life: "rgb(234, 227, 210)", games: "rgb(164, 184, 196)", music: "rgb(39, 76, 255)", projects: "rgb(0, 213, 219)", odds: "rgb(255, 76, 120)" };
   const contours = [];
   for (const [id, color] of Object.entries(moods)) {
     console.log(`Checking ${id}...`);
@@ -84,8 +84,25 @@ try {
     assert.equal(evaluate(() => document.activeElement.id), "lab-heading", "Focus enters each section.");
     if (id !== "odds") wait(`Array.from(document.querySelectorAll('#lab-content img')).every(img => img.complete && img.naturalWidth > 0)`);
     if (id === "games") {
-      browser(["find", "role", "button", "click", "--name", "Portal 2", "--exact"]);
-      assert.ok(evaluate(() => document.getElementById("lab-content").textContent.includes("A room, an impossible-looking problem")));
+      assert.deepEqual(evaluate(() => [...document.querySelectorAll('[aria-label="Choose a game"] button')].map(button => button.getAttribute("aria-label"))), ["Bloodborne", "ULTRAKILL", "Terraria"]);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Bloodborne");
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"]').getBoundingClientRect().bottom < document.querySelector('[aria-label="Choose a game"]').getBoundingClientRect().top), true, "The game preview sits above the horizontal shelf.");
+      assert.equal(evaluate(() => { const rail = document.querySelector('[aria-label="Choose a game"]'); return rail.scrollWidth > rail.clientWidth; }), true, "The shelf scrolls horizontally.");
+      const gameColors = [evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor)];
+      browser(["find", "role", "button", "click", "--name", "ULTRAKILL", "--exact"]);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "ULTRAKILL");
+      wait(`document.querySelector('[aria-label="Game collection"]').getAnimations().length === 0`);
+      gameColors.push(evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor));
+      browser(["find", "role", "button", "click", "--name", "Next game", "--exact"]);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Terraria");
+      wait(`document.querySelector('[aria-label="Game collection"]').getAnimations().length === 0`);
+      gameColors.push(evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor));
+      assert.equal(new Set(gameColors).size, 3, "Every active game has its own shelf palette.");
+      wait(`document.querySelector('[aria-label="Choose a game"]').scrollLeft > 0`);
+      browser(["focus", 'button[aria-label="Terraria"]']);
+      browser(["press", "Home"]);
+      assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Bloodborne");
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Bloodborne");
     }
     if (id === "music") {
       browser(["find", "role", "button", "click", "--name", "All-time favorites", "--exact"]);

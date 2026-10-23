@@ -1,0 +1,60 @@
+.spotlight { display: flex; flex-direction: column; min-height: 0; width: min(92%, 1400px); margin: 0 auto; padding-bottom: clamp(18px, 2.5svh, 32px); color: var(--lab-text); transition: color 650ms ease; }
+.heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 18px; }
+.heading h1 { display: flex; align-items: baseline; gap: 20px; margin: 0; font-family: var(--lab-display); font-size: clamp(24px, 2.2vw, 34px); font-weight: 400; text-transform: uppercase; line-height: 1; }
+.heading h1:focus { outline: none; }
+.heading h1 span { color: var(--game-muted); font: 11px/1.5 "Courier New", monospace; text-transform: none; transition: color 650ms ease; }
+.count { flex-shrink: 0; padding-bottom: 2px; color: var(--lab-accent); font-size: 12px; transition: color 650ms ease; }
+.hero { position: relative; flex: 1; min-height: 240px; overflow: hidden; isolation: isolate; background: var(--game-surface); transition: background-color 650ms ease; }
+/* React Bits Carousel's fade pattern: overlapping panes and an opaque active image. */
+.artwork { position: absolute; inset: 0; opacity: 0; transition: opacity 500ms cubic-bezier(.2, .8, .2, 1); }
+.artwork[data-active="true"] { opacity: 1; }
+.artwork img { object-fit: cover; object-position: center 45%; }
+.shade { position: absolute; inset: 0; pointer-events: none; background: var(--game-surface); mask-image: linear-gradient(180deg, transparent 20%, #00000018 38%, #000000a8 66%, #000 100%); transition: background-color 650ms ease; }
+.caption { position: absolute; left: clamp(24px, 3.2vw, 50px); bottom: clamp(32px, 4svh, 54px); width: min(76%, 700px); }
+.caption p { margin: 0; }
+.genre { display: table; margin-bottom: 10px !important; padding: 4px 7px; color: var(--lab-accent); background: var(--game-surface); font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; transition: color 650ms ease, background-color 650ms ease; }
+.caption h2 { margin: 0; font-family: var(--lab-display); font-size: clamp(46px, min(6.2vw, 8svh), 96px); font-weight: 400; line-height: 1.08; text-transform: uppercase; letter-spacing: -.8px; }
+.tag { margin-top: 10px !important; color: var(--lab-accent); font-size: 11px; text-transform: uppercase; transition: color 650ms ease; }
+.note { max-width: 64ch; margin-top: 16px !important; color: var(--lab-text); font-size: clamp(11px, .95vw, 14px); line-height: 1.8; }
+.credit { position: absolute; right: 16px; bottom: 12px; max-width: calc(100% - 32px); color: var(--game-muted); font-size: 9px; text-decoration: underline; text-underline-offset: 4px; transition: color 650ms ease; }
+.shelf { min-width: 0; padding: 20px 0 12px; background: var(--lab-paper); color: var(--lab-text); clip-path: polygon(0 6px, 14% 0, 33% 5px, 51% 0, 73% 5px, 89% 0, 100% 5px, 100% 100%, 0 100%); transition: background-color 650ms ease, color 650ms ease; }
+.shelfInner { width: min(92%, 1400px); margin: 0 auto; }
+.shelfHeader { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 14px; }
+.shelfHeader h2 { margin: 0 0 5px; font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
+.shelfHeader p { margin: 0; color: var(--game-muted); font-size: 10px; transition: color 650ms ease; }
+.controls { display: flex; gap: 9px; }
+.controls button { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid currentColor !important; transition: color 160ms ease, background 160ms ease; }
+.controls button:hover { background: var(--lab-text); color: var(--lab-paper); }
+.rail { display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scroll-padding-inline: 2px; scrollbar-width: thin; scrollbar-color: var(--lab-accent) #ffffff15; padding: 3px 3px 12px; }
+.card { flex: 0 0 clamp(250px, 36vw, 560px); min-width: 0; text-align: left; scroll-snap-align: start; outline-offset: -2px !important; }
+.thumbnail { position: relative; display: block; height: clamp(96px, 15svh, 180px); overflow: hidden; background: #111011; box-shadow: inset 0 0 0 2px #111011; }
+.thumbnail img { object-fit: cover; opacity: .65; filter: grayscale(.35); transition: opacity 220ms ease, filter 220ms ease; }
+.card:hover img, .card[aria-pressed="true"] img { opacity: 1; filter: none; }
+.cardLabel { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 10px; padding-bottom: 7px; border-bottom: 2px solid transparent; font-family: var(--lab-display); font-size: clamp(17px, 1.5vw, 24px); font-weight: 400; text-transform: uppercase; }
+.cardLabel > span:last-child { font: 10px "Courier New", monospace; }
+.card[aria-pressed="true"] .cardLabel { border-bottom-color: var(--lab-accent); }
+.footnote { margin: 6px 0 0; color: var(--game-muted); font-size: 10px; transition: color 650ms ease; }
+@media (max-width: 1050px) {
+  .heading h1 { gap: 12px; }
+  .heading h1 span { max-width: 200px; font-size: 10px; }
+  .caption { left: 24px; width: calc(100% - 48px); bottom: 38px; }
+  .note { font-size: 11px; line-height: 1.65; }
+  .card { flex-basis: 38vw; }
+}
+@media (max-width: 1050px) and (orientation: portrait) {
+  .artwork img { object-fit: contain; object-position: center top; }
+  .caption { bottom: 42px; }
+  .shade { mask-image: linear-gradient(180deg, transparent 30%, #00000065 52%, #000 78%); }
+  .caption h2 { font-size: clamp(52px, 8vw, 76px); }
+}
+@media (max-height: 700px) {
+  .heading { padding-bottom: 10px; }
+  .spotlight { padding-bottom: 14px; }
+  .hero { min-height: 220px; }
+  .caption { bottom: 34px; }
+  .note { margin-top: 10px !important; font-size: 11px; line-height: 1.6; }
+  .genre { margin-bottom: 7px !important; }
+  .tag { margin-top: 7px !important; }
+  .shelf { padding-top: 16px; }
+  .shelfHeader { margin-bottom: 10px; }
+}

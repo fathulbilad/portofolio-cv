@@ -43,6 +43,24 @@ angular cuts for Games, a long wave for Music, folded planes for Projects, and
 uneven lobes for Odds & Ends. The halftone border follows the same animated path.
 Rapid hovers retarget the current shape; reduced motion changes shapes directly.
 Selecting a destination opens its content through an ink wipe.
+Games uses a large featured preview above a horizontally scrollable image-and-title
+shelf, starting with Bloodborne, ULTRAKILL, and Terraria. Cards, previous/next
+buttons, and Left/Right/Home/End keys update the preview with a 500ms crossfade.
+The shelf supports native trackpad and touch scrolling. Reduced motion changes
+the artwork and scroll position immediately. Each active game has a curated
+650ms palette transition: smoky blue and bone for Bloodborne, oxblood and coral
+for ULTRAKILL, forest green and sage for Terraria. The entrance uses a softer
+blue-grey Games palette. Source links accompany the official
+screenshots; [game artwork credits](docs/lab-game-artwork.md) record their origins.
+
+React Bits is the reference for Lab components, animation, and interface sounds.
+The gallery uses the official [Fade Content](https://reactbits.dev/animations/fade-content)
+component for captions and the [Carousel](https://reactbits.dev/components/carousel)
+fade/selection pattern for the preview and shelf. Menu lettering comes from
+[Tech Text](https://reactbits.dev/text-animations/tech-text), and interface sounds
+come from [Sound Lab](https://reactbits.dev/tools/sound-lab). Keep these references
+and their source/license notes when extending the Lab.
+
 The CV's Playground link uses a roughly two-second layered pink-and-black wipe
 that covers the outgoing page and waits for the Lab and its font before revealing
 it. Returning to the CV uses the same handoff; reduced motion uses a short opacity fade.
@@ -57,11 +75,12 @@ offers a return to the CV. Mobile can receive its own design later.
 - `lib/lab.ts`: all sample picks, personal notes, colors, and project links. These
   starter collections are demonstration content, not verified personal favorites.
 - `components/lab/`: interface, scoped styles, and the official vendored React
-  Bits Tech Text and Sound Lab sources, with their license. Interface audio is
+  Bits Tech Text, Fade Content, and Sound Lab sources, with their license. Interface audio is
   opt-in on each visit. No commercial tracks are hosted or autoplayed; Music uses
   Spotify search links.
-- `public/lab/`: original generated artwork optimized to WebP. Prompts and output
-  paths are recorded in [the artwork notes](docs/lab-artwork.md).
+- `public/lab/`: original generated artwork and official game screenshots,
+  optimized to WebP. Prompts and output paths for the original illustrations are
+  recorded in [the artwork notes](docs/lab-artwork.md).
 
 With a local preview running, check the Lab with:
 

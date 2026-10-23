@@ -15,7 +15,7 @@ const menuContours: Record<LabSection, string> = {
 };
 
 export function LabInk({ section, mood, animated }: { section: LabSection | null; mood: LabSection; animated: boolean }) {
-  const roomContour = section === "life"
+  const roomContour = section === "games" ? "M-100-150H1660V1040H-100Z" : section === "life"
     ? "M465-180C600-30 785 130 1015 5L1445-150 1660-140 1650 1020C1420 1020 1310 985 1205 830 1095 690 820 795 724 650 632 513 440 570 485 385 527 216 685 230 628 95 578-25 390-110 465-180Z"
     : "M540-150C620 50 635 170 550 300 460 440 570 480 555 640 530 780 615 880 600 1030L1660 1030 1660-150Z";
 

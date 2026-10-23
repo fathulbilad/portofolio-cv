@@ -11,6 +11,7 @@ import notch from "./vendor/notch";
 import { playSound, setSoundMuted, setSoundVolume } from "./vendor/react-bits-sound";
 import styles from "./lab.module.css";
 import { LabInk } from "./lab-ink";
+import { GamesGallery } from "./games-gallery";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
 
 const navigationEvent = "lab:navigate";
@@ -159,19 +160,19 @@ export function Lab() {
     if (next) play();
   }
 
-  const currentGame = games[game];
   const currentMusic = musicCollections[music];
+  const gamePalette = section === "games" ? games[game].palette : null;
   const currentProject = labProjects[project];
   const currentNote = oddNotes[note];
 
-  return <div className={styles.root} style={{ "--lab-paper": theme.color, "--lab-accent": theme.accent, "--lab-text": theme.text } as CSSProperties} data-lab-mood={theme.id}>
+  return <div className={styles.root} style={{ "--lab-paper": gamePalette?.paper ?? theme.color, "--lab-accent": gamePalette?.accent ?? theme.accent, "--lab-text": gamePalette?.text ?? theme.text, "--game-surface": gamePalette?.surface, "--game-muted": gamePalette?.muted } as CSSProperties} data-lab-mood={theme.id}>
     <div className={styles.phone}>
       <p className={styles.phoneEyebrow}>off duty.</p>
       <h1>A little more room.</h1>
       <p>This corner is made for desktop and tablet.<br />The phone-sized version is a story for another day.</p>
       <Link href="/">← Back to my CV</Link>
     </div>
-    <div className={`${styles.desktop} ${section ? styles.inRoom : ""}`}>
+    <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""}`}>
       <LabInk section={section} mood={mood} animated={large && !reduced} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>
@@ -195,12 +196,12 @@ export function Lab() {
             <ExpressiveType text={item.title} enhanced={enhanced && mood === item.id} accent={theme.accent} />
           </a>)}
         </nav>
-      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
+      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
+        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : <>
         <div className={styles.roomIntro}>
           <h1 id="lab-heading" ref={heading} tabIndex={-1}>{theme.title}</h1>
           <p className={styles.subtitle}>{theme.subtitle}</p>
           {section === "life" && <div className={styles.lifePhoto}><Image src="/lab/life.webp" alt="Afternoon light falling across a quiet wall." width={900} height={600} loading="eager" sizes="(max-width: 1100px) 32vw, 380px" /></div>}
-          {section === "games" && <Picks label="Choose a game" labels={games.map(item => item.title)} selected={game} onSelect={index => choose(setGame, index)} />}
           {section === "projects" && <div className={styles.projectChoices}>{labProjects.map((item, index) => <button type="button" key={item.title} aria-label={`${item.title} — ${item.status}`} aria-pressed={index === project} onClick={() => choose(setProject, index)}><span>{item.title}</span><small>{item.status}</small></button>)}</div>}
           {section === "odds" && <Picks label="Choose a note" labels={oddNotes.map(item => item.label)} selected={note} onSelect={index => choose(setNote, index)} />}
           <span className={styles.sample}>Starter collection · a work in progress</span>
@@ -208,10 +209,6 @@ export function Lab() {
 
         <div className={styles.roomBody}>
           {section === "life" && <div className={styles.journal}>{lifeEntries.map(entry => <article key={entry.label}><h2>{entry.label}</h2><h3>{entry.title}</h3><p>{entry.body}</p></article>)}</div>}
-          {section === "games" && <article className={styles.feature} key={currentGame.title} aria-live="polite">
-            <div className={`${styles.art} ${styles.gameArt}`} data-variant={game}><Image src="/lab/games.webp" alt="An imaginary world of angular cliffs and sunlit paths." width={1200} height={800} loading="eager" sizes="52vw" /></div>
-            <div className={styles.featureCopy}><p className={styles.eyebrow}>{currentGame.genre}</p><h2>{currentGame.title}</h2><span className={styles.tagline}>{currentGame.tag}</span><h3>Why it stayed with me</h3><p>{currentGame.story}</p><p className={styles.detail}>{currentGame.detail}</p><button className={styles.next} type="button" onClick={() => choose(setGame, (game + 1) % games.length)}>Next game <span aria-hidden="true">→</span></button></div>
-          </article>}
           {section === "music" && <div className={styles.listening}>
             <figure className={styles.album} key={currentMusic.album}><div className={styles.albumArt} data-variant={music}><Image src="/lab/music.webp" alt="An original abstract cover with flowing blue and ivory waves." width={700} height={700} loading="eager" sizes="25vw" /></div><figcaption><strong>{currentMusic.album}</strong><span>{currentMusic.artist}</span></figcaption></figure>
             <div className={styles.listeningNotes}><h2>Why I keep coming back</h2><p aria-live="polite">{currentMusic.note}</p><Picks label="Choose a listening collection" labels={musicCollections.map(item => item.label)} selected={music} onSelect={index => choose(setMusic, index)} /><a href={currentMusic.url} target="_blank" rel="noopener noreferrer" className={styles.external}>Listen on Spotify <span aria-hidden="true">↗</span></a></div>
@@ -222,6 +219,7 @@ export function Lab() {
           </article>}
           {section === "odds" && <article className={styles.paperNote} key={currentNote.label} aria-live="polite"><p className={styles.noteLabel}>{currentNote.label}</p><h2>{currentNote.title}</h2><p>{currentNote.body}</p><span className={styles.noteSignoff}>a little something, saved.</span></article>}
         </div>
+        </>}
       </main>}
       {wipe && <div className={styles.wipe} data-phase={wipe} aria-hidden="true"><span>off duty.</span></div>}
     </div>

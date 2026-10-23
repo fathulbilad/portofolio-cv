@@ -1,4 +1,4 @@
-React Bits Tech Text and Sound Lab
+React Bits Tech Text, Fade Content and Sound Lab
 https://reactbits.dev
 https://github.com/DavidHDev/react-bits
 

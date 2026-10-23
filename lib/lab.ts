@@ -1,7 +1,7 @@
 // A starter collection for the Lab preview. Replace these sample picks freely.
 export const labSections = [
   { id: "life", title: "Life lately", color: "#eae3d2", accent: "#ff645f", text: "#151313", subtitle: "A few things from my corner." },
-  { id: "games", title: "Games", color: "#f0ff00", accent: "#f0ff00", text: "#111111", subtitle: "The ones that stayed with me." },
+  { id: "games", title: "Games", color: "#a4b8c4", accent: "#a4b8c4", text: "#111111", subtitle: "The ones that stayed with me." },
   { id: "music", title: "Music", color: "#274cff", accent: "#a7e5ff", text: "#fff9e9", subtitle: "On repeat, forever." },
   { id: "projects", title: "Projects", color: "#00d5db", accent: "#00d5db", text: "#111111", subtitle: "Things I make, just because." },
   { id: "odds", title: "Odds & ends", color: "#ff4c78", accent: "#ff799a", text: "#151313", subtitle: "Things with nowhere else to go." },
@@ -19,9 +19,9 @@ export const lifeEntries = [
 ];
 
 export const games = [
-  { title: "Hollow Knight", tag: "A world to get lost in", genre: "Exploration / atmosphere", story: "Getting a little lost, finding a secret path, and hearing that piano again. A quiet, strange world that rewards curiosity.", detail: "For the atmosphere, the tiny discoveries, and the feeling of finally finding your way." },
-  { title: "Portal 2", tag: "Just one more test", genre: "Puzzles / good company", story: "A room, an impossible-looking problem, and that lovely moment when the solution finally clicks. Then the next room changes everything.", detail: "For the clever puzzles and the jokes that somehow make an empty testing facility feel alive." },
-  { title: "Hades", tag: "Another attempt", genre: "Action / one more run", story: "A failed escape is still a new conversation, a different build, and another reason to head back out. Progress can look like trying again.", detail: "For the rhythm, the characters, and turning a short session into a very late night." },
+  { title: "Bloodborne", tag: "A beautiful nightmare", genre: "Action / atmosphere", story: "Strange streets, quiet dread, and the pull of whatever waits around the next corner. A world to get lost in, one more attempt at a time.", image: "/lab/games/bloodborne.webp", imageAlt: "A hunter exploring a candlelit hall in Bloodborne's Cainhurst Castle.", source: "https://blog.playstation.com/archive/2014/11/20/new-bloodborne-environments-characters-weapons-unveiled/", credit: "PlayStation / FromSoftware", palette: { surface: "#10171b", paper: "#27383f", accent: "#c9bdab", text: "#f2e9da", muted: "#b3b9b8" } },
+  { title: "ULTRAKILL", tag: "Keep moving. Make it stylish.", genre: "FPS / movement", story: "Speed, precision, and a little controlled chaos. Finding a rhythm in the middle of everything, then trying to do it a little better.", image: "/lab/games/ultrakill.webp", imageAlt: "A fast-paced first-person combat scene from ULTRAKILL.", source: "https://store.steampowered.com/app/1229490/ULTRAKILL/", credit: "Hakita / New Blood Interactive", palette: { surface: "#1a1013", paper: "#422329", accent: "#ff7d68", text: "#fff0e4", muted: "#cbb8b5" } },
+  { title: "Terraria", tag: "One more thing to build", genre: "Sandbox / exploration", story: "A small beginning with room for a very big adventure. Digging a little deeper, building something unnecessary, and seeing where the world leads next.", image: "/lab/games/terraria.webp", imageAlt: "A colorful pixel-art world and player-built structures in Terraria.", source: "https://store.steampowered.com/app/105600/Terraria/", credit: "Re-Logic", palette: { surface: "#101a14", paper: "#293e31", accent: "#add58d", text: "#f1efdb", muted: "#b8c9b3" } },
 ];
 
 export const musicCollections = [

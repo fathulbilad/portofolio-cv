@@ -40,6 +40,9 @@
 .techLayer { position: absolute; inset: -14% -1%; display: block; color: var(--lab-white); text-shadow: none; -webkit-text-stroke: 0; }
 .techLayer > div { font-family: var(--lab-display); }
 .room { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, .41fr) minmax(0, .59fr); padding: clamp(110px, 17svh, 180px) 5.6vw 5svh; gap: 3vw; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; animation: room-in 460ms cubic-bezier(.22, 1, .36, 1) both; }
+.room.gamesRoom { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(300px, 1fr) auto; gap: 0; padding: clamp(88px, 11svh, 120px) 0 0; background-color: var(--game-surface); transition: background-color 650ms ease; }
+.gamesScene .utilities { color: var(--lab-white); }
+.gamesScene .sound { transition: color 650ms ease; }
 .roomIntro { position: relative; min-width: 0; align-self: start; padding-top: 2svh; }
 .roomIntro h1 { width: max-content; max-width: 135%; margin: 0 0 14px; font-family: var(--lab-display); font-size: clamp(58px, 7.8vw, 126px); font-weight: 400; line-height: 1.04; letter-spacing: -1.8px; text-transform: uppercase; transform: rotate(-5deg) skew(-3deg) scaleX(.9); transform-origin: left center; }
 .roomIntro h1:focus { outline: none; }
@@ -64,15 +67,12 @@
 .feature { animation: feature-in 300ms ease both; }
 .art { position: relative; width: calc(100% + 3vw); aspect-ratio: 1.9; margin: -3svh 0 0 -1vw; overflow: hidden; }
 .art img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transition: transform 500ms cubic-bezier(.22, 1, .36, 1); }
-.gameArt { background: #f0ff00; }
 .projectArt { background: #00d5db; }
 .art[data-variant="1"] img { transform: scale(1.16) translateX(-4%); }
 .art[data-variant="2"] img { transform: scale(1.09) scaleX(-1); }
 .featureCopy { position: relative; margin-top: 1.5svh; padding: 0 1vw; }
-.tagline { display: block; color: var(--lab-accent); font-size: 11px; text-transform: uppercase; }
-.next, .external { display: inline-flex; gap: 10px; align-items: center; padding-block: 9px !important; font-family: var(--lab-display) !important; font-size: clamp(15px, 1.3vw, 20px) !important; font-weight: 400; text-transform: uppercase; letter-spacing: .6px; color: var(--lab-accent) !important; line-height: 1.5; }
-.next { display: flex; width: fit-content; margin: 14px 0 0 auto; }
-.next:hover, .external:hover { text-decoration: underline; text-underline-offset: 6px; }
+.external { display: inline-flex; gap: 10px; align-items: center; padding-block: 9px !important; font-family: var(--lab-display) !important; font-size: clamp(15px, 1.3vw, 20px) !important; font-weight: 400; text-transform: uppercase; letter-spacing: .6px; color: var(--lab-accent) !important; line-height: 1.5; }
+.external:hover { text-decoration: underline; text-underline-offset: 6px; }
 .lifeInk { transform: translateX(65%) scale(1.1); }
 .lifeRoom { grid-template-columns: minmax(0, .49fr) minmax(0, .51fr); }
 .lifeRoom .roomIntro h1, .lifeRoom .roomBody h2 { color: #e14b48; }
