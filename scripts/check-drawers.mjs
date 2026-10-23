@@ -99,7 +99,7 @@ try {
   console.log("Back, forward, nested details, and focus restoration passed.");
   browser(["set", "offline", "off"]);
   browser(["set", "viewport", "390", "844"]);
-  for (const href of ["/side-projects", "/side-projects/dev"]) {
+  for (const href of ["/side-projects", "/side-projects/cardio-series"]) {
     const result = evaluate(navigateToPage, href);
     assert.ok(result.arrived && result.sameDocument, `${href} must use a standalone page without reloading the document`);
     assert.equal(result.animation, "rise-in", "Mobile sections should have a light entrance animation.");

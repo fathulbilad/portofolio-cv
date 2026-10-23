@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Upstream React Bits sources retain their original implementation.
+    "components/lab/vendor/**",
   ]),
 ]);
 

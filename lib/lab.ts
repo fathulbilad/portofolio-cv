@@ -1,0 +1,43 @@
+// A starter collection for the Lab preview. Replace these sample picks freely.
+export const labSections = [
+  { id: "life", title: "Life lately", color: "#eae3d2", accent: "#ff645f", text: "#151313", subtitle: "A few things from my corner." },
+  { id: "games", title: "Games", color: "#f0ff00", accent: "#f0ff00", text: "#111111", subtitle: "The ones that stayed with me." },
+  { id: "music", title: "Music", color: "#274cff", accent: "#a7e5ff", text: "#fff9e9", subtitle: "On repeat, forever." },
+  { id: "projects", title: "Projects", color: "#00d5db", accent: "#00d5db", text: "#111111", subtitle: "Things I make, just because." },
+  { id: "odds", title: "Odds & ends", color: "#ff4c78", accent: "#ff799a", text: "#151313", subtitle: "Things with nowhere else to go." },
+] as const;
+
+export type LabSection = (typeof labSections)[number]["id"];
+export function isLabSection(value: string): value is LabSection {
+  return labSections.some(section => section.id === value);
+}
+
+export const lifeEntries = [
+  { label: "Making", title: "A little room on the internet.", body: "Trying things, moving things around, and seeing what sticks. This corner is allowed to be a work in progress." },
+  { label: "Playing", title: "One more run. Probably.", body: "A small stack of games, a very long backlog, and absolutely no promise to finish them in order." },
+  { label: "Thinking about", title: "Making things just because.", body: "Some ideas do not need a business plan. Sometimes it is enough that they would be fun to make." },
+];
+
+export const games = [
+  { title: "Hollow Knight", tag: "A world to get lost in", genre: "Exploration / atmosphere", story: "Getting a little lost, finding a secret path, and hearing that piano again. A quiet, strange world that rewards curiosity.", detail: "For the atmosphere, the tiny discoveries, and the feeling of finally finding your way." },
+  { title: "Portal 2", tag: "Just one more test", genre: "Puzzles / good company", story: "A room, an impossible-looking problem, and that lovely moment when the solution finally clicks. Then the next room changes everything.", detail: "For the clever puzzles and the jokes that somehow make an empty testing facility feel alive." },
+  { title: "Hades", tag: "Another attempt", genre: "Action / one more run", story: "A failed escape is still a new conversation, a different build, and another reason to head back out. Progress can look like trying again.", detail: "For the rhythm, the characters, and turning a short session into a very late night." },
+];
+
+export const musicCollections = [
+  { label: "Current rotation", album: "Discovery", artist: "Daft Punk", note: "For the days that need a little more momentum. A sample pick for this first version of the listening room.", url: "https://open.spotify.com/search/Daft%20Punk%20Discovery" },
+  { label: "All-time favorites", album: "In Rainbows", artist: "Radiohead", note: "A record to sit with rather than rush through. Leave a note here about a song, a memory, or a favorite moment.", url: "https://open.spotify.com/search/Radiohead%20In%20Rainbows" },
+  { label: "Playlists", album: "Late-night focus", artist: "A mix in progress", note: "Instrumentals, a little electronic music, and the occasional detour. A place for a future playlist of your own.", url: "https://open.spotify.com/search/late%20night%20instrumental" },
+];
+
+export const labProjects = [
+  { title: "This little lab", status: "In progress", description: "An off-duty corner of the internet. A place to play with type, sound, color, and ideas that do not fit anywhere else.", note: "You are already inside this experiment. Take a look around.", href: "#odds", action: "Keep exploring" },
+  { title: "Cardio", status: "Experiment", description: "Small, deliberate practice sessions across development, systems, and the cloud. Making room for learning one exercise at a time.", note: "The collection lives alongside the rest of my portfolio.", href: "/side-projects", action: "Explore the collection" },
+  { title: "The next thing", status: "Idea", description: "An empty page for a tiny tool, an unnecessary invention, or that idea that keeps coming back at 1 a.m.", note: "Nothing to launch yet. That is part of the fun.", href: "mailto:fathulbilad@gmail.com?subject=A%20little%20idea", action: "Start a conversation" },
+];
+
+export const oddNotes = [
+  { label: "A thought", title: "Something worth keeping.", body: "Make things that you would like to find. Even if they are small. Even if they are strange. Especially if they make you curious." },
+  { label: "A find", title: "Follow the interesting thing.", body: "A color combination. A pause menu. A line in a song. The best ideas sometimes start with noticing something and wondering what else it could become." },
+  { label: "A little list", title: "A few good ingredients.", body: "A little empty space. An unusual typeface. A color that feels a bit too loud. A good soundtrack. Enough time to get pleasantly distracted." },
+];

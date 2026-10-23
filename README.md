@@ -33,7 +33,43 @@ On desktop, the homepage entrance, card hover effects, layered left/right and bo
 
 On desktop, the hero's ID badge button and About section reuse the draggable 3D lanyard from the Rick and Morty frontend. The badge hangs higher to leave room beneath it. Three.js and the physics engine load only when the desktop badge is shown. Pause and reset controls are available, reduced-motion preferences start it paused, and animation stops when the browser tab is hidden. Mobile uses the original badge artwork as a static preview without loading the 3D model or physics engine. The homepage illustrations use Next.js image optimization.
 
-## Content and assets
+## Off duty / Lab
+
+`/lab` is the personal side of the site. Its five destinations are Life Lately,
+Games, Music, Projects, and Odds & Ends. The entrance leaves the left side open
+around “off duty. / a little corner / of my own.” Hover and keyboard focus change
+the palette; selecting a destination opens its content through an ink wipe.
+The CV's Playground link uses a layered pink-and-black wipe that covers the
+outgoing page and waits for the Lab and its font before revealing it. Returning
+to the CV uses the same handoff; reduced motion uses a short opacity fade.
+Escape and the Menu button return to the entrance. URL fragments support direct
+links, refresh, and browser Back/Forward. Reduced motion skips the wipe and canvas
+lettering. The first menu mood is pink.
+
+The header's Playground link appears on desktop and tablet. Below 768px, and on
+short touch-only landscape screens, the entry is hidden and a direct Lab visit
+offers a return to the CV. Mobile can receive its own design later.
+
+- `lib/lab.ts`: all sample picks, personal notes, colors, and project links. These
+  starter collections are demonstration content, not verified personal favorites.
+- `components/lab/`: interface, scoped styles, and the official vendored React
+  Bits Tech Text and Sound Lab sources, with their license. Interface audio is
+  opt-in on each visit. No commercial tracks are hosted or autoplayed; Music uses
+  Spotify search links.
+- `public/lab/`: original generated artwork optimized to WebP. Prompts and output
+  paths are recorded in [the artwork notes](docs/lab-artwork.md).
+
+With a local preview running, check the Lab with:
+
+```sh
+node scripts/check-lab.mjs http://127.0.0.1:3105
+```
+
+The check exercises all palettes and sections, selections, artwork loading,
+focus restoration, browser history, opt-in sound, tablet layouts, hidden phone
+entry, reduced motion, and invalid URL fragment recovery.
+
+## CV content and assets
 
 - `lib/portfolio.ts`: section copy, project metadata, side project descriptions, repository links, and certificate images.
 - `lib/translations.ts`: existing bilingual client case studies, skills, and education.

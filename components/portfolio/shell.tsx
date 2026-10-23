@@ -5,6 +5,7 @@ import { FileText } from "lucide-react";
 import { Github } from "./brand-icons";
 import { useLanguage } from "@/contexts/language-context";
 import { cvUrl, ui } from "@/lib/portfolio";
+import { LabRouteLink } from "./lab-route-transition";
 
 export function SiteHeader() {
   const { lang, toggleLang } = useLanguage();
@@ -15,6 +16,7 @@ export function SiteHeader() {
         <span>Fathul Bilad<span className="brand-caption">Full Stack Software Engineer</span></span>
       </Link>
       <nav className="header-actions" aria-label={lang === "en" ? "Main navigation" : "Navigasi utama"}>
+        <LabRouteLink href="/lab" className="lab-entry">Playground <span aria-hidden="true">↗</span></LabRouteLink>
         <button type="button" className="language-toggle" onClick={toggleLang} aria-label={lang === "en" ? "Switch to Indonesian" : "Ganti ke bahasa Inggris"}>
           <span className={lang === "en" ? "active" : ""}>EN</span><span aria-hidden="true">/</span><span className={lang === "id" ? "active" : ""}>ID</span>
         </button>

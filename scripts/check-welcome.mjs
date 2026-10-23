@@ -9,6 +9,8 @@ assert.ok(["localhost", "127.0.0.1"].includes(url.hostname), "Use a local previe
 const session = `cv-welcome-check-${process.pid}`;
 const directory = mkdtempSync(join(tmpdir(), "cv-welcome-"));
 const probePath = join(directory, "probe.js");
+const configPath = join(directory, "browser.json");
+writeFileSync(configPath, JSON.stringify({ headed: false }));
 function probe() {
   window.__welcomeFrames = [];
   const start = performance.now();
@@ -30,7 +32,7 @@ function probe() {
 }
 writeFileSync(probePath, `(${probe.toString()})();`);
 function browser(args, input) {
-  return execFileSync("agent-browser", ["--session", session, ...args], {
+  return execFileSync("agent-browser", ["--config", configPath, "--session", session, ...args], {
     encoding: "utf8", input, timeout: 30_000,
   }).trim();
 }
@@ -67,6 +69,7 @@ try {
   browser(["reload"]);
   assertBypassed();
   browser(["tab", "new", url.href]);
+  browser(["tab", "t2"]);
   assertBypassed();
   console.log("Refresh and a new tab both bypass the welcome.");
 
@@ -108,6 +111,8 @@ try {
   clearVisit();
   browser(["reload"]);
   browser(["wait", "--fn", "document.getElementById('cv-site').inert"]);
+  browser(["tab", "t2"]);
+  browser(["wait", "--fn", "!document.hidden && document.querySelector('.welcome-intro') === document.activeElement"]);
   const entered = evaluate(async () => {
     const button = document.querySelector(".welcome-enter");
     const root = document.documentElement;

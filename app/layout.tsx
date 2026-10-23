@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { LanguageProvider } from "@/contexts/language-context";
 import { WelcomeIntro } from "@/components/portfolio/welcome-intro";
+import { LabRouteTransition } from "@/components/portfolio/lab-route-transition";
 import { welcomeBootstrap } from "@/lib/welcome-intro";
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -78,7 +79,7 @@ export default function RootLayout({
     >
       <head><script dangerouslySetInnerHTML={{ __html: welcomeBootstrap }} /></head>
       <body>
-        <LanguageProvider><WelcomeIntro>{children}</WelcomeIntro></LanguageProvider>
+        <LanguageProvider><LabRouteTransition><WelcomeIntro>{children}</WelcomeIntro></LabRouteTransition></LanguageProvider>
       </body>
     </html>
   );
