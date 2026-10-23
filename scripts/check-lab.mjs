@@ -104,9 +104,23 @@ try {
       assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Bloodborne");
     }
     if (id === "music") {
-      browser(["find", "role", "button", "click", "--name", "All-time favorites", "--exact"]);
-      assert.equal(evaluate(() => document.querySelector("figure strong").textContent), "In Rainbows");
-      assert.ok(evaluate(() => document.querySelector('a[href*="open.spotify.com"]').href.includes("Radiohead")));
+      assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Spotify loads only after opening an album.");
+      const musicContour = evaluate(() => document.getElementById("lab-ink-path").getAttribute("d"));
+      browser(["focus", '[role="listbox"][aria-label="Choose an album"]']);
+      browser(["press", "Enter"]);
+      wait(`!!document.querySelector('iframe[title="Spotify album player: Getting Killed by Geese"]')`);
+      wait(`Array.from(document.querySelectorAll('#lab-content img')).every(img => img.complete && img.naturalWidth > 0)`);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Getting Killed album detail"] h2').textContent), "Getting Killed");
+      assert.equal(evaluate(() => {
+        const frame = document.querySelector('iframe[src*="open.spotify.com"]');
+        return frame.src.includes('/album/0eeXb23yMW6EaIgm63xxPC') && frame.allow.includes('encrypted-media') && !frame.src.includes('autoplay=1');
+      }), true, "The visible official album embed retains encrypted playback and does not autoplay.");
+      assert.equal(evaluate(() => document.getElementById("lab-ink-path").getAttribute("d")), musicContour, "Opening an album keeps the black contour still.");
+      browser(["find", "role", "button", "click", "--name", "Close album", "--exact"]);
+      assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Closing an album unloads Spotify playback.");
+      assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Choose an album", "Close returns focus to the wheel.");
+      browser(["click", '[role="option"][aria-selected="true"]']);
+      wait(`!!document.querySelector('iframe[src*="open.spotify.com"]')`);
     }
     if (id === "projects") {
       browser(["find", "role", "button", "click", "--name", "Cardio — Experiment", "--exact"]);
@@ -117,6 +131,7 @@ try {
       assert.ok(evaluate(() => document.getElementById("lab-content").textContent.includes("A few good ingredients.")));
     }
     escaped();
+    if (id === "music") assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Leaving Music unloads its player.");
     assert.equal(evaluate(() => document.activeElement.getAttribute("href")), `#${id}`, "Focus returns to the opener.");
   }
   assert.equal(new Set(contours).size, 5, "Every menu has a distinct silhouette.");
@@ -151,6 +166,8 @@ try {
   assert.equal(evaluate(() => document.querySelector('nav[aria-label="Explore the Lab"]').getClientRects().length), 0, "The desktop Lab is hidden on phones.");
   assert.ok(evaluate(() => [...document.querySelectorAll("h1")].some(heading => heading.getClientRects().length > 0 && heading.textContent === "A little more room.")));
   assert.equal(evaluate(() => document.querySelectorAll("canvas").length), 0, "No Tech Text renderer on phones.");
+  open("/lab#music");
+  assert.equal(evaluate(() => document.querySelectorAll('[aria-label="Choose an album"], iframe[src*="open.spotify.com"]').length), 0, "The Music wheel and player are not mounted on phones.");
   open("/");
   evaluate(() => { localStorage.setItem("cv-welcome-seen", "1"); });
   open("/");

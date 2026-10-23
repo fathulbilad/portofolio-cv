@@ -1,0 +1,50 @@
+.intro { align-self: start; min-width: 0; padding-top: 2svh; }
+.intro h1 { width: max-content; margin: 0 0 16px; font-family: var(--lab-display); font-size: clamp(64px, 7.8vw, 126px); font-weight: 400; line-height: 1.04; letter-spacing: -1.8px; text-transform: uppercase; transform: rotate(-5deg) skew(-3deg) scaleX(.9); transform-origin: left center; }
+.intro h1:focus { outline: none; }
+.subtitle { margin: 19px 0 0; font-size: clamp(12px, 1.05vw, 16px); line-height: 1.8; }
+.wheelEntrance { margin-top: clamp(20px, 4svh, 50px); transform-origin: left center; }
+.wheel { height: clamp(170px, 28svh, 300px); min-width: 0; }
+.wheel :global(.option-wheel) { cursor: default; }
+.wheel :global(.option-wheel):focus-visible { outline-offset: -2px; }
+.wheel :global(.option-wheel__item) { max-width: calc(100% - 24px); white-space: normal; font-family: var(--lab-display); font-size: clamp(29px, 3vw, 48px); font-weight: 400; line-height: 1.12; text-transform: uppercase; }
+.wheel :global(.option-wheel__item) > span { display: block; }
+.wheel :global(.option-wheel__item) small { display: block; margin-top: 9px; color: var(--lab-accent); font: 12px/1.5 "Courier New", monospace; text-transform: none; }
+.openArrow { color: var(--lab-accent); }
+.hint { margin: 0 0 0 12px; max-width: 30ch; color: var(--lab-white); font-size: 11px; line-height: 1.7; }
+.collection { margin: clamp(28px, 5svh, 60px) 0 0 12px; color: #d3e2ff; font-size: 11px; line-height: 1.6; }
+.detail { display: flex; align-items: center; justify-content: center; min-width: 0; padding-left: 3vw; color: var(--lab-white); }
+.invitation { width: min(100%, 410px); }
+.invitation > span { color: var(--lab-accent); font-size: 11px; text-transform: uppercase; letter-spacing: 1.7px; }
+.invitation h2 { margin: 20px 0; font-family: var(--lab-display); font-size: clamp(52px, 6.1vw, 88px); font-weight: 400; line-height: 1.07; text-transform: uppercase; }
+.invitation p { margin: 0; color: var(--lab-accent); font-size: 13px; line-height: 1.9; }
+.record { width: min(100%, 410px); }
+.recordHeader { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 17px; }
+.recordHeader > span { color: var(--lab-accent); font-size: 10px; line-height: 1.6; text-transform: uppercase; letter-spacing: 1px; }
+.recordHeader button { flex-shrink: 0; min-height: 30px; font-size: 11px; text-decoration: underline; text-underline-offset: 5px; }
+.cover { display: block; width: clamp(180px, 27svh, 300px); max-width: 100%; aspect-ratio: 1; margin: 0 auto 21px; background: #23387d; }
+.cover img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.coverFallback { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 20px; color: var(--lab-white); text-align: center; font-family: var(--lab-display); font-size: 30px; text-transform: uppercase; }
+.coverFallback small { margin-top: 12px; font: 11px/1.6 "Courier New", monospace; text-transform: none; }
+.record h2 { margin: 0; font-family: var(--lab-display); font-size: clamp(30px, 3vw, 44px); font-weight: 400; line-height: 1.12; text-transform: uppercase; }
+.artist { margin: 8px 0 20px; color: var(--lab-accent); font-size: 12px; line-height: 1.5; }
+.player { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; background: #202020; }
+.spotify { display: inline-block; margin-top: 16px; color: var(--lab-accent); font-size: 11px; line-height: 1.6; text-decoration: underline; text-underline-offset: 5px; }
+.provider { margin: 9px 0 0; color: #c2c9d2; font-size: 10px; line-height: 1.6; }
+@media (max-width: 1050px) {
+  .intro h1 { font-size: 8.2vw; }
+  .detail { padding-left: 1vw; }
+  .recordHeader { gap: 10px; }
+  .recordHeader > span { font-size: 9px; }
+  .cover { width: clamp(180px, 25svh, 270px); }
+  .wheel :global(.option-wheel__item) { font-size: 3.5vw; }
+}
+@media (max-height: 800px) {
+  .cover { width: clamp(150px, 23svh, 200px); margin-bottom: 16px; }
+  .recordHeader { margin-bottom: 12px; }
+  .record h2 { font-size: 30px; }
+  .artist { margin: 7px 0 14px; }
+  .spotify { margin-top: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wheel :global(.option-wheel__item) { filter: none !important; }
+}

@@ -57,10 +57,15 @@ export const games = [
   },
 ];
 
-export const musicCollections = [
-  { label: "Current rotation", album: "Discovery", artist: "Daft Punk", note: "For the days that need a little more momentum. A sample pick for this first version of the listening room.", url: "https://open.spotify.com/search/Daft%20Punk%20Discovery" },
-  { label: "All-time favorites", album: "In Rainbows", artist: "Radiohead", note: "A record to sit with rather than rush through. Leave a note here about a song, a memory, or a favorite moment.", url: "https://open.spotify.com/search/Radiohead%20In%20Rainbows" },
-  { label: "Playlists", album: "Late-night focus", artist: "A mix in progress", note: "Instrumentals, a little electronic music, and the occasional detour. A place for a future playlist of your own.", url: "https://open.spotify.com/search/late%20night%20instrumental" },
+export const musicAlbums = [
+  {
+    title: "Getting Killed",
+    artist: "Geese",
+    year: "2025",
+    spotifyId: "0eeXb23yMW6EaIgm63xxPC",
+    url: "https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC",
+    cover: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0245e82ae0372a50834825c018",
+  },
 ];
 
 export const labProjects = [

@@ -56,12 +56,32 @@ Hollow Knight. The entrance uses a softer
 blue-grey Games palette. Source links accompany the official
 screenshots; [game artwork credits](docs/lab-game-artwork.md) record their origins.
 
+Music keeps its cobalt-blue, ivory, and pale-blue palette with a static black
+halftone contour. The left-hand React Bits Option Wheel starts with Geese's
+Getting Killed. Click an album or press Enter/Space to open its official cover
+and Spotify album embed on the right. React Bits Animated Content provides a
+680ms upward wheel entrance and a 520ms album pop. The wheel supports scrolling,
+dragging, arrow keys, and Home/End when more albums are added; the first version
+contains one real album and no placeholder records. Reduced motion skips the pops
+and wheel easing. The desktop/tablet Music room is not mounted on phones.
+
+Spotify and its cover image load only when an album is opened. The cover is
+served directly from Spotify without local caching, editing, tinting, or proxying.
+The official player stays visible, retains encrypted-media permission, and starts
+music only through its own controls. Closing an album or leaving Music removes
+the player. Interface sounds are suppressed while the album is open to avoid
+overlapping music. No song files, custom snippets, beat analysis, or audio-driven
+shape animations are used. Playback availability is determined by Spotify.
+See [Music sources and playback notes](docs/lab-music.md).
+
 React Bits is the reference for Lab components, animation, and interface sounds.
 The gallery uses the official [Fade Content](https://reactbits.dev/animations/fade-content)
 component for captions and the [Carousel](https://reactbits.dev/components/carousel)
 fade/selection pattern for the preview and shelf. Menu lettering comes from
 [Tech Text](https://reactbits.dev/text-animations/tech-text), and interface sounds
-come from [Sound Lab](https://reactbits.dev/tools/sound-lab). Keep these references
+come from [Sound Lab](https://reactbits.dev/tools/sound-lab). Music uses
+[Option Wheel](https://reactbits.dev/components/option-wheel) and
+[Animated Content](https://reactbits.dev/animations/animated-content). Keep these references
 and their source/license notes when extending the Lab.
 
 The CV's Playground link uses a roughly two-second layered pink-and-black wipe
@@ -75,12 +95,13 @@ The header's Playground link appears on desktop and tablet. Below 768px, and on
 short touch-only landscape screens, the entry is hidden and a direct Lab visit
 offers a return to the CV. Mobile can receive its own design later.
 
-- `lib/lab.ts`: all sample picks, personal notes, colors, and project links. These
-  starter collections are demonstration content, not verified personal favorites.
+- `lib/lab.ts`: game and album picks, starter personal notes, colors, and project
+  links. The selected games and Geese album were requested by the site owner;
+  other starter content remains editable demonstration copy.
 - `components/lab/`: interface, scoped styles, and the official vendored React
-  Bits Tech Text, Fade Content, and Sound Lab sources, with their license. Interface audio is
-  opt-in on each visit. No commercial tracks are hosted or autoplayed; Music uses
-  Spotify search links.
+  Bits Tech Text, Fade Content, Animated Content, Option Wheel, and Sound Lab
+  sources, with their license. Interface audio is opt-in on each visit. Music uses
+  the visible official Spotify album embed; commercial tracks are not hosted or autoplayed.
 - `public/lab/`: original generated artwork and official game screenshots,
   optimized to WebP. Prompts and output paths for the original illustrations are
   recorded in [the artwork notes](docs/lab-artwork.md).

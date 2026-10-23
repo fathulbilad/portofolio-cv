@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type MouseEvent } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import { games, isLabSection, labProjects, labSections, lifeEntries, musicCollections, oddNotes, type LabSection } from "@/lib/lab";
+import { games, isLabSection, labProjects, labSections, lifeEntries, oddNotes, type LabSection } from "@/lib/lab";
 import TechText from "./vendor/TechText";
 import pebble from "./vendor/pebble";
 import notch from "./vendor/notch";
@@ -12,6 +12,7 @@ import { playSound, setSoundMuted, setSoundVolume } from "./vendor/react-bits-so
 import styles from "./lab.module.css";
 import { LabInk } from "./lab-ink";
 import { GamesGallery } from "./games-gallery";
+import { MusicRoom } from "./music-room";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
 
 const navigationEvent = "lab:navigate";
@@ -67,10 +68,10 @@ export function Lab() {
   const [soundMessage, setSoundMessage] = useState("");
   const [wipe, setWipe] = useState<"cover" | "reveal" | null>(null);
   const [game, setGame] = useState(0);
-  const [music, setMusic] = useState(0);
   const [project, setProject] = useState(0);
   const [note, setNote] = useState(0);
   const soundEnabled = useRef(false);
+  const musicIsOpen = useRef(false);
   const transitioning = useRef(false);
   const lastSound = useRef(0);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -85,7 +86,7 @@ export function Lab() {
     const scheduled = timers.current;
     document.fonts.ready.then(() => { if (alive) setFontsReady(true); });
     setSoundMuted(true);
-    const onVisibility = () => setSoundMuted(document.hidden || !soundEnabled.current);
+    const onVisibility = () => setSoundMuted(document.hidden || musicIsOpen.current || !soundEnabled.current);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       alive = false;
@@ -96,7 +97,7 @@ export function Lab() {
   }, []);
 
   const play = useCallback((kind: "hover" | "select" = "select") => {
-    if (!soundEnabled.current || document.hidden) return;
+    if (!soundEnabled.current || musicIsOpen.current || document.hidden) return;
     const now = performance.now();
     if (kind === "hover" && now - lastSound.current < 90) return;
     lastSound.current = now;
@@ -140,7 +141,12 @@ export function Lab() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [section, go]);
+  }, [section, go, large]);
+
+  const onAlbumOpenChange = useCallback((open: boolean) => {
+    musicIsOpen.current = open;
+    setSoundMuted(document.hidden || open || !soundEnabled.current);
+  }, []);
 
   function choose<T>(setter: (value: T) => void, value: T) { play(); setter(value); }
   function preview(id: LabSection) { if (mood !== id) { setMood(id); play("hover"); } }
@@ -155,12 +161,11 @@ export function Lab() {
     soundEnabled.current = next;
     setSound(next);
     setSoundMessage("");
-    setSoundMuted(!next);
+    setSoundMuted(!next || musicIsOpen.current || document.hidden);
     setSoundVolume(0.4);
     if (next) play();
   }
 
-  const currentMusic = musicCollections[music];
   const gamePalette = section === "games" ? games[game].palette : null;
   const currentProject = labProjects[project];
   const currentNote = oddNotes[note];
@@ -196,8 +201,8 @@ export function Lab() {
             <ExpressiveType text={item.title} enhanced={enhanced && mood === item.id} accent={theme.accent} />
           </a>)}
         </nav>
-      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
-        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : <>
+      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""} ${section === "music" ? styles.musicRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
+        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : section === "music" ? (large && <MusicRoom reduced={reduced} headingRef={heading} onSelectSound={play} onAlbumOpenChange={onAlbumOpenChange} />) : <>
         <div className={styles.roomIntro}>
           <h1 id="lab-heading" ref={heading} tabIndex={-1}>{theme.title}</h1>
           <p className={styles.subtitle}>{theme.subtitle}</p>
@@ -209,10 +214,6 @@ export function Lab() {
 
         <div className={styles.roomBody}>
           {section === "life" && <div className={styles.journal}>{lifeEntries.map(entry => <article key={entry.label}><h2>{entry.label}</h2><h3>{entry.title}</h3><p>{entry.body}</p></article>)}</div>}
-          {section === "music" && <div className={styles.listening}>
-            <figure className={styles.album} key={currentMusic.album}><div className={styles.albumArt} data-variant={music}><Image src="/lab/music.webp" alt="An original abstract cover with flowing blue and ivory waves." width={700} height={700} loading="eager" sizes="25vw" /></div><figcaption><strong>{currentMusic.album}</strong><span>{currentMusic.artist}</span></figcaption></figure>
-            <div className={styles.listeningNotes}><h2>Why I keep coming back</h2><p aria-live="polite">{currentMusic.note}</p><Picks label="Choose a listening collection" labels={musicCollections.map(item => item.label)} selected={music} onSelect={index => choose(setMusic, index)} /><a href={currentMusic.url} target="_blank" rel="noopener noreferrer" className={styles.external}>Listen on Spotify <span aria-hidden="true">↗</span></a></div>
-          </div>}
           {section === "projects" && <article className={styles.feature} key={currentProject.title} aria-live="polite">
             <div className={`${styles.art} ${styles.projectArt}`} data-variant={project}><Image src="/lab/projects.webp" alt="An abstract sculpture made from intersecting geometric planes." width={1200} height={800} loading="eager" sizes="50vw" /></div>
             <div className={styles.featureCopy}><p className={styles.eyebrow}>{currentProject.status}</p><h2>{currentProject.title}</h2><p>{currentProject.description}</p><p className={styles.detail}>{currentProject.note}</p>{currentProject.href.startsWith("#") ? <a className={styles.external} href={currentProject.href} onClick={event => { event.preventDefault(); go("odds"); }}>{currentProject.action} ↗</a> : <a className={styles.external} href={currentProject.href}>{currentProject.action} ↗</a>}</div>
