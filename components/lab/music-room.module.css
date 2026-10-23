@@ -28,6 +28,8 @@
 .record h2 { margin: 0; font-family: var(--lab-display); font-size: clamp(30px, 3vw, 44px); font-weight: 400; line-height: 1.12; text-transform: uppercase; }
 .artist { margin: 8px 0 20px; color: var(--lab-accent); font-size: 12px; line-height: 1.5; }
 .player { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; background: #202020; }
+.playerHost { min-height: 152px; border-radius: 12px; background: #202020; }
+.playerHost iframe { display: block; width: 100%; height: 152px; border: 0; border-radius: 12px; }
 .spotify { display: inline-block; margin-top: 16px; color: var(--lab-accent); font-size: 11px; line-height: 1.6; text-decoration: underline; text-underline-offset: 5px; }
 .provider { margin: 9px 0 0; color: #c2c9d2; font-size: 10px; line-height: 1.6; }
 @media (max-width: 1050px) {

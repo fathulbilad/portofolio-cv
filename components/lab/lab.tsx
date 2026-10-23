@@ -68,6 +68,7 @@ export function Lab() {
   const [soundMessage, setSoundMessage] = useState("");
   const [wipe, setWipe] = useState<"cover" | "reveal" | null>(null);
   const [game, setGame] = useState(0);
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const [project, setProject] = useState(0);
   const [note, setNote] = useState(0);
   const soundEnabled = useRef(false);
@@ -178,7 +179,7 @@ export function Lab() {
       <Link href="/">← Back to my CV</Link>
     </div>
     <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""}`}>
-      <LabInk section={section} mood={mood} animated={large && !reduced} />
+      <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>
         {section ? <button type="button" onClick={() => go(null)}>← <span>Menu</span></button> : <LabRouteLink href="/">← <span>CV</span></LabRouteLink>}
@@ -202,7 +203,7 @@ export function Lab() {
           </a>)}
         </nav>
       </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""} ${section === "music" ? styles.musicRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
-        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : section === "music" ? (large && <MusicRoom reduced={reduced} headingRef={heading} onSelectSound={play} onAlbumOpenChange={onAlbumOpenChange} />) : <>
+        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : section === "music" ? (large && <MusicRoom reduced={reduced} headingRef={heading} onSelectSound={play} onAlbumOpenChange={onAlbumOpenChange} onPlaybackChange={setMusicPlaying} />) : <>
         <div className={styles.roomIntro}>
           <h1 id="lab-heading" ref={heading} tabIndex={-1}>{theme.title}</h1>
           <p className={styles.subtitle}>{theme.subtitle}</p>

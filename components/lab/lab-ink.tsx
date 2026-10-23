@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useSyncExternalStore } from "react";
 import type { LabSection } from "@/lib/lab";
 import styles from "./lab.module.css";
 
@@ -14,14 +15,34 @@ const menuContours: Record<LabSection, string> = {
   odds: "M630-100C670-30 685 20 650 80C620 140 525 145 515 220C500 300 470 325 520 390C560 440 655 435 660 500C665 555 580 570 585 630C590 685 670 675 680 740C690 800 625 815 650 880C675 940 725 975 730 1040L1660 1040L1660-100Z",
 };
 
-export function LabInk({ section, mood, animated }: { section: LabSection | null; mood: LabSection; animated: boolean }) {
+const musicContour = "M540-150C620 50 635 170 550 300 460 440 570 480 555 640 530 780 615 880 600 1030L1660 1030 1660-150Z";
+// An independent, slow contour cycle, activated by Spotify playback state only.
+// The same path drives the solid fill and halftone edge; no audio is analyzed.
+const musicContours = [
+  musicContour,
+  "M540-150C595 40 660 175 565 305 485 430 535 500 570 640 555 790 590 880 615 1030L1660 1030 1660-150Z",
+  "M540-150C645 60 610 160 535 295 440 450 600 465 540 640 510 770 640 895 585 1030L1660 1030 1660-150Z",
+  musicContour,
+];
+const subscribeVisibility = (notify: () => void) => {
+  document.addEventListener("visibilitychange", notify);
+  return () => document.removeEventListener("visibilitychange", notify);
+};
+const readVisible = () => !document.hidden;
+const serverVisible = () => true;
+
+export function LabInk({ section, mood, animated, musicPlaying = false }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean }) {
+  const visible = useSyncExternalStore(subscribeVisibility, readVisible, serverVisible);
+  const moving = section === "music" && musicPlaying && animated && visible;
   const roomContour = section === "games" ? "M-100-150H1660V1040H-100Z" : section === "life"
     ? "M465-180C600-30 785 130 1015 5L1445-150 1660-140 1650 1020C1420 1020 1310 985 1205 830 1095 690 820 795 724 650 632 513 440 570 485 385 527 216 685 230 628 95 578-25 390-110 465-180Z"
-    : "M540-150C620 50 635 170 550 300 460 440 570 480 555 640 530 780 615 880 600 1030L1660 1030 1660-150Z";
+    : musicContour;
 
-  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} data-ink-motion={moving ? "playing" : "resting"} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      {section ? <path id="lab-ink-path" d={roomContour} /> : <motion.path id="lab-ink-path"
+      {section === "music" ? <motion.path key="music-room" id="lab-ink-path" initial={false}
+        animate={{ d: moving ? musicContours : musicContour }}
+        transition={moving ? { duration: 8, ease: "easeInOut", repeat: Infinity } : { duration: animated && visible ? 0.85 : 0, ease: [0.22, 1, 0.36, 1] }} /> : section ? <path id="lab-ink-path" d={roomContour} /> : <motion.path id="lab-ink-path"
         initial={false} animate={{ d: menuContours[mood] }}
         transition={{ duration: animated ? 0.65 : 0, ease: [0.45, 0, 0.25, 1] }} />}
       <pattern id="lab-ink-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><circle cx="4" cy="4" r="2.7" fill="#111011" /></pattern>

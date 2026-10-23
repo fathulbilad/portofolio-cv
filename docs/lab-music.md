@@ -1,17 +1,29 @@
 # Music room sources
 
-The initial record is **Getting Killed — Geese (2025)**, chosen by the site owner.
+The records are **Getting Killed — Geese (2025)**, an album, and
+**Popstar — Tinashe (2026)**, the song, both chosen by the site owner.
 
 - [Official Spotify album](https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC)
 - [Official oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F0eeXb23yMW6EaIgm63xxPC), retrieved October 23, 2026.
+- [Official Tinashe song](https://open.spotify.com/track/7aF0puGulyEEJkOQZNKNyu)
+- [Popstar oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Ftrack%2F7aF0puGulyEEJkOQZNKNyu), retrieved October 23, 2026.
 - Cover URL is the `thumbnail_url` supplied by that response, displayed directly
   from Spotify without downloading, proxying, caching locally, or altering it.
 - The official album player uses the supported compact height and dark theme.
   Its Spotify branding and controls remain visible and unmodified.
 
 Spotify serves playback. There is no autoplay, locally hosted audio, custom
-5–10 second excerpt, beat detector, audio capture, or visual synchronization.
-The black contour remains static while the album is selected or played.
+5–10 second excerpt, beat detector, audio capture, or time-synchronized visuals.
+The black contour runs an independent eight-second morph only while Spotify's
+official `playback_update` event reports `isPaused: false` and no buffering.
+Position and duration are compared only to detect the end of a preview, since
+Spotify can leave its paused flag unset at completion. No audio timing, waveform,
+spectrum, or beat data drives the shape.
+Pause, completion, playback errors, closing, switching records, or leaving the room end the
+animation and smoothly return to the resting contour. Hidden tabs and reduced
+motion disable the contour cycle. The dot mask shares the same path as the fill.
+If Spotify's controller is blocked or slow to load, an ordinary iframe fallback
+preserves playback and leaves the boundary still.
 The player is unmounted on Close, section changes, or phone layouts; this ends
 its in-page playback. External album links remain available if embedding fails.
 
@@ -26,6 +38,7 @@ References:
 - [Spotify Embeds](https://developer.spotify.com/documentation/embeds)
 - [Spotify widget terms](https://developer.spotify.com/documentation/embeds/terms)
 - [Spotify embed troubleshooting](https://developer.spotify.com/documentation/embeds/tutorials/troubleshooting)
+- [Official iFrame API and playback events](https://developer.spotify.com/documentation/embeds/references/iframe-api)
 - [React Bits Option Wheel](https://reactbits.dev/components/option-wheel)
 - [React Bits Animated Content](https://reactbits.dev/animations/animated-content)
 

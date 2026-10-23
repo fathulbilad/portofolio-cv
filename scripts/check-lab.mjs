@@ -106,7 +106,8 @@ try {
     if (id === "music") {
       assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Spotify loads only after opening an album.");
       const musicContour = evaluate(() => document.getElementById("lab-ink-path").getAttribute("d"));
-      browser(["focus", '[role="listbox"][aria-label="Choose an album"]']);
+      assert.equal(evaluate(() => [...document.querySelectorAll('[role="option"]')].some(option => option.textContent.includes("Popstar") && option.textContent.includes("Tinashe"))), true);
+      browser(["focus", '[role="listbox"][aria-label="Choose a record"]']);
       browser(["press", "Enter"]);
       wait(`!!document.querySelector('iframe[title="Spotify album player: Getting Killed by Geese"]')`);
       wait(`Array.from(document.querySelectorAll('#lab-content img')).every(img => img.complete && img.naturalWidth > 0)`);
@@ -116,9 +117,16 @@ try {
         return frame.src.includes('/album/0eeXb23yMW6EaIgm63xxPC') && frame.allow.includes('encrypted-media') && !frame.src.includes('autoplay=1');
       }), true, "The visible official album embed retains encrypted playback and does not autoplay.");
       assert.equal(evaluate(() => document.getElementById("lab-ink-path").getAttribute("d")), musicContour, "Opening an album keeps the black contour still.");
-      browser(["find", "role", "button", "click", "--name", "Close album", "--exact"]);
+      browser(["find", "role", "button", "click", "--name", "Close record", "--exact"]);
       assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Closing an album unloads Spotify playback.");
-      assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Choose an album", "Close returns focus to the wheel.");
+      assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Choose a record", "Close returns focus to the wheel.");
+      browser(["press", "End"]);
+      browser(["press", "Enter"]);
+      wait(`!!document.querySelector('iframe[title="Spotify track player: Popstar by Tinashe"]')`);
+      assert.equal(evaluate(() => document.querySelector('[aria-label="Popstar track detail"] h2').textContent), "Popstar");
+      assert.ok(evaluate(() => document.querySelector('iframe').src.includes('/track/7aF0puGulyEEJkOQZNKNyu')));
+      browser(["find", "role", "button", "click", "--name", "Close record", "--exact"]);
+      browser(["press", "Home"]);
       browser(["click", '[role="option"][aria-selected="true"]']);
       wait(`!!document.querySelector('iframe[src*="open.spotify.com"]')`);
     }
@@ -167,7 +175,7 @@ try {
   assert.ok(evaluate(() => [...document.querySelectorAll("h1")].some(heading => heading.getClientRects().length > 0 && heading.textContent === "A little more room.")));
   assert.equal(evaluate(() => document.querySelectorAll("canvas").length), 0, "No Tech Text renderer on phones.");
   open("/lab#music");
-  assert.equal(evaluate(() => document.querySelectorAll('[aria-label="Choose an album"], iframe[src*="open.spotify.com"]').length), 0, "The Music wheel and player are not mounted on phones.");
+  assert.equal(evaluate(() => document.querySelectorAll('[aria-label="Choose a record"], iframe[src*="open.spotify.com"]').length), 0, "The Music wheel and player are not mounted on phones.");
   open("/");
   evaluate(() => { localStorage.setItem("cv-welcome-seen", "1"); });
   open("/");

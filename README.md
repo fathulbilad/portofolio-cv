@@ -56,22 +56,27 @@ Hollow Knight. The entrance uses a softer
 blue-grey Games palette. Source links accompany the official
 screenshots; [game artwork credits](docs/lab-game-artwork.md) record their origins.
 
-Music keeps its cobalt-blue, ivory, and pale-blue palette with a static black
-halftone contour. The left-hand React Bits Option Wheel starts with Geese's
-Getting Killed. Click an album or press Enter/Space to open its official cover
-and Spotify album embed on the right. React Bits Animated Content provides a
+Music keeps its cobalt-blue, ivory, and pale-blue palette. Its black halftone
+boundary slowly morphs only while the official Spotify controller reports active,
+non-buffering playback. It settles back on pause, completion, close, record changes, or exit;
+reduced motion and hidden tabs keep it still. This is a fixed eight-second contour
+cycle that acts as playback feedback, independent of the song's beat or loudness.
+The left-hand React Bits Option Wheel contains Geese's Getting Killed album and
+Tinashe's Popstar song. Click a record or press Enter/Space to open its official
+cover and Spotify album or track embed on the right. React Bits Animated Content provides a
 680ms upward wheel entrance and a 520ms album pop. The wheel supports scrolling,
-dragging, arrow keys, and Home/End when more albums are added; the first version
-contains one real album and no placeholder records. Reduced motion skips the pops
+dragging, arrow keys, and Home/End. There are two real records and no placeholders.
+Reduced motion skips the pops
 and wheel easing. The desktop/tablet Music room is not mounted on phones.
 
 Spotify and its cover image load only when an album is opened. The cover is
 served directly from Spotify without local caching, editing, tinting, or proxying.
-The official player stays visible, retains encrypted-media permission, and starts
+The official iFrame API player stays visible, retains encrypted-media permission, and starts
 music only through its own controls. Closing an album or leaving Music removes
 the player. Interface sounds are suppressed while the album is open to avoid
-overlapping music. No song files, custom snippets, beat analysis, or audio-driven
-shape animations are used. Playback availability is determined by Spotify.
+overlapping music. No song files, custom snippets, audio capture, beat analysis,
+or time-synchronized visuals are used. If the controller cannot load, a normal
+Spotify iframe remains available and the boundary stays still. Playback availability is determined by Spotify.
 See [Music sources and playback notes](docs/lab-music.md).
 
 React Bits is the reference for Lab components, animation, and interface sounds.
@@ -95,13 +100,13 @@ The header's Playground link appears on desktop and tablet. Below 768px, and on
 short touch-only landscape screens, the entry is hidden and a direct Lab visit
 offers a return to the CV. Mobile can receive its own design later.
 
-- `lib/lab.ts`: game and album picks, starter personal notes, colors, and project
-  links. The selected games and Geese album were requested by the site owner;
+- `lib/lab.ts`: game and record picks, starter personal notes, colors, and project
+  links. The selected games, Geese album, and Tinashe song were requested by the site owner;
   other starter content remains editable demonstration copy.
 - `components/lab/`: interface, scoped styles, and the official vendored React
   Bits Tech Text, Fade Content, Animated Content, Option Wheel, and Sound Lab
   sources, with their license. Interface audio is opt-in on each visit. Music uses
-  the visible official Spotify album embed; commercial tracks are not hosted or autoplayed.
+  visible official Spotify embeds; commercial tracks are not hosted or autoplayed.
 - `public/lab/`: original generated artwork and official game screenshots,
   optimized to WebP. Prompts and output paths for the original illustrations are
   recorded in [the artwork notes](docs/lab-artwork.md).
@@ -110,12 +115,16 @@ With a local preview running, check the Lab with:
 
 ```sh
 node scripts/check-lab.mjs http://127.0.0.1:3105
+node scripts/check-music.mjs http://127.0.0.1:3105
 ```
 
 The check exercises palettes, animated contours, rapid hovering, menu contrast,
 sections, selections, artwork loading, focus restoration, browser history,
 opt-in sound, tablet layouts, hidden phone entry, reduced motion, and invalid URL
 fragment recovery.
+The focused Music check uses a test controller to exercise playback, pause,
+buffering, completion, error recovery, hidden tabs, cleanup, reduced motion,
+the exact song selection, and a blocked-API iframe fallback without streaming audio.
 
 ## CV content and assets
 

@@ -57,14 +57,24 @@ export const games = [
   },
 ];
 
-export const musicAlbums = [
+export const musicRecords: { title: string; artist: string; year: string; type: "album" | "track"; spotifyId: string; url: string; cover: string }[] = [
   {
     title: "Getting Killed",
     artist: "Geese",
     year: "2025",
+    type: "album",
     spotifyId: "0eeXb23yMW6EaIgm63xxPC",
     url: "https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC",
     cover: "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0245e82ae0372a50834825c018",
+  },
+  {
+    title: "Popstar",
+    artist: "Tinashe",
+    year: "2026",
+    type: "track",
+    spotifyId: "7aF0puGulyEEJkOQZNKNyu",
+    url: "https://open.spotify.com/track/7aF0puGulyEEJkOQZNKNyu",
+    cover: "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f8dc54881b35310061266cdf",
   },
 ];
 
