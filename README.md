@@ -82,8 +82,14 @@ See [Music sources and playback notes](docs/lab-music.md).
 React Bits is the reference for Lab components, animation, and interface sounds.
 The gallery uses the official [Fade Content](https://reactbits.dev/animations/fade-content)
 component for captions and the [Carousel](https://reactbits.dev/components/carousel)
-fade/selection pattern for the preview and shelf. Menu lettering comes from
-[Tech Text](https://reactbits.dev/text-animations/tech-text), and interface sounds
+fade/selection pattern for the preview and shelf. Menu labels use broken marker
+highlights in the same color as their left-hand background. Every pointer entry
+or keyboard focus generates fresh irregular strokes with gaps; pointer movement
+within a label keeps its pattern stable. Letters over a stroke use its contrasting
+ink color, while uncovered portions remain ivory. React Bits
+[Animated Content](https://reactbits.dev/animations/animated-content) reveals the
+strokes with short staggered wipes; reduced motion shows them immediately.
+This replaces the previous Tech Text glyph effect. Interface sounds
 come from [Sound Lab](https://reactbits.dev/tools/sound-lab). Music uses
 [Option Wheel](https://reactbits.dev/components/option-wheel) and
 [Animated Content](https://reactbits.dev/animations/animated-content). Keep these references
@@ -93,8 +99,8 @@ The CV's Playground link uses a roughly two-second layered pink-and-black wipe
 that covers the outgoing page and waits for the Lab and its font before revealing
 it. Returning to the CV uses the same handoff; reduced motion uses a short opacity fade.
 Escape and the Menu button return to the entrance. URL fragments support direct
-links, refresh, and browser Back/Forward. Reduced motion skips the wipe and canvas
-lettering. The first menu mood is pink.
+links, refresh, and browser Back/Forward. Reduced motion skips the wipes and morphs.
+The first menu mood is pink.
 
 The header's Playground link appears on desktop and tablet. Below 768px, and on
 short touch-only landscape screens, the entry is hidden and a direct Lab visit
@@ -118,7 +124,8 @@ node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
 ```
 
-The check exercises palettes, animated contours, rapid hovering, menu contrast,
+The check exercises palettes, animated contours, rapid hovering, matching label
+highlights, fresh patterns on re-entry, stable patterns during pointer movement, menu contrast,
 sections, selections, artwork loading, focus restoration, browser history,
 opt-in sound, tablet layouts, hidden phone entry, reduced motion, and invalid URL
 fragment recovery.

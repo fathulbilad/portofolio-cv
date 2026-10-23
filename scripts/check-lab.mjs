@@ -53,7 +53,7 @@ try {
   browser(["set", "viewport", "1440", "900"]);
   menuReady();
   browser(["eval", "--stdin"], readFileSync(probePath, "utf8"));
-  wait(`!!document.querySelector('nav[aria-label="Explore the Lab"] canvas')`);
+  wait(`document.fonts.status === 'loaded' && !!document.querySelector('[data-menu-label]')`);
   assert.equal(evaluate(() => window.__labAudioContexts), 0, "No audio context before opting in.");
   assert.equal(evaluate(() => document.querySelector('button[aria-label="Turn interface sounds on"]').getAttribute("aria-pressed")), "false");
   assert.equal(evaluate(() => document.querySelector('nav[aria-label="Explore the Lab"]').querySelectorAll("a").length), 5);
@@ -71,6 +71,11 @@ try {
     const frames = settledInk();
     assert.ok(frames.length > 4, `${id} morphs through intermediate contours instead of jumping.`);
     contours.push(frames.at(-1));
+    wait(`getComputedStyle(document.querySelector('a[href="#${id}"] [data-menu-highlight]')).opacity === '1'`);
+    assert.equal(evaluate(() => getComputedStyle(document.querySelector('a[data-active="true"] [data-menu-highlight] > div')).backgroundColor), color, "The label highlight matches the left-hand background.");
+    const highlight = evaluate(() => document.querySelector('a[data-active="true"] [data-menu-highlight]').dataset.menuHighlight);
+    browser(["hover", `a[href="#${id}"]`]);
+    assert.equal(evaluate(() => document.querySelector('a[data-active="true"] [data-menu-highlight]').dataset.menuHighlight), highlight, "Moving within a label never reshuffles its highlight.");
     assert.equal(evaluate(() => {
       const path = document.getElementById("lab-ink-path");
       const inverse = path.getScreenCTM().inverse();
@@ -143,6 +148,11 @@ try {
     assert.equal(evaluate(() => document.activeElement.getAttribute("href")), `#${id}`, "Focus returns to the opener.");
   }
   assert.equal(new Set(contours).size, 5, "Every menu has a distinct silhouette.");
+  browser(["hover", 'a[href="#life"]']);
+  const firstHighlight = evaluate(() => [...document.querySelector('a[href="#life"] [data-menu-highlight]').children].map(mark => mark.style.clipPath));
+  browser(["hover", 'a[href="#games"]']);
+  browser(["hover", 'a[href="#life"]']);
+  assert.notDeepEqual(evaluate(() => [...document.querySelector('a[href="#life"] [data-menu-highlight]').children].map(mark => mark.style.clipPath)), firstHighlight, "Re-entering a label creates a fresh partial highlight.");
   foreground();
   trackInk();
   for (const id of Object.keys(moods)) browser(["hover", `a[href="#${id}"]`]);
@@ -173,7 +183,7 @@ try {
   open("/lab");
   assert.equal(evaluate(() => document.querySelector('nav[aria-label="Explore the Lab"]').getClientRects().length), 0, "The desktop Lab is hidden on phones.");
   assert.ok(evaluate(() => [...document.querySelectorAll("h1")].some(heading => heading.getClientRects().length > 0 && heading.textContent === "A little more room.")));
-  assert.equal(evaluate(() => document.querySelectorAll("canvas").length), 0, "No Tech Text renderer on phones.");
+  assert.equal(evaluate(() => document.querySelectorAll('[data-menu-highlight] > div').length), 0, "No highlight animation mounts on phones.");
   open("/lab#music");
   assert.equal(evaluate(() => document.querySelectorAll('[aria-label="Choose a record"], iframe[src*="open.spotify.com"]').length), 0, "The Music wheel and player are not mounted on phones.");
   open("/");
@@ -193,6 +203,8 @@ try {
   browser(["focus", 'a[href="#music"]']);
   wait("document.querySelector('[data-lab-mood]').dataset.labMood === 'music'");
   assert.ok(settledInk().length <= 2, "Reduced motion changes contour without intermediate animation frames.");
+  assert.equal(evaluate(() => getComputedStyle(document.querySelector('a[href="#music"] [data-menu-highlight]')).opacity), "1", "Keyboard focus reveals the highlight immediately with reduced motion.");
+  assert.equal(evaluate(() => [...document.querySelector('a[href="#music"] [data-menu-highlight]').children].every(mark => getComputedStyle(mark).maskImage === "none")), true, "Reduced motion skips the highlight wipe.");
   browser(["click", 'a[href="#life"]']); roomReady("life");
   assert.equal(evaluate(() => !!document.querySelector("[data-phase]")), false, "Reduced motion skips the ink wipe.");
   escaped();

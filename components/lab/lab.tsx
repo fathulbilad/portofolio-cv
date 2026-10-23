@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type MouseEvent } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { games, isLabSection, labProjects, labSections, lifeEntries, oddNotes, type LabSection } from "@/lib/lab";
-import TechText from "./vendor/TechText";
 import pebble from "./vendor/pebble";
 import notch from "./vendor/notch";
 import { playSound, setSoundMuted, setSoundVolume } from "./vendor/react-bits-sound";
@@ -14,6 +13,7 @@ import { LabInk } from "./lab-ink";
 import { GamesGallery } from "./games-gallery";
 import { MusicRoom } from "./music-room";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
+import { LabMenuLabel, createMenuHighlight, type MenuHighlight } from "./lab-menu-label";
 
 const navigationEvent = "lab:navigate";
 const largeScreenQuery = "(min-width: 768px) and (min-height: 501px), (min-width: 768px) and (pointer: fine)";
@@ -45,13 +45,6 @@ const serverTrue = () => true;
 const readLarge = () => window.matchMedia(largeScreenQuery).matches;
 const readReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function ExpressiveType({ text, enhanced, accent }: { text: string; enhanced: boolean; accent: string }) {
-  return <span className={styles.type}>
-    <span className={enhanced ? styles.typeFallbackHidden : undefined}>{text}</span>
-    {enhanced && <span className={styles.techLayer} aria-hidden="true"><TechText text={text.toUpperCase()} fontWeight={400} fontSize={180} letterSpacing={0} color="#fff9e9" accentColor={accent} align="left" sweep={false} draggable={false} selection={false} labels={false} specks={3} bounce={0.16} intro="none" /></span>}
-  </span>;
-}
-
 function Picks({ labels, selected, onSelect, label }: { labels: readonly string[]; selected: number; onSelect: (index: number) => void; label: string }) {
   return <div className={styles.picks} role="group" aria-label={label}>
     {labels.map((name, index) => <button type="button" key={name} className={styles.pick} aria-pressed={selected === index} onClick={() => onSelect(index)}><span>{name}</span></button>)}
@@ -63,7 +56,8 @@ export function Lab() {
   const large = useSyncExternalStore(subscribeLarge, readLarge, serverFalse);
   const reduced = useSyncExternalStore(subscribeReduced, readReduced, serverTrue);
   const [mood, setMood] = useState<LabSection>("odds");
-  const [fontsReady, setFontsReady] = useState(false);
+  const [highlights, setHighlights] = useState<Partial<Record<LabSection, MenuHighlight>>>({});
+  const highlightVersion = useRef(0);
   const [sound, setSound] = useState(false);
   const [soundMessage, setSoundMessage] = useState("");
   const [wipe, setWipe] = useState<"cover" | "reveal" | null>(null);
@@ -80,17 +74,13 @@ export function Lab() {
   const menu = useRef<HTMLElement>(null);
   const opener = useRef<LabSection | null>(null);
   const theme = labSections.find(item => item.id === (section ?? mood)) ?? labSections[4];
-  const enhanced = large && !reduced && fontsReady;
 
   useEffect(() => {
-    let alive = true;
     const scheduled = timers.current;
-    document.fonts.ready.then(() => { if (alive) setFontsReady(true); });
     setSoundMuted(true);
     const onVisibility = () => setSoundMuted(document.hidden || musicIsOpen.current || !soundEnabled.current);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      alive = false;
       setSoundMuted(true);
       scheduled.forEach(clearTimeout);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -150,7 +140,13 @@ export function Lab() {
   }, []);
 
   function choose<T>(setter: (value: T) => void, value: T) { play(); setter(value); }
-  function preview(id: LabSection) { if (mood !== id) { setMood(id); play("hover"); } }
+  function preview(id: LabSection, refreshHighlight = false) {
+    if (mood !== id) { setMood(id); play("hover"); }
+    if (refreshHighlight) {
+      const next = createMenuHighlight(++highlightVersion.current);
+      setHighlights(previous => ({ ...previous, [id]: next }));
+    }
+  }
   function open(event: MouseEvent<HTMLAnchorElement>, id: LabSection) {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault();
@@ -198,8 +194,8 @@ export function Lab() {
             links[next]?.focus();
           }
         }}>
-          {labSections.map((item, index) => <a key={item.id} href={`#${item.id}`} className={styles.menuLink} data-active={mood === item.id} style={{ "--menu-index": index } as CSSProperties} aria-label={item.title} onPointerEnter={() => preview(item.id)} onPointerMove={() => preview(item.id)} onFocus={() => preview(item.id)} onClick={event => open(event, item.id)}>
-            <ExpressiveType text={item.title} enhanced={enhanced && mood === item.id} accent={theme.accent} />
+          {labSections.map((item, index) => <a key={item.id} href={`#${item.id}`} className={styles.menuLink} data-active={mood === item.id} style={{ "--menu-index": index } as CSSProperties} aria-label={item.title} onPointerEnter={() => preview(item.id, true)} onPointerMove={() => preview(item.id)} onFocus={event => preview(item.id, !highlights[item.id] || !event.currentTarget.matches(":hover"))} onClick={event => open(event, item.id)}>
+            <LabMenuLabel text={item.title} active={mood === item.id} color={item.color} ink={item.text} highlight={large ? highlights[item.id] : undefined} />
           </a>)}
         </nav>
       </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""} ${section === "music" ? styles.musicRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">

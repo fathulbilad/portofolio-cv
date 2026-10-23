@@ -33,12 +33,13 @@
 .offDuty span { display: block; font-weight: 400; }
 .menu { position: absolute; left: 52%; top: 18%; width: 47%; display: flex; flex-direction: column; align-items: flex-start; gap: clamp(9px, 1.8svh, 20px); }
 .menuLink { position: relative; display: block; flex: none; width: max-content; max-width: 100%; margin-left: calc(var(--menu-index) * 3.15vw); padding: 4px 0; font-family: var(--lab-display); font-size: clamp(48px, min(7.2vw, 10.3svh), 116px); font-weight: 400; line-height: 1.03; letter-spacing: -.7px; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px var(--lab-accent); transform: rotate(-7deg) skew(-4deg) scaleX(.83); transform-origin: left center; transition: color 180ms ease, translate 200ms ease, -webkit-text-stroke-color 250ms ease; }
-.menuLink[data-active="true"] { color: var(--lab-white); -webkit-text-stroke-color: transparent; text-shadow: 1px 0 var(--lab-accent), -1px 0 #f5ed93; translate: -6px 0; }
+.menuLink[data-active="true"] { color: var(--lab-white); -webkit-text-stroke-color: transparent; translate: -6px 0; }
 .menuLink:focus-visible { outline-color: var(--lab-white); }
 .type { position: relative; display: block; }
-.typeFallbackHidden { visibility: hidden; }
-.techLayer { position: absolute; inset: -14% -1%; display: block; color: var(--lab-white); text-shadow: none; -webkit-text-stroke: 0; }
-.techLayer > div { font-family: var(--lab-display); }
+.menuHighlight { position: absolute; inset: -.09em -.05em; pointer-events: none; opacity: 0; transition: opacity 180ms ease; }
+.menuHighlight[data-visible="true"] { opacity: 1; }
+.menuPatch { position: absolute; inset: 0; background: var(--menu-mark); color: var(--menu-ink); -webkit-text-stroke: 0; text-shadow: none; }
+.menuPatch > span { position: absolute; inset: .09em .05em; display: block; }
 .room { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, .41fr) minmax(0, .59fr); padding: clamp(110px, 17svh, 180px) 5.6vw 5svh; gap: 3vw; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; animation: room-in 460ms cubic-bezier(.22, 1, .36, 1) both; }
 .room.gamesRoom { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(300px, 1fr) auto; gap: 0; padding: clamp(88px, 11svh, 120px) 0 0; background-color: var(--game-surface); transition: background-color 650ms ease; }
 .room.musicRoom { grid-template-columns: minmax(0, .43fr) minmax(0, .57fr); padding-top: clamp(100px, 13svh, 155px); }
