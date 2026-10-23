@@ -101,6 +101,10 @@ it. Returning to the CV uses the same handoff; reduced motion uses a short opaci
 Escape and the Menu button return to the entrance. URL fragments support direct
 links, refresh, and browser Back/Forward. Reduced motion skips the wipes and morphs.
 The first menu mood is pink.
+The menu and detail views share one persistent ink path with matching curve
+segments. Returning from any section morphs the solid fill and halftone edge
+together, with visible movement continuing after the page wipe clears. Life
+Lately also retains its existing slide to the right.
 
 The header's Playground link appears on desktop and tablet. Below 768px, and on
 short touch-only landscape screens, the entry is hidden and a direct Lab visit
@@ -122,6 +126,7 @@ With a local preview running, check the Lab with:
 ```sh
 node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
+node scripts/check-lab-return.mjs http://127.0.0.1:3105
 ```
 
 The check exercises palettes, animated contours, rapid hovering, matching label
@@ -132,6 +137,8 @@ fragment recovery.
 The focused Music check uses a test controller to exercise playback, pause,
 buffering, completion, error recovery, hidden tabs, cleanup, reduced motion,
 the full album selection, and a blocked-API iframe fallback without streaming audio.
+The return check measures actual shape movement after the wipe clears for every
+detail page, catching instant replacement even when the page wipe still works.
 
 ## CV content and assets
 
