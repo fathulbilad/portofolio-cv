@@ -44,12 +44,15 @@ uneven lobes for Odds & Ends. The halftone border follows the same animated path
 Rapid hovers retarget the current shape; reduced motion changes shapes directly.
 Selecting a destination opens its content through an ink wipe.
 Games uses a large featured preview above a horizontally scrollable image-and-title
-shelf, starting with Bloodborne, ULTRAKILL, and Terraria. Cards, previous/next
+shelf, with Bloodborne, ULTRAKILL, Terraria, Darkest Dungeon 1,
+Resident Evil 4 Remake, and Hollow Knight. Cards, previous/next
 buttons, and Left/Right/Home/End keys update the preview with a 500ms crossfade.
 The shelf supports native trackpad and touch scrolling. Reduced motion changes
 the artwork and scroll position immediately. Each active game has a curated
 650ms palette transition: smoky blue and bone for Bloodborne, oxblood and coral
-for ULTRAKILL, forest green and sage for Terraria. The entrance uses a softer
+for ULTRAKILL, forest green and sage for Terraria, charcoal and torch amber for
+Darkest Dungeon, cold teal for Resident Evil 4 Remake, and twilight violet for
+Hollow Knight. The entrance uses a softer
 blue-grey Games palette. Source links accompany the official
 screenshots; [game artwork credits](docs/lab-game-artwork.md) record their origins.
 

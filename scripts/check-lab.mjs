@@ -84,22 +84,21 @@ try {
     assert.equal(evaluate(() => document.activeElement.id), "lab-heading", "Focus enters each section.");
     if (id !== "odds") wait(`Array.from(document.querySelectorAll('#lab-content img')).every(img => img.complete && img.naturalWidth > 0)`);
     if (id === "games") {
-      assert.deepEqual(evaluate(() => [...document.querySelectorAll('[aria-label="Choose a game"] button')].map(button => button.getAttribute("aria-label"))), ["Bloodborne", "ULTRAKILL", "Terraria"]);
+      const gameTitles = ["Bloodborne", "ULTRAKILL", "Terraria", "Darkest Dungeon 1", "Resident Evil 4 Remake", "Hollow Knight"];
+      assert.deepEqual(evaluate(() => [...document.querySelectorAll('[aria-label="Choose a game"] button')].map(button => button.getAttribute("aria-label"))), gameTitles);
       assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Bloodborne");
       assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"]').getBoundingClientRect().bottom < document.querySelector('[aria-label="Choose a game"]').getBoundingClientRect().top), true, "The game preview sits above the horizontal shelf.");
       assert.equal(evaluate(() => { const rail = document.querySelector('[aria-label="Choose a game"]'); return rail.scrollWidth > rail.clientWidth; }), true, "The shelf scrolls horizontally.");
       const gameColors = [evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor)];
-      browser(["find", "role", "button", "click", "--name", "ULTRAKILL", "--exact"]);
-      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "ULTRAKILL");
-      wait(`document.querySelector('[aria-label="Game collection"]').getAnimations().length === 0`);
-      gameColors.push(evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor));
-      browser(["find", "role", "button", "click", "--name", "Next game", "--exact"]);
-      assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Terraria");
-      wait(`document.querySelector('[aria-label="Game collection"]').getAnimations().length === 0`);
-      gameColors.push(evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor));
-      assert.equal(new Set(gameColors).size, 3, "Every active game has its own shelf palette.");
+      for (const title of gameTitles.slice(1)) {
+        browser(["find", "role", "button", "click", "--name", "Next game", "--exact"]);
+        assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), title);
+        wait(`document.querySelector('[aria-label="Game collection"]').getAnimations().length === 0`);
+        gameColors.push(evaluate(() => getComputedStyle(document.querySelector('[aria-label="Game collection"]')).backgroundColor));
+      }
+      assert.equal(new Set(gameColors).size, gameTitles.length, "Every active game has its own shelf palette.");
       wait(`document.querySelector('[aria-label="Choose a game"]').scrollLeft > 0`);
-      browser(["focus", 'button[aria-label="Terraria"]']);
+      browser(["focus", 'button[aria-label="Hollow Knight"]']);
       browser(["press", "Home"]);
       assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Bloodborne");
       assert.equal(evaluate(() => document.querySelector('[aria-label="Featured game"] h2').textContent), "Bloodborne");
