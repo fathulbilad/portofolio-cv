@@ -1,0 +1,69 @@
+.stage { position: absolute; inset: 0; }
+.intro { position: absolute; top: clamp(94px, 12svh, 150px); left: 5.4vw; max-width: 86vw; }
+.intro h1 { width: max-content; margin: 0; font: 400 clamp(54px, min(8vw, 12svh), 126px)/1.08 var(--lab-display); letter-spacing: -1.4px; text-transform: uppercase; transform: rotate(-3deg); transform-origin: left center; }
+.intro h1:focus { outline: none; }
+.intro > p { margin: 20px 0 0; font-size: clamp(12px, 1.05vw, 16px); line-height: 1.8; }
+.contacts { position: absolute; left: 5.4vw; top: 32svh; width: 27vw; }
+.contactsLabel { margin: 0 0 15px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+.contactList { display: flex; flex-direction: column; gap: 7px; }
+.contact { display: grid; grid-template-columns: 35px minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; min-height: clamp(58px, 8.5svh, 96px); text-align: left; }
+.initial { display: flex; align-items: center; justify-content: center; width: 30px; height: 36px; font: 400 25px/1 var(--lab-display); transform: rotate(-5deg); }
+.contact[aria-pressed="true"] .initial { background: var(--lab-black); color: var(--lab-white); }
+.contactCopy { min-width: 0; }
+.contactName { position: relative; isolation: isolate; display: table; padding: 3px 6px; margin-left: -6px; font: 400 clamp(22px, 2.7vw, 40px)/1.18 var(--lab-display); text-transform: uppercase; }
+.contactName > span:last-child { position: relative; }
+.contactMark { position: absolute; z-index: -1; inset: 2px 3px 1px 0; background: var(--lab-black); clip-path: polygon(1% 7%,99% 0,96% 94%,0 100%); }
+.contact[aria-pressed="true"] .contactName { color: var(--lab-white); }
+.contact small { display: block; margin-top: 6px; font: 11px/1.6 "Courier New", monospace; }
+.thread { position: absolute; left: 39vw; right: 5.4vw; top: 28svh; bottom: 7svh; padding: clamp(22px, 3svh, 36px) clamp(18px, 2.3vw, 34px) 22px calc(4.45vw + 22px); color: var(--lab-white); }
+.threadContent { display: flex; flex-direction: column; height: 100%; min-width: 0; }
+.threadHeader { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 24px; }
+.threadHeader h2 { margin: 0; font: 400 clamp(26px, 2.8vw, 42px)/1.1 var(--lab-display); text-transform: uppercase; }
+.threadHeader p { margin: 10px 0 0; color: #fac6d3; font-size: 11px; line-height: 1.6; }
+.threadHeader button { flex: none; min-height: 32px; font-size: 11px; line-height: 1.5; text-decoration: underline; text-underline-offset: 5px; }
+.messages { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: 14px; min-height: 0; margin: 0; padding: 0 3px 8px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #fac6d3 #111011; list-style: none; }
+.messageEntrance { flex: none; max-width: 88%; }
+.messageEntrance[data-from="me"] { align-self: flex-end; }
+.message { padding: 13px 17px 15px; color: var(--lab-black); background: var(--lab-white); border-radius: 2px; list-style: none; }
+.messageEntrance[data-from="me"] .message { background: #ff4c78; transform: rotate(.5deg); }
+.sender { display: block; margin-bottom: 6px; font-size: 11px; line-height: 1.4; text-transform: uppercase; letter-spacing: .7px; }
+.message p { margin: 0; font-size: clamp(12px, 1vw, 15px); line-height: 1.65; overflow-wrap: anywhere; }
+.chatNote { flex: none; margin: 16px 0 0; color: #fac6d3; font-size: 11px; line-height: 1.6; }
+.empty { display: flex; flex: 1; flex-direction: column; justify-content: center; align-items: flex-start; }
+.empty > span { color: #fac6d3; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+.empty h2 { margin: 20px 0; font: 400 clamp(38px, 4.4vw, 66px)/1.12 var(--lab-display); text-transform: uppercase; }
+.empty p { margin: 0; max-width: 30ch; color: #fac6d3; font-size: 12px; line-height: 1.8; }
+.footnote { position: absolute; left: 5.4vw; bottom: 3.6svh; margin: 0; font-size: 11px; line-height: 1.8; }
+.status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (max-width: 1050px) {
+  .contact { grid-template-columns: 27px minmax(0, 1fr); gap: 8px; }
+  .initial { width: 25px; font-size: 23px; }
+  .contactName { font-size: 2.9vw; }
+  .threadHeader { gap: 10px; }
+  .messageEntrance { max-width: 94%; }
+  .message { padding: 11px 13px 13px; }
+}
+@media (max-height: 700px) {
+  .intro { top: 80px; }
+  .intro h1 { font-size: min(6.8vw, 10svh); }
+  .intro > p { margin-top: 12px; font-size: 12px; }
+  .contacts { top: 34svh; }
+  .contactsLabel { margin-bottom: 9px; }
+  .contactList { gap: 4px; }
+  .contact { min-height: 48px; }
+  .contactName { font-size: clamp(20px, 2.4vw, 28px); }
+  .contact small { margin-top: 2px; }
+  .initial { height: 29px; font-size: 22px; }
+  .thread { top: 22svh; bottom: 6svh; padding-top: 17px; padding-bottom: 17px; }
+  .threadHeader { margin-bottom: 14px; }
+  .threadHeader h2 { font-size: 27px; }
+  .threadHeader p { margin-top: 7px; }
+  .messages { gap: 10px; }
+  .message { padding: 9px 12px 11px; }
+  .message p { font-size: 12px; }
+  .sender { margin-bottom: 4px; }
+  .chatNote { margin-top: 10px; }
+  .footnote { display: none; }
+}
+@media (pointer: coarse) { .threadHeader button { min-height: 44px; } .contact { min-height: 52px; } }
+@media (prefers-reduced-motion: reduce) { .messageEntrance[data-from="me"] .message { transform: none; } }

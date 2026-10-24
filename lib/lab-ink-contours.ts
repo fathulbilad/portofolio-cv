@@ -32,9 +32,6 @@ function boundary(start: Point, curves: Curve[], divisions: number[], closing?: 
   return `M${numbers([start])}${segments.map(curve => `C${numbers(curve)}`).join("")}${edges.map(point => `L${numbers([point])}`).join("")}Z`;
 }
 
-const musicStart: Point = [540, -150];
-const splitContour = boundary(musicStart, [[[620, 50], [635, 170], [550, 300]], [[460, 440], [570, 480], [555, 640]], [[530, 780], [615, 880], [600, 1030]]], [3, 3, 2]);
-
 // A closed island keeps the blue visible around the record room. Matching the
 // menu's eight cubic segments and closing edges preserves the entry/exit morph.
 const recordBoundary = (curves: Curve[]) => {
@@ -59,6 +56,20 @@ export const projectInkContours = [
 ];
 projectInkContours.push(projectInkContours[0]);
 
+// The measured chat bounds keep the ink behind the text at every aspect ratio.
+// Straight edges are still cubic segments so the menu can morph into the bubble.
+export function oddsInkContour({ left, top, right, bottom, tail }: { left: number; top: number; right: number; bottom: number; tail: number }): string {
+  const edge = left + (right - left) * 0.08;
+  const tip = Math.max(top + 65, Math.min(bottom - 65, tail));
+  const start: Point = [edge, top + 6];
+  const corners: Point[] = [[right - 8, top - 6], [right, bottom - 4], [edge, bottom + 6], [edge, tip + 42], [left, tip], [edge, tip - 42], start];
+  const curves: Curve[] = corners.map((end, index) => {
+    const from = index ? corners[index - 1] : start;
+    return [lerp(from, end, 1 / 3), lerp(from, end, 2 / 3), end];
+  });
+  return boundary(start, curves, [2, 1, 1, 1, 1, 1, 1], [start, start]);
+}
+
 const gamesContour = boundary([-100, -150], [[[-100, 246.6667], [-100, 643.3333], [-100, 1040]]], [8]);
 // Life's visible boundary is traversed top-to-bottom like the menu. Its closing
 // edges remain offscreen, beyond the existing slide to the right.
@@ -75,5 +86,5 @@ export const roomInkContours: Record<LabSection, string> = {
   games: gamesContour,
   music: musicInkContours[0],
   projects: projectInkContours[0],
-  odds: splitContour,
+  odds: oddsInkContour({ left: 550, top: 245, right: 1360, bottom: 835, tail: 350 }),
 };

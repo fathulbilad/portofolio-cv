@@ -45,6 +45,8 @@
 .room.musicRoom { display: block; padding: 0; overflow: hidden; }
 .musicGrooves { opacity: .035; }
 .room.projectsRoom { display: block; padding: 0; overflow: hidden; }
+.room.oddsRoom { display: block; padding: 0; overflow: hidden; }
+.oddsScene .utilities .sound { color: var(--lab-black); }
 .projectsScene .utilities .sound { color: var(--lab-black); }
 .gamesScene .utilities { color: var(--lab-white); }
 .gamesScene .sound { transition: color 650ms ease; }
@@ -57,11 +59,6 @@
 .roomBody p { margin: 0 0 14px; max-width: 590px; font-size: clamp(13px, 1.05vw, 16px); line-height: 1.85; }
 .roomBody h2 { margin: 0 0 10px; font-family: var(--lab-display); font-weight: 400; line-height: 1.15; font-size: clamp(32px, 3vw, 51px); text-transform: uppercase; }
 .roomBody h3 { margin: 23px 0 10px; font-family: var(--lab-display); font-weight: 400; text-transform: uppercase; font-size: 18px; letter-spacing: .5px; }
-.picks { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: clamp(32px, 6svh, 68px); }
-.pick { min-height: 36px; max-width: 100%; font-size: clamp(14px, 1.25vw, 19px); font-weight: 700; text-transform: uppercase; text-align: left; }
-.pick span { display: inline; padding: 7px 10px; margin-left: -10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.pick[aria-pressed="true"] span { color: var(--lab-white); background: var(--lab-black); }
-.pick:hover { translate: 4px 0; }
 .lifeInk { transform: translateX(65%) scale(1.1); }
 .lifeRoom { grid-template-columns: minmax(0, .49fr) minmax(0, .51fr); }
 .lifeRoom .roomIntro h1, .lifeRoom .roomBody h2 { color: #e14b48; }
@@ -73,11 +70,6 @@
 .journal article > h2 { margin-bottom: 8px; font-size: 24px; letter-spacing: 1.4px; }
 .journal article > h3 { margin: 0 0 8px; font-family: "Courier New", monospace; font-size: 14px; font-weight: bold; text-transform: none; letter-spacing: 0; }
 .journal article > p { font-size: 13px; max-width: 420px; }
-.paperNote { position: relative; margin: 0 auto; width: 88%; padding: clamp(28px, 4vw, 64px); color: #191717; background: #eae3d2; transform: rotate(2deg); clip-path: polygon(0 1%, 4% 0, 12% 1%, 19% 0, 25% 1%, 34% 0, 45% 1%, 54% 0, 67% 1%, 79% 0, 88% 1%, 97% 0, 100% 2%, 99% 17%, 100% 32%, 99% 43%, 100% 58%, 99% 74%, 100% 87%, 99% 100%, 88% 99%, 76% 100%, 64% 99%, 49% 100%, 35% 99%, 23% 100%, 12% 99%, 1% 100%, 0 88%, 1% 71%, 0 58%, 1% 43%, 0 29%, 1% 14%); animation: note-in 420ms cubic-bezier(.22, 1, .36, 1) both; }
-.paperNote .noteLabel { margin-bottom: 21px; font-size: 11px; text-transform: uppercase; font-weight: bold; }
-.paperNote h2 { text-transform: none; font-size: clamp(38px, 4vw, 64px); line-height: 1.08; }
-.paperNote > p { margin-top: 22px; font-size: clamp(12px, 1vw, 15px); line-height: 1.9; }
-.noteSignoff { display: block; margin-top: 30px; font-size: 10px; opacity: .65; }
 .wipe { position: absolute; z-index: 20; inset: -12% -15%; display: grid; place-items: center; color: var(--lab-paper); background: #111011; pointer-events: all; transform: skewX(-12deg); }
 .wipe span { font-family: var(--lab-display); font-size: clamp(30px, 6vw, 80px); transform: skewX(12deg) rotate(-7deg); }
 .wipe[data-phase="cover"] { animation: wipe-cover 250ms cubic-bezier(.65, 0, .35, 1) both; }
@@ -85,7 +77,6 @@
 @keyframes wipe-cover { from { translate: -110% 0; } to { translate: 0 0; } }
 @keyframes wipe-reveal { from { translate: 0 0; } to { translate: 110% 0; } }
 @keyframes room-in { from { opacity: .3; translate: 0 16px; } to { opacity: 1; translate: 0 0; } }
-@keyframes note-in { from { opacity: .4; transform: rotate(0) translateY(14px); } to { opacity: 1; transform: rotate(2deg) translateY(0); } }
 @media (min-width: 768px) { .desktop { display: block; } .phone { display: none; } }
 @media (hover: none) and (max-height: 500px) { .desktop { display: none; } .phone { display: flex; } }
 @media (min-width: 768px) and (max-width: 1050px) {
@@ -99,7 +90,6 @@
   .journal { gap: 2.8svh; }
   .journal article > h3 { font-size: 12px; }
   .journal article > p { font-size: 11px; }
-  .paperNote { width: 95%; padding: 28px; }
 }
 @media (max-height: 700px) and (min-width: 1051px) {
   .room { padding-top: 18svh; }

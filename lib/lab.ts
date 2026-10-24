@@ -147,8 +147,30 @@ export const labProjects = [
   { title: "The next thing", status: "Idea", description: "An empty page for a tiny tool, an unnecessary invention, or that idea that keeps coming back at 1 a.m.", note: "Nothing to launch yet. That is part of the fun.", href: "mailto:fathulbilad@gmail.com?subject=A%20little%20idea", action: "Start a conversation" },
 ];
 
-export const oddNotes = [
-  { label: "A thought", title: "Something worth keeping.", body: "Make things that you would like to find. Even if they are small. Even if they are strange. Especially if they make you curious." },
-  { label: "A find", title: "Follow the interesting thing.", body: "A color combination. A pause menu. A line in a song. The best ideas sometimes start with noticing something and wondering what else it could become." },
-  { label: "A little list", title: "A few good ingredients.", body: "A little empty space. An unusual typeface. A color that feels a bit too loud. A good soundtrack. Enough time to get pleasantly distracted." },
+export const oddVoices: { id: string; name: string; initial: string; teaser: string; description: string; messages: { from: "voice" | "me"; text: string }[] }[] = [
+  { id: "thinker", name: "Thinker", initial: "T", teaser: "wait, one more thought.", description: "the tab i forgot to close.", messages: [
+    { from: "voice", text: "why do the best ideas show up when i'm doing literally anything else" },
+    { from: "me", text: "because sitting down to think would be too convenient apparently" },
+    { from: "voice", text: "anyway. wrote it down before my brain closed the tab." },
+  ] },
+  { id: "yapper", name: "Yapper", initial: "Y", teaser: "okay one quick thing—", description: "the short version was never an option.", messages: [
+    { from: "voice", text: "okay one quick thing" },
+    { from: "me", text: "you said that 20 minutes ago" },
+    { from: "voice", text: "yeah but i haven't even got to the part that connects all of this LMAO" },
+  ] },
+  { id: "memer", name: "Memer", initial: "M", teaser: "there's a reaction image.", description: "explaining things, terribly efficiently.", messages: [
+    { from: "voice", text: "i could explain the entire situation" },
+    { from: "me", text: "or?" },
+    { from: "voice", text: "one extremely specific reaction image. unfortunately i know exactly which one." },
+  ] },
+  { id: "schizofriends", name: "Schizofriends", initial: "S", teaser: "the group chat is awake.", description: "five tabs open. absolutely no consensus.", messages: [
+    { from: "voice", text: "the group chat in my head has reached no conclusion" },
+    { from: "me", text: "did we at least agree on lunch" },
+    { from: "voice", text: "no. someone opened a new topic and now we're redesigning the whole website again." },
+  ] },
+  { id: "larper", name: "Larper", initial: "L", teaser: "this is part of the lore.", description: "same person. different soundtrack.", messages: [
+    { from: "voice", text: "today i'm the mysterious guy with an unfinished side project" },
+    { from: "me", text: "so... same as yesterday?" },
+    { from: "voice", text: "different soundtrack. completely different lore." },
+  ] },
 ];

@@ -147,8 +147,13 @@ try {
       assert.equal(evaluate(() => location.hash), "#projects", "Closing the folder keeps the Projects room open.");
     }
     if (id === "odds") {
-      browser(["find", "role", "button", "click", "--name", "A little list", "--exact"]);
-      assert.ok(evaluate(() => document.getElementById("lab-content").textContent.includes("A few good ingredients.")));
+      browser(["click", 'nav[aria-label="Five sides of my mind"] button[data-voice="4"]']);
+      wait(`!!document.querySelector('[data-chat-voice="larper"]')`);
+      assert.ok(evaluate(() => document.getElementById("lab-content").textContent.includes("completely different lore.")));
+      assert.equal(evaluate(() => document.querySelectorAll("#lab-content input, #lab-content textarea, #lab-content form").length), 0);
+      browser(["press", "Escape"]);
+      wait(`!!document.querySelector('[data-chat-voice="closed"]')`);
+      assert.equal(evaluate(() => location.hash), "#odds", "Closing thoughts keeps Odds and Ends open.");
     }
     escaped();
     if (id === "music") assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Leaving Music unloads its player.");

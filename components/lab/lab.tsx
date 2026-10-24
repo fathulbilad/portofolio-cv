@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type MouseEvent } from "react";
 import { Volume2, VolumeX } from "lucide-react";
-import { games, isLabSection, labSections, lifeEntries, oddNotes, type LabSection } from "@/lib/lab";
+import { games, isLabSection, labSections, lifeEntries, type LabSection } from "@/lib/lab";
 import pebble from "./vendor/pebble";
 import notch from "./vendor/notch";
 import { playSound, setSoundMuted, setSoundVolume } from "./vendor/react-bits-sound";
@@ -13,6 +13,7 @@ import { LabInk } from "./lab-ink";
 import { GamesGallery } from "./games-gallery";
 import { MusicRoom } from "./music-room";
 import { ProjectsRoom } from "./projects-room";
+import { OddsRoom } from "./odds-room";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
 import { LabMenuLabel, createMenuHighlight, type MenuHighlight } from "./lab-menu-label";
 
@@ -46,12 +47,6 @@ const serverTrue = () => true;
 const readLarge = () => window.matchMedia(largeScreenQuery).matches;
 const readReduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function Picks({ labels, selected, onSelect, label }: { labels: readonly string[]; selected: number; onSelect: (index: number) => void; label: string }) {
-  return <div className={styles.picks} role="group" aria-label={label}>
-    {labels.map((name, index) => <button type="button" key={name} className={styles.pick} aria-pressed={selected === index} onClick={() => onSelect(index)}><span>{name}</span></button>)}
-  </div>;
-}
-
 export function Lab() {
   const section = useSyncExternalStore(subscribeNavigation, readSection, noSection);
   const large = useSyncExternalStore(subscribeLarge, readLarge, serverFalse);
@@ -64,7 +59,7 @@ export function Lab() {
   const [wipe, setWipe] = useState<"cover" | "reveal" | null>(null);
   const [game, setGame] = useState(0);
   const [musicPlaying, setMusicPlaying] = useState(false);
-  const [note, setNote] = useState(0);
+  const [oddsShape, setOddsShape] = useState<string>();
   const soundEnabled = useRef(false);
   const musicIsOpen = useRef(false);
   const transitioning = useRef(false);
@@ -164,7 +159,6 @@ export function Lab() {
   }
 
   const gamePalette = section === "games" ? games[game].palette : null;
-  const currentNote = oddNotes[note];
 
   return <div className={styles.root} style={{ "--lab-paper": gamePalette?.paper ?? theme.color, "--lab-accent": gamePalette?.accent ?? theme.accent, "--lab-text": gamePalette?.text ?? theme.text, "--game-surface": gamePalette?.surface, "--game-muted": gamePalette?.muted } as CSSProperties} data-lab-mood={theme.id}>
     <div className={styles.phone}>
@@ -173,8 +167,8 @@ export function Lab() {
       <p>This corner is made for desktop and tablet.<br />The phone-sized version is a story for another day.</p>
       <Link href="/">← Back to my CV</Link>
     </div>
-    <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""} ${section === "projects" ? styles.projectsScene : ""}`}>
-      <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} />
+    <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""} ${section === "projects" ? styles.projectsScene : ""} ${section === "odds" ? styles.oddsScene : ""}`}>
+      <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} oddsContour={oddsShape} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>
         {section ? <button type="button" onClick={() => go(null)}>← <span>Menu</span></button> : <LabRouteLink href="/">← <span>CV</span></LabRouteLink>}
@@ -197,19 +191,17 @@ export function Lab() {
             <LabMenuLabel text={item.title} active={mood === item.id} color={item.color} ink={item.text} highlight={large ? highlights[item.id] : undefined} />
           </a>)}
         </nav>
-      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""} ${section === "music" ? styles.musicRoom : ""} ${section === "projects" ? styles.projectsRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
-        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : section === "music" ? (large && <MusicRoom reduced={reduced} headingRef={heading} onSelectSound={play} onAlbumOpenChange={onAlbumOpenChange} onPlaybackChange={setMusicPlaying} />) : section === "projects" ? (large && <ProjectsRoom headingRef={heading} onSelectSound={play} onExplore={() => go("odds")} />) : <>
+      </main> : <main key={section} className={`${styles.room} ${section === "life" ? styles.lifeRoom : ""} ${section === "games" ? styles.gamesRoom : ""} ${section === "music" ? styles.musicRoom : ""} ${section === "projects" ? styles.projectsRoom : ""} ${section === "odds" ? styles.oddsRoom : ""}`} id="lab-content" aria-labelledby="lab-heading">
+        {section === "games" ? <GamesGallery selected={game} onSelect={index => choose(setGame, index)} reduced={reduced} headingRef={heading} /> : section === "music" ? (large && <MusicRoom reduced={reduced} headingRef={heading} onSelectSound={play} onAlbumOpenChange={onAlbumOpenChange} onPlaybackChange={setMusicPlaying} />) : section === "projects" ? (large && <ProjectsRoom headingRef={heading} onSelectSound={play} onExplore={() => go("odds")} />) : section === "odds" ? (large && <OddsRoom reduced={reduced} headingRef={heading} onSelectSound={play} onInkChange={setOddsShape} />) : <>
         <div className={styles.roomIntro}>
           <h1 id="lab-heading" ref={heading} tabIndex={-1}>{theme.title}</h1>
           <p className={styles.subtitle}>{theme.subtitle}</p>
           {section === "life" && <div className={styles.lifePhoto}><Image src="/lab/life.webp" alt="Afternoon light falling across a quiet wall." width={900} height={600} loading="eager" sizes="(max-width: 1100px) 32vw, 380px" /></div>}
-          {section === "odds" && <Picks label="Choose a note" labels={oddNotes.map(item => item.label)} selected={note} onSelect={index => choose(setNote, index)} />}
           <span className={styles.sample}>Starter collection · a work in progress</span>
         </div>
 
         <div className={styles.roomBody}>
           {section === "life" && <div className={styles.journal}>{lifeEntries.map(entry => <article key={entry.label}><h2>{entry.label}</h2><h3>{entry.title}</h3><p>{entry.body}</p></article>)}</div>}
-          {section === "odds" && <article className={styles.paperNote} key={currentNote.label} aria-live="polite"><p className={styles.noteLabel}>{currentNote.label}</p><h2>{currentNote.title}</h2><p>{currentNote.body}</p><span className={styles.noteSignoff}>a little something, saved.</span></article>}
         </div>
         </>}
       </main>}

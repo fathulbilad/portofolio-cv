@@ -45,3 +45,14 @@ Sound Lab cues in its full-width sweep layout. The shared Motion path controls
 finish the room transition before starting the Music-style eight-second idle
 cycle. The custom sweep is bounded above the drag workspace so interactive
 content stays stationary and readable throughout.
+
+Odds & Ends uses the existing AnimatedContent source for its contact entrance
+and each read-only message bubble. The contact marker and Arrow/Home/End
+navigation reference https://reactbits.dev/components/animated-list, adapted
+to five native buttons; AnimatedList itself is not vendored. Motion's
+AnimatePresence supplies a non-blocking conversation exit alongside the new
+staggered entrance, including when selection returns to a voice mid-transition.
+A custom closed speech contour retains the shared eight-cubic path
+contract for menu transitions and a tail measured against the selected contact.
+No reply/composer, model service, or hosted chat audio is used. Contact selection
+continues to use the existing opt-in Sound Lab engine.

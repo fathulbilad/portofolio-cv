@@ -118,6 +118,19 @@ come from [Sound Lab](https://reactbits.dev/tools/sound-lab). Music uses
 [Animated Content](https://reactbits.dev/animations/animated-content). Keep these references
 and their source/license notes when extending the Lab.
 
+Odds & Ends uses the pink Mind inbox layout, with five casual inner voices:
+Thinker, Yapper, Memer, Schizofriends, and Larper. The conversations are read-only
+exchanges with “me,” with no visitor composer, reply options, or chat service.
+Starter copy lives in `oddVoices` in `lib/lab.ts`. Selecting a voice moves the
+black speech-bubble tail toward its contact. The previous conversation exits over
+160ms while each new bubble uses the vendored React Bits Animated Content
+400ms pop, staggered by 85ms. The contact entrance and moving selection reference
+[Animated List](https://reactbits.dev/components/animated-list), adapted to five
+native keyboard-accessible buttons. Sound Lab provides the existing opt-in
+selection cue. Close or the first Escape closes the thoughts and restores contact
+focus; a second Escape returns to the menu. Reduced motion skips the pops,
+stagger, selection spring, and shape morph. The room mounts only on desktop/tablet.
+
 The CV's Playground link uses a roughly two-second layered pink-and-black wipe
 that covers the outgoing page and waits for the Lab and its font before revealing
 it. Returning to the CV uses the same handoff; reduced motion uses a short opacity fade.
@@ -151,6 +164,7 @@ node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
 node scripts/check-music-layout.mjs http://127.0.0.1:3105
 node scripts/check-music-scroll.mjs http://127.0.0.1:3105
+node scripts/check-odds.mjs http://127.0.0.1:3105
 node scripts/check-lab-return.mjs http://127.0.0.1:3105
 node scripts/check-projects.mjs http://127.0.0.1:3105
 ```

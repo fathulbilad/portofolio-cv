@@ -23,10 +23,10 @@ const subscribeVisibility = (notify: () => void) => {
 const readVisible = () => !document.hidden;
 const serverVisible = () => true;
 
-export function LabInk({ section, mood, animated, musicPlaying = false }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean }) {
+export function LabInk({ section, mood, animated, musicPlaying = false, oddsContour }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean; oddsContour?: string }) {
   const visible = useSyncExternalStore(subscribeVisibility, readVisible, serverVisible);
   const moving = animated && visible && (section === "projects" || (section === "music" && musicPlaying));
-  const contour = section ? roomInkContours[section] : menuContours[mood];
+  const contour = section === "odds" && oddsContour ? oddsContour : section ? roomInkContours[section] : menuContours[mood];
   const path = useMotionValue(contour);
 
   useEffect(() => {
