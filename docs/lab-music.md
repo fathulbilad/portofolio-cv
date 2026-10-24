@@ -1,12 +1,24 @@
 # Music room sources
 
-The records are **Getting Killed — Geese (2025)** and
-**Popstar — Tinashe (2026)**, both full albums chosen by the site owner.
+The collection contains nine full albums chosen by the site owner. Album titles,
+artists, release years, and artwork are verified against the official Spotify
+album pages and oEmbed metadata. The original two records were verified October
+23, 2026; the seven additions were verified October 24, 2026.
 
-- [Official Spotify album](https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC)
-- [Official oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F0eeXb23yMW6EaIgm63xxPC), retrieved October 23, 2026.
-- [Official Tinashe album](https://open.spotify.com/album/06CjF89lLSSiVWXujVVtQs)
-- [Popstar oEmbed metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F06CjF89lLSSiVWXujVVtQs), retrieved October 23, 2026.
+| Album | Artist | Spotify release year | Official album | oEmbed metadata |
+| --- | --- | --- | --- | --- |
+| Getting Killed | Geese | 2025 | [Album](https://open.spotify.com/album/0eeXb23yMW6EaIgm63xxPC) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F0eeXb23yMW6EaIgm63xxPC) |
+| Popstar | Tinashe | 2026 | [Album](https://open.spotify.com/album/06CjF89lLSSiVWXujVVtQs) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F06CjF89lLSSiVWXujVVtQs) |
+| MAN BITES DOG | femtanyl | 2026 | [Album](https://open.spotify.com/album/4GRPvwkbXfKXNGfrIJAGCE) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F4GRPvwkbXfKXNGfrIJAGCE) |
+| IGOR | Tyler, The Creator | 2019 | [Album](https://open.spotify.com/album/5zi7WsKlIiUXv09tbGLKsE) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F5zi7WsKlIiUXv09tbGLKsE) |
+| The Money Store | Death Grips | 2012 | [Album](https://open.spotify.com/album/1PQDjdBpHPikAodJqjzm6a) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F1PQDjdBpHPikAodJqjzm6a) |
+| Imaginal Disk | Magdalena Bay | 2024 | [Album](https://open.spotify.com/album/4HTy9WFTYooRjE9giTmzAF) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F4HTy9WFTYooRjE9giTmzAF) |
+| Heavy Metal | Cameron Winter | 2024 | [Album](https://open.spotify.com/album/7mOrnQqDad3RgYQsJGaaqk) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F7mOrnQqDad3RgYQsJGaaqk) |
+| Faces | Mac Miller | 2021 | [Album](https://open.spotify.com/album/5SKnXCvB4fcGSZu32o3LRY) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F5SKnXCvB4fcGSZu32o3LRY) |
+| I Love My Computer | Ninajirachi | 2025 | [Album](https://open.spotify.com/album/77CZUF57sYqgtznUe3OikQ) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F77CZUF57sYqgtznUe3OikQ) |
+
+Faces uses the 2021 Spotify streaming edition.
+
 - Cover URL is the `thumbnail_url` supplied by that response, displayed directly
   from Spotify without downloading, proxying, caching locally, or altering it.
 - The official album player uses the supported compact height and dark theme.

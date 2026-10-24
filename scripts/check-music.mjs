@@ -106,7 +106,7 @@ try {
   assert.equal(evaluate(() => document.querySelectorAll("iframe").length), 0);
   evaluate(() => window.__oldPlayer.emit({ isPaused: false }));
   assert.equal(motion(), "resting", "Late events from a closed record are ignored.");
-  browser(["press", "End"]); browser(["press", "Enter"]);
+  browser(["press", "Home"]); browser(["press", "ArrowDown"]); browser(["press", "Enter"]);
   wait("window.__spotifyTest !== window.__oldPlayer");
   assert.ok(evaluate(() => window.__spotifyTest.url.includes("/album/06CjF89lLSSiVWXujVVtQs")), "Popstar opens the full Tinashe album.");
   evaluate(() => window.__spotifyTest.emit({ isPaused: false }));

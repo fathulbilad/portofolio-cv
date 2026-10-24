@@ -125,7 +125,7 @@ try {
       browser(["find", "role", "button", "click", "--name", "Close record", "--exact"]);
       assert.equal(evaluate(() => document.querySelectorAll('iframe[src*="open.spotify.com"]').length), 0, "Closing an album unloads Spotify playback.");
       assert.equal(evaluate(() => document.activeElement.getAttribute("aria-label")), "Choose a record", "Close returns focus to the wheel.");
-      browser(["press", "End"]);
+      browser(["press", "ArrowDown"]);
       browser(["press", "Enter"]);
       wait(`!!document.querySelector('iframe[title="Spotify album player: Popstar by Tinashe"]')`);
       assert.equal(evaluate(() => document.querySelector('[aria-label="Popstar album detail"] h2').textContent), "Popstar");
