@@ -50,7 +50,7 @@ export function MusicRoom({ reduced, headingRef, onSelectSound, onAlbumOpenChang
             ariaLabel="Choose a record" reducedMotion={reduced}
             textColor="#b8c9ff" activeColor="#fff9e9" fontSize={2.4} spacing={2.4}
             inset={12} curve={1} tilt={6} blur={0.5} fade={0.24} minOpacity={0.2}
-            smoothing={180} draggable={musicRecords.length > 1}
+            smoothing={60} draggable={musicRecords.length > 1}
             renderItem={(index, title) => <><span>{title}<span className={styles.openArrow} aria-hidden="true"> ↗</span></span><small>{musicRecords[index].artist} · {musicRecords[index].year}</small></>}
           />
         </div>

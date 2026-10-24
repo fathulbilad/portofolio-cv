@@ -145,6 +145,7 @@ With a local preview running, check the Lab with:
 ```sh
 node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
+node scripts/check-music-scroll.mjs http://127.0.0.1:3105
 node scripts/check-lab-return.mjs http://127.0.0.1:3105
 node scripts/check-projects.mjs http://127.0.0.1:3105
 ```

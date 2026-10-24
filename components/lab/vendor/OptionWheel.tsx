@@ -185,9 +185,9 @@ const OptionWheel = ({
   }, []);
 
   const startLoop = useCallback(() => {
-    if (rafRef.current != null) {
-      cancelAnimationFrame(rafRef.current);
-    }
+    // New input updates the target of the pending frame. Restarting here can
+    // starve rendering and reset elapsed time on high-frequency trackpads.
+    if (rafRef.current != null) return;
     lastRef.current = performance.now();
     rafRef.current = requestAnimationFrame(runFrame);
   }, [runFrame]);
