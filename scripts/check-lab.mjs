@@ -136,8 +136,15 @@ try {
       wait(`!!document.querySelector('iframe[src*="open.spotify.com"]')`);
     }
     if (id === "projects") {
-      browser(["find", "role", "button", "click", "--name", "Cardio — Experiment", "--exact"]);
-      assert.equal(evaluate(() => !!document.querySelector('a[href="/side-projects"]')), true);
+      browser(["click", '.folder-stage']);
+      browser(["focus", '[data-folder-item="1"]']);
+      browser(["press", "Enter"]);
+      wait(`!!document.querySelector('dialog[open] a[href="/side-projects"]')`);
+      browser(["press", "Escape"]);
+      wait(`!document.querySelector('dialog[open]')`);
+      browser(["press", "Escape"]);
+      wait(`!document.querySelector('.folder-root[data-open]')`);
+      assert.equal(evaluate(() => location.hash), "#projects", "Closing the folder keeps the Projects room open.");
     }
     if (id === "odds") {
       browser(["find", "role", "button", "click", "--name", "A little list", "--exact"]);

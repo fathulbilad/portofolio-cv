@@ -79,6 +79,19 @@ or time-synchronized visuals are used. If the controller cannot load, a normal
 Spotify iframe remains available and the boundary stays still. Playback availability is determined by Spotify.
 See [Music sources and playback notes](docs/lab-music.md).
 
+Projects uses the closed-archive design: quiet cyan space on the left and one
+matte cyan [React Bits Folder](https://reactbits.dev/components/folder?tilt=1.05&size=1.8&speed=0.75)
+on the black workspace. Click or press Enter/Space to open the folder; its
+three ivory project pages fan out. Drag a page onto the desk, click it to read,
+and drop it back over the folder to file it. Loose pages stay inside the black
+workspace, including after resizing. File everything away returns all pages.
+The reader uses a native non-modal dialog, restores focus to its page, and preserves
+the project links. Escape first puts down a reader, then closes an open folder,
+then returns to the Lab menu. The header Menu button always exits directly.
+React Bits Animated Content reveals the reader, Sound Lab provides opt-in cues,
+and reduced motion snaps the folder into position. This room mounts only on
+desktop and tablet.
+
 React Bits is the reference for Lab components, animation, and interface sounds.
 The gallery uses the official [Fade Content](https://reactbits.dev/animations/fade-content)
 component for captions and the [Carousel](https://reactbits.dev/components/carousel)
@@ -114,7 +127,7 @@ offers a return to the CV. Mobile can receive its own design later.
   links. The selected games, Geese album, and Tinashe album were requested by the site owner;
   other starter content remains editable demonstration copy.
 - `components/lab/`: interface, scoped styles, and the official vendored React
-  Bits Tech Text, Fade Content, Animated Content, Option Wheel, and Sound Lab
+  Bits Tech Text, Fade Content, Animated Content, Option Wheel, Folder, and Sound Lab
   sources, with their license. Interface audio is opt-in on each visit. Music uses
   visible official Spotify embeds; commercial tracks are not hosted or autoplayed.
 - `public/lab/`: original generated artwork and official game screenshots,
@@ -127,6 +140,7 @@ With a local preview running, check the Lab with:
 node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
 node scripts/check-lab-return.mjs http://127.0.0.1:3105
+node scripts/check-projects.mjs http://127.0.0.1:3105
 ```
 
 The check exercises palettes, animated contours, rapid hovering, matching label
