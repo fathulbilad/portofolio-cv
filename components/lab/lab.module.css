@@ -42,7 +42,8 @@
 .menuPatch > span { position: absolute; inset: .09em .05em; display: block; }
 .room { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, .41fr) minmax(0, .59fr); padding: clamp(110px, 17svh, 180px) 5.6vw 5svh; gap: 3vw; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; animation: room-in 460ms cubic-bezier(.22, 1, .36, 1) both; }
 .room.gamesRoom { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(300px, 1fr) auto; gap: 0; padding: clamp(88px, 11svh, 120px) 0 0; background-color: var(--game-surface); transition: background-color 650ms ease; }
-.room.musicRoom { grid-template-columns: minmax(0, .43fr) minmax(0, .57fr); padding-top: clamp(100px, 13svh, 155px); }
+.room.musicRoom { display: block; padding: 0; overflow: hidden; }
+.musicGrooves { opacity: .035; }
 .room.projectsRoom { display: block; padding: 0; overflow: hidden; }
 .projectsScene .utilities .sound { color: var(--lab-black); }
 .gamesScene .utilities { color: var(--lab-white); }

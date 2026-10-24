@@ -52,8 +52,12 @@ export function LabInk({ section, mood, animated, musicPlaying = false }: { sect
       <pattern id="lab-ink-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><circle cx="4" cy="4" r="2.7" fill="#111011" /></pattern>
       <filter id="lab-ink-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18" /></filter>
       <mask id="lab-ink-edge"><use href="#lab-ink-path" fill="white" stroke="white" strokeWidth="67" filter="url(#lab-ink-blur)" /></mask>
+      <clipPath id="lab-record-clip"><use href="#lab-ink-path" /></clipPath>
     </defs>
     <rect x="0" y="0" width="1440" height="900" fill="url(#lab-ink-dots)" mask="url(#lab-ink-edge)" />
     <use href="#lab-ink-path" fill="#111011" />
+    {section === "music" && <motion.g className={styles.musicGrooves} clipPath="url(#lab-record-clip)" fill="none" stroke="#a7e5ff" strokeWidth="1.5" initial={{ opacity: 0 }} animate={{ opacity: 0.035 }} transition={{ duration: animated ? 0.65 : 0 }}>
+      {[100, 170, 240, 310, 380, 450].map(radius => <ellipse key={radius} cx="890" cy="530" rx={radius} ry={radius * 0.71} transform="rotate(-8 890 530)" />)}
+    </motion.g>}
   </svg>;
 }

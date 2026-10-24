@@ -33,10 +33,19 @@ function boundary(start: Point, curves: Curve[], divisions: number[], closing?: 
 }
 
 const musicStart: Point = [540, -150];
+const splitContour = boundary(musicStart, [[[620, 50], [635, 170], [550, 300]], [[460, 440], [570, 480], [555, 640]], [[530, 780], [615, 880], [600, 1030]]], [3, 3, 2]);
+
+// A closed island keeps the blue visible around the record room. Matching the
+// menu's eight cubic segments and closing edges preserves the entry/exit morph.
+const recordBoundary = (curves: Curve[]) => {
+  const inset = ([x, y]: Point): Point => [890 + (x - 890) * 0.94, 520 + (y - 520) * 0.86];
+  const start = inset([860, 175]);
+  return boundary(start, curves.map(curve => curve.map(inset) as Curve), [2, 2, 2, 2], [start, start]);
+};
 export const musicInkContours = [
-  boundary(musicStart, [[[620, 50], [635, 170], [550, 300]], [[460, 440], [570, 480], [555, 640]], [[530, 780], [615, 880], [600, 1030]]], [3, 3, 2]),
-  boundary(musicStart, [[[595, 40], [660, 175], [565, 305]], [[485, 430], [535, 500], [570, 640]], [[555, 790], [590, 880], [615, 1030]]], [3, 3, 2]),
-  boundary(musicStart, [[[645, 60], [610, 160], [535, 295]], [[440, 450], [600, 465], [540, 640]], [[510, 770], [640, 895], [585, 1030]]], [3, 3, 2]),
+  recordBoundary([[[1110, 135], [1380, 260], [1370, 485]], [[1450, 715], [1210, 870], [940, 870]], [[660, 915], [395, 800], [395, 570]], [[355, 380], [570, 200], [860, 175]]]),
+  recordBoundary([[[1130, 150], [1400, 275], [1360, 495]], [[1425, 730], [1185, 858], [935, 880]], [[640, 900], [410, 785], [405, 565]], [[370, 365], [590, 195], [860, 175]]]),
+  recordBoundary([[[1090, 125], [1365, 245], [1380, 480]], [[1465, 695], [1225, 885], [945, 860]], [[680, 930], [380, 815], [390, 575]], [[345, 395], [550, 210], [860, 175]]]),
 ];
 musicInkContours.push(musicInkContours[0]);
 
@@ -66,5 +75,5 @@ export const roomInkContours: Record<LabSection, string> = {
   games: gamesContour,
   music: musicInkContours[0],
   projects: projectInkContours[0],
-  odds: musicInkContours[0],
+  odds: splitContour,
 };

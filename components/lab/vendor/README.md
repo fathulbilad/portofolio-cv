@@ -11,6 +11,10 @@ FadeContent.tsx is the unmodified TypeScript source from the official FadeConten
 AnimatedContent.tsx is the unmodified source from AnimatedContent-TS-CSS,
 retrieved October 23, 2026. Music uses its mount trigger, upward distance,
 scale, and back easing for the wheel entrance and album reveal.
+The Record room keeps those entrances, adds a 400ms player reveal, and uses
+Option Wheel's onChange callback to preview covers without mounting Spotify.
+Its custom closed ink island retains the shared Motion path transition and
+playback-only eight-second cycle. Grooves are decorative and carry no audio data.
 
 OptionWheel.tsx and OptionWheel.css come from OptionWheel-TS-CSS, retrieved
 October 23, 2026. The adapter adds an explicit onSelect callback, album label

@@ -61,19 +61,23 @@ boundary slowly morphs only while the official Spotify controller reports active
 non-buffering playback. It settles back on pause, completion, close, record changes, or exit;
 reduced motion and hidden tabs keep it still. This is a fixed eight-second contour
 cycle that acts as playback feedback, independent of the song's beat or loudness.
-The left-hand React Bits Option Wheel contains Geese's Getting Killed album and
-Tinashe's full Popstar album. Click a record or press Enter/Space to open its official
-cover and Spotify album or track embed on the right. React Bits Animated Content provides a
-680ms upward wheel entrance and a 520ms album pop. The wheel supports scrolling,
-dragging, arrow keys, and Home/End. There are two real records and no placeholders.
-Reduced motion skips the pops
-and wheel easing. The desktop/tablet Music room is not mounted on phones.
+The Record room layout places Music beneath the back-to-menu link, with a
+floating black record island and faint grooves around the album. A smaller
+left-hand React Bits Option Wheel browses all nine full albums. The selected
+record's cover appears immediately; scrolling, dragging, or arrow keys update
+it without opening a player. Click the cover or activate a wheel item with
+Enter/Space to open its official Spotify embed beneath the cover. Browsing
+another record closes the previous player. React Bits Animated Content provides
+a 680ms upward wheel entrance, a 520ms cover reveal, and a 400ms player reveal.
+Home/End navigation is supported. Reduced motion skips the pops and wheel
+easing. The desktop/tablet Music room is not mounted on phones.
 
-Spotify and its cover image load only when an album is opened. The cover is
+The Spotify player loads only when a record is opened; its cover loads when
+selected. The cover is
 served directly from Spotify without local caching, editing, tinting, or proxying.
 The official iFrame API player stays visible, retains encrypted-media permission, and starts
 music only through its own controls. Closing an album or leaving Music removes
-the player. Interface sounds are suppressed while the album is open to avoid
+the player. Interface sounds are suppressed while the player is open to avoid
 overlapping music. No song files, custom snippets, audio capture, beat analysis,
 or time-synchronized visuals are used. If the controller cannot load, a normal
 Spotify iframe remains available and the boundary stays still. Playback availability is determined by Spotify.
@@ -145,6 +149,7 @@ With a local preview running, check the Lab with:
 ```sh
 node scripts/check-lab.mjs http://127.0.0.1:3105
 node scripts/check-music.mjs http://127.0.0.1:3105
+node scripts/check-music-layout.mjs http://127.0.0.1:3105
 node scripts/check-music-scroll.mjs http://127.0.0.1:3105
 node scripts/check-lab-return.mjs http://127.0.0.1:3105
 node scripts/check-projects.mjs http://127.0.0.1:3105

@@ -39,7 +39,17 @@ preserves playback and leaves the boundary still.
 The player is unmounted on Close, section changes, or phone layouts; this ends
 its in-page playback. External album links remain available if embedding fails.
 
-Opening a record loads the cover from Spotify's image CDN and the Spotify embed,
+The Record room shows the selected cover on a closed black record island,
+surrounded by blue negative space, with Music below the back-to-menu link.
+Faint decorative grooves are clipped to the same morphing contour. The original
+Odds & Ends silhouette is independent of the record contour.
+The React Bits Option Wheel previews covers while browsing; clicking a cover
+or activating an item opens the Spotify player below it. Changing the wheel
+selection closes the previous player and ends playback. The nine albums remain
+available, including on desktop and tablet; the room does not mount on phones.
+
+Selecting a record loads its cover from Spotify's image CDN. Opening its player
+loads the Spotify embed,
 which can use cookies and other data under [Spotify's privacy policy](https://www.spotify.com/legal/privacy-policy/).
 No Spotify account data, credentials, OAuth tokens, or playback history are
 requested or stored by this site. Full playback is not guaranteed for every
