@@ -1,13 +1,13 @@
-.intro { position: absolute; top: 18svh; left: 5.6vw; width: 31vw; }
-.intro h1 { margin: 0 0 22px; font: 400 clamp(60px, 7.8vw, 126px)/1.04 var(--lab-display); letter-spacing: -1.8px; text-transform: uppercase; transform: rotate(-5deg) skew(-3deg) scaleX(.9); transform-origin: left center; }
+.intro { position: absolute; top: clamp(94px, 12svh, 150px); left: 5.6vw; width: max-content; max-width: 82vw; }
+.intro h1 { margin: 0 0 22px; font: 400 clamp(56px, min(8.4vw, 13svh), 126px)/1.04 var(--lab-display); letter-spacing: -1.8px; text-transform: uppercase; transform: rotate(-5deg) skew(-3deg) scaleX(.9); transform-origin: left center; }
 .intro h1:focus { outline: none; }
-.intro > p { margin: 0; font-size: clamp(12px, 1.05vw, 16px); line-height: 1.8; max-width: 28ch; }
-.collection { display: block; margin-top: clamp(80px, 28svh, 340px); font-size: 10px; line-height: 1.8; opacity: .6; }
-.deskArea { position: absolute; top: max(90px, 11svh); bottom: 4svh; left: 46vw; right: 2.5vw; color: #eae3d2; }
-.workspace { position: absolute; inset: 0 0 65px; overflow: hidden; isolation: isolate; transition: opacity 240ms ease; }
+.intro > p { margin: 0; font-size: clamp(12px, 1.05vw, 16px); line-height: 1.8; max-width: 32ch; }
+.collection { position: absolute; left: 5.6vw; bottom: 3.6svh; margin: 0; color: #00d5db; font-size: 10px; line-height: 1.8; opacity: .8; pointer-events: none; }
+.deskArea { position: absolute; top: 49svh; bottom: 3.6svh; left: 4vw; right: 4vw; color: #eae3d2; }
+.workspace { position: absolute; inset: 0 0 64px; overflow: hidden; isolation: isolate; transition: opacity 240ms ease; }
 .deskArea[data-reading="true"] .workspace { opacity: .14; pointer-events: none; }
 .deskArea[data-reading="true"] .deskFooter { visibility: hidden; }
-.dock { position: absolute; left: 50%; top: 55%; width: calc(224px * var(--archive-size)); height: calc(196px * var(--archive-size)); transform: translate(-50%, -50%); }
+.dock { position: absolute; left: 55%; top: 54%; width: calc(224px * var(--archive-size)); height: calc(196px * var(--archive-size)); transform: translate(-50%, -50%); }
 .dock :global(.folder-root) { --folder-focus: #fff9e9; }
 .dock :global(.folder-item) { border-radius: calc(2px * var(--folder-scale)); }
 .dock :global(.folder-tab-text) { font: 700 calc(9px * var(--folder-scale))/1 "Courier New", monospace; letter-spacing: .1em; color: #fff9e9; }
@@ -25,16 +25,15 @@
 .art[data-art="next"] > span { left: auto; right: 8%; }
 .paperNote { font-size: calc(6px * var(--folder-scale)); line-height: 1.5; }
 .paperStatus { display: block; margin-top: auto; padding-top: calc(5px * var(--folder-scale)); font-size: calc(5px * var(--folder-scale)); text-transform: uppercase; opacity: .65; }
-.deskFooter { position: absolute; left: 2%; right: 2%; bottom: 0; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; color: #00d5db; }
-.deskFooter p { max-width: 46ch; margin: 0; font-size: 11px; line-height: 1.7; }
+.deskFooter { position: absolute; left: 30%; right: 1.7%; bottom: 0; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: flex-end; color: #00d5db; }
+.deskFooter p { max-width: 46ch; margin: 0; font-size: 11px; line-height: 1.7; text-align: right; }
 .deskFooter button { font: inherit; font-size: 11px; text-decoration: underline; text-underline-offset: 5px; min-height: 36px; }
-.reader { position: fixed; inset: 100px 2.5vw 30px 46vw; margin: auto; width: min(440px, calc(51.5vw - 40px)); height: fit-content; max-height: calc(100svh - 140px); overflow: auto; border: 0; padding: 0; background: #eae3d2; color: #111011; box-shadow: 0 22px 70px #0008; font-family: "Courier New", monospace; }
-.reader { z-index: 9; }
-.readerPaper { padding: clamp(22px, 2.6vw, 36px); }
+.reader { position: fixed; z-index: 9; inset: max(90px, 32svh) 4vw 3svh; margin: auto; width: min(440px, 88vw); height: fit-content; max-height: calc(65svh - 36px); overflow: auto; border: 0; padding: 0; background: #eae3d2; color: #111011; box-shadow: 0 22px 70px #0008; font-family: "Courier New", monospace; }
+.readerPaper { padding: clamp(22px, 2vw, 28px); }
 .readerTop { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 10px; letter-spacing: .03em; }
 .readerTop button { min-height: 36px; font: inherit; text-decoration: underline; text-underline-offset: 5px; }
 .reader h2 { margin: 18px 0; font: 400 clamp(38px, 3.6vw, 58px)/1 var(--lab-display); text-transform: uppercase; }
-.largeArt { height: clamp(74px, 13svh, 120px); margin: 0 0 22px; }
+.largeArt { height: clamp(64px, 9svh, 90px); margin: 0 0 22px; }
 .largeArt > span { font-size: 130px; }
 .description { margin: 0 0 18px; font-size: 13px; line-height: 1.8; }
 .note { margin: 0 0 20px; font-size: 11px; line-height: 1.8; opacity: .7; }
@@ -42,20 +41,17 @@
 .projectLink { display: inline-flex; align-items: center; min-height: 36px; font: 400 21px/1.5 var(--lab-display); text-transform: uppercase; text-decoration: underline; text-underline-offset: 6px; }
 .announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 @media (max-width: 1050px) {
-  .intro { left: 4vw; top: 18svh; }
-  .intro h1 { font-size: 7.8vw; }
-  .intro > p { max-width: 23ch; font-size: 12px; }
-  .collection { max-width: 22ch; }
-  .deskArea { left: 45vw; right: 2vw; }
-  .reader { left: 44vw; right: 2vw; width: calc(54vw - 28px); }
+  .intro { left: 4vw; }
+  .intro > p { font-size: 12px; }
+  .collection { left: 4vw; }
   .readerPaper { padding: 24px; }
   .reader h2 { font-size: 42px; }
   .deskFooter p { font-size: 10px; }
 }
 @media (max-height: 650px) {
-  .collection { margin-top: 22svh; }
-  .reader { top: 75px; bottom: 20px; max-height: calc(100svh - 100px); }
+  .workspace { bottom: 55px; }
   .readerPaper { padding: 20px 26px; }
   .reader h2 { margin-block: 12px; font-size: 36px; }
   .largeArt { height: 64px; margin-bottom: 14px; }
+  .collection { font-size: 9px; }
 }

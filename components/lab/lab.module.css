@@ -44,6 +44,7 @@
 .room.gamesRoom { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(300px, 1fr) auto; gap: 0; padding: clamp(88px, 11svh, 120px) 0 0; background-color: var(--game-surface); transition: background-color 650ms ease; }
 .room.musicRoom { grid-template-columns: minmax(0, .43fr) minmax(0, .57fr); padding-top: clamp(100px, 13svh, 155px); }
 .room.projectsRoom { display: block; padding: 0; overflow: hidden; }
+.projectsScene .utilities .sound { color: var(--lab-black); }
 .gamesScene .utilities { color: var(--lab-white); }
 .gamesScene .sound { transition: color 650ms ease; }
 .roomIntro { position: relative; min-width: 0; align-self: start; padding-top: 2svh; }

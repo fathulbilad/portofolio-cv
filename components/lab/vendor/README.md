@@ -35,3 +35,9 @@ zoom is disabled in favor of the room's accessible paper dialog with focus
 restoration. Glass mode is unused and creates no WebGL context. Source CSS is
 unchanged; archive presentation is scoped in projects-room.module.css. Sounds
 still use the existing opt-in Sound Lab engine.
+
+Projects retains the same Folder, Animated Content reader entrance, and opt-in
+Sound Lab cues in its full-width sweep layout. The shared Motion path controls
+finish the room transition before starting the Music-style eight-second idle
+cycle. The custom sweep is bounded above the drag workspace so interactive
+content stays stationary and readable throughout.

@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "motion/react";
-import { useSyncExternalStore } from "react";
+import { animate, motion, useMotionValue } from "motion/react";
+import { useEffect, useSyncExternalStore } from "react";
 import type { LabSection } from "@/lib/lab";
-import { musicInkContours, roomInkContours } from "@/lib/lab-ink-contours";
+import { musicInkContours, projectInkContours, roomInkContours } from "@/lib/lab-ink-contours";
 import styles from "./lab.module.css";
 
 // Matching cubic segments let every contour morph directly into every other one.
@@ -25,15 +25,30 @@ const serverVisible = () => true;
 
 export function LabInk({ section, mood, animated, musicPlaying = false }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean }) {
   const visible = useSyncExternalStore(subscribeVisibility, readVisible, serverVisible);
-  // Playback activates an independent contour cycle; no audio is analyzed.
-  const moving = section === "music" && musicPlaying && animated && visible;
+  const moving = animated && visible && (section === "projects" || (section === "music" && musicPlaying));
   const contour = section ? roomInkContours[section] : menuContours[mood];
+  const path = useMotionValue(contour);
 
-  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} data-ink-motion={moving ? "playing" : "resting"} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+  useEffect(() => {
+    let active = true;
+    let cycle: ReturnType<typeof animate> | undefined;
+    const cycleOptions = { duration: 8, ease: "easeInOut" as const, repeat: Infinity };
+    const entry = moving && section === "music"
+      ? animate(path, musicInkContours, cycleOptions)
+      : animate(path, contour, { duration: animated && visible ? (section === "music" || section === "projects" ? 0.85 : 0.65) : 0, ease: [0.45, 0, 0.25, 1] });
+    if (moving && section === "projects") {
+      // Finish turning into the full-width sweep before starting its idle cycle.
+      // Cancelling both phases prevents an old loop from restarting after exit.
+      void entry.then(() => {
+        if (active) cycle = animate(path, projectInkContours, cycleOptions);
+      });
+    }
+    return () => { active = false; entry.stop(); cycle?.stop(); };
+  }, [animated, contour, moving, path, section, visible]);
+
+  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} data-ink-motion={moving ? (section === "projects" ? "sweeping" : "playing") : "resting"} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <defs>
-      <motion.path id="lab-ink-path" initial={false}
-        animate={{ d: moving ? musicInkContours : contour }}
-        transition={moving ? { duration: 8, ease: "easeInOut", repeat: Infinity } : { duration: animated && visible ? (section === "music" ? 0.85 : 0.65) : 0, ease: [0.45, 0, 0.25, 1] }} />
+      <motion.path id="lab-ink-path" d={path} />
       <pattern id="lab-ink-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><circle cx="4" cy="4" r="2.7" fill="#111011" /></pattern>
       <filter id="lab-ink-blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18" /></filter>
       <mask id="lab-ink-edge"><use href="#lab-ink-path" fill="white" stroke="white" strokeWidth="67" filter="url(#lab-ink-blur)" /></mask>

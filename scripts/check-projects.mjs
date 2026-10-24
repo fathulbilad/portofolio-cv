@@ -50,11 +50,58 @@ function fits(selector) {
   assert.ok(item.left >= desk.left - 2 && item.top >= desk.top - 2 && item.right <= desk.right + 2 && item.bottom <= desk.bottom + 2, `Page fits workspace: ${JSON.stringify({ item, desk })}`);
 }
 try {
-  browser(["--headed", "false", "open", new URL("/lab#projects", origin).href]);
+  browser(["--headed", "false", "open", new URL("/lab", origin).href]);
   browser(["set", "viewport", "1440", "900"]);
   browser(["tab", "t1"]);
+  wait(`document.fonts.status==='loaded' && !!document.querySelector('a[href="#projects"]')`);
+  browser(["hover", 'a[href="#projects"]']);
+  evaluate(() => { window.__originalInk = document.getElementById("lab-ink-path"); window.__menuInk = window.__originalInk.getAttribute("d"); });
+  browser(["click", 'a[href="#projects"]']);
   ready();
   settled();
+  assert.equal(evaluate(() => document.getElementById("lab-ink-path") === window.__originalInk), true, "Entering Projects keeps one persistent path.");
+  assert.notEqual(evaluate(() => document.getElementById("lab-ink-path").getAttribute("d")), evaluate(() => window.__menuInk), "The menu contour turns into a horizontal sweep.");
+  const workspace = box('[aria-label="Draggable project workspace"]');
+  const heading = box('#lab-heading');
+  assert.ok(workspace.left < 1440 * .1 && workspace.right > 1440 * .9 && workspace.top > heading.bottom, "Projects has a wide workspace below its heading.");
+  assert.equal(evaluate(() => getComputedStyle(document.querySelector('header button[aria-label*="interface sounds"]')).color), "rgb(17, 16, 17)", "Sound control remains readable on cyan.");
+  evaluate(() => {
+    const start = performance.now();
+    const path = document.getElementById("lab-ink-path");
+    const folder = document.querySelector('.folder-root').getBoundingClientRect();
+    window.__sweep = { frames: new Set(), safe: true, stableFolder: true, done: false };
+    function sample() {
+      const probe = window.__sweep;
+      probe.frames.add(path.getAttribute("d"));
+      const inverse = path.getScreenCTM().inverse();
+      const inInk = (x, y) => path.isPointInFill(new DOMPoint(x, y).matrixTransform(inverse));
+      const desk = document.querySelector('[aria-label="Draggable project workspace"]').getBoundingClientRect();
+      const intro = document.getElementById('lab-heading').parentElement.getBoundingClientRect();
+      const corners = rect => [[rect.left + 1, rect.top + 1], [rect.right - 1, rect.top + 1], [rect.left + 1, rect.bottom - 1], [rect.right - 1, rect.bottom - 1]];
+      // Ignore the last part of the entry morph, then check a whole idle cycle.
+      if (performance.now() - start > 400) probe.safe &&= corners(desk).every(([x, y]) => inInk(x, y)) && corners(intro).every(([x, y]) => !inInk(x, y));
+      const nextFolder = document.querySelector('.folder-root').getBoundingClientRect();
+      probe.stableFolder &&= Math.abs(nextFolder.x - folder.x) < 1 && Math.abs(nextFolder.y - folder.y) < 1;
+      if (performance.now() - start < 9000) requestAnimationFrame(sample);
+      else probe.done = true;
+    }
+    requestAnimationFrame(sample);
+  });
+  wait("window.__sweep.done");
+  assert.ok(evaluate(() => window.__sweep.frames.size) > 60, "The sweep keeps morphing after entry.");
+  assert.equal(evaluate(() => window.__sweep.safe), true, "Cyan intro and black workspace stay clear during a whole cycle.");
+  assert.equal(evaluate(() => window.__sweep.stableFolder), true, "Only the background moves; folder placement is stable.");
+  assert.equal(evaluate(() => document.querySelector('[data-ink-motion]').dataset.inkMotion), "sweeping");
+  // Hidden tabs must stop the cycle, and returning resumes it.
+  evaluate(() => { Object.defineProperty(document, "hidden", { configurable: true, value: true }); document.dispatchEvent(new Event("visibilitychange")); });
+  wait(`document.querySelector('[data-ink-motion]').dataset.inkMotion === 'resting'`);
+  const hiddenPath = evaluate(() => document.getElementById('lab-ink-path').getAttribute('d'));
+  evaluate(() => { window.__pauseDone = false; setTimeout(() => window.__pauseDone = true, 180); });
+  wait("window.__pauseDone");
+  assert.equal(evaluate(() => document.getElementById('lab-ink-path').getAttribute('d')), hiddenPath, "Hidden-tab motion stops.");
+  evaluate(() => { delete document.hidden; document.dispatchEvent(new Event("visibilitychange")); });
+  wait(`document.querySelector('[data-ink-motion]').dataset.inkMotion === 'sweeping'`);
+  console.log("Full-width layout, entry morph, complete idle cycle, contrast, stable folder, and visibility pause passed.");
   assert.equal(isOpen(), false, "The archive starts closed.");
   assert.equal(evaluate(() => document.querySelectorAll(".folder-root").length), 1);
   assert.equal(evaluate(() => document.querySelectorAll("audio,video,canvas").length), 0, "Matte folder uses no WebGL or autoplay media.");
@@ -111,7 +158,7 @@ try {
     wait(`!!document.querySelector('dialog[open]')`);
     assert.equal(evaluate(() => !!document.querySelector('dialog a[href="/side-projects"]')), true);
     const reader = box("dialog[open]");
-    assert.ok(reader.top >= 70 && reader.bottom <= height && reader.left >= width * .42 && reader.right < width, "Reader fits the black workspace.");
+    assert.ok(reader.top >= 70 && reader.bottom <= height && reader.left > 0 && reader.right < width && Math.abs((reader.left + reader.right) / 2 - width / 2) < 2, "Reader is centered and fits the screen.");
     browser(["press", "Tab"]);
     assert.equal(evaluate(() => document.activeElement.tagName), "A");
     browser(["press", "Escape"]);
@@ -127,8 +174,11 @@ try {
   browser(["set", "media", "light", "reduced-motion"]);
   open();
   browser(["focus", ".folder-stage"]);
+  assert.equal(evaluate(() => document.querySelector('[data-ink-motion]').dataset.inkMotion), "resting", "Reduced motion has no idle sweep.");
+  const reducedPath = evaluate(() => document.getElementById('lab-ink-path').getAttribute('d'));
   browser(["press", "Space"]);
   settled();
+  assert.equal(evaluate(() => document.getElementById('lab-ink-path').getAttribute('d')), reducedPath, "Folder interaction leaves the reduced-motion boundary still.");
   assert.equal(isOpen(), true);
   browser(["focus", page(2)]);
   browser(["press", "Space"]);

@@ -13,7 +13,7 @@ function split(start: Point, [a, b, end]: Curve, t: number): [Curve, Curve] {
 // Subdivision preserves each curve while giving every room the same eight
 // cubic segments and two closing edges as the menu. Motion can then interpolate
 // both directions instead of falling back to an immediate path replacement.
-function boundary(start: Point, curves: Curve[], divisions: number[]): string {
+function boundary(start: Point, curves: Curve[], divisions: number[], closing?: [Point, Point]): string {
   let cursor = start;
   const segments: Curve[] = [];
   curves.forEach((curve, index) => {
@@ -28,7 +28,8 @@ function boundary(start: Point, curves: Curve[], divisions: number[]): string {
     cursor = remainder[2];
   });
   const numbers = (points: Point[]) => points.flat().map(value => Number(value.toFixed(4))).join(" ");
-  return `M${numbers([start])}${segments.map(curve => `C${numbers(curve)}`).join("")}L1660 ${cursor[1]}L1660 ${start[1]}Z`;
+  const edges = closing ?? [[1660, cursor[1]], [1660, start[1]]];
+  return `M${numbers([start])}${segments.map(curve => `C${numbers(curve)}`).join("")}${edges.map(point => `L${numbers([point])}`).join("")}Z`;
 }
 
 const musicStart: Point = [540, -150];
@@ -38,6 +39,16 @@ export const musicInkContours = [
   boundary(musicStart, [[[645, 60], [610, 160], [535, 295]], [[440, 450], [600, 465], [540, 640]], [[510, 770], [640, 895], [585, 1030]]], [3, 3, 2]),
 ];
 musicInkContours.push(musicInkContours[0]);
+
+// The same command structure can turn from the menu's vertical boundary into
+// a horizontal sweep. Only the two offscreen closing corners change sides.
+const projectBoundary = (curves: Curve[]) => boundary([-220, 440], curves, [3, 3, 2], [[1660, 1040], [-220, 1040]]);
+export const projectInkContours = [
+  projectBoundary([[[-40, 440], [230, 395], [470, 350]], [[690, 310], [850, 290], [1030, 285]], [[1260, 265], [1490, 280], [1660, 305]]]),
+  projectBoundary([[[-20, 458], [245, 382], [480, 354]], [[680, 330], [880, 275], [1030, 295]], [[1240, 280], [1470, 260], [1660, 300]]]),
+  projectBoundary([[[-60, 426], [210, 409], [460, 343]], [[700, 300], [830, 312], [1040, 280]], [[1280, 250], [1510, 295], [1660, 314]]]),
+];
+projectInkContours.push(projectInkContours[0]);
 
 const gamesContour = boundary([-100, -150], [[[-100, 246.6667], [-100, 643.3333], [-100, 1040]]], [8]);
 // Life's visible boundary is traversed top-to-bottom like the menu. Its closing
@@ -54,6 +65,6 @@ export const roomInkContours: Record<LabSection, string> = {
   life: lifeContour,
   games: gamesContour,
   music: musicInkContours[0],
-  projects: musicInkContours[0],
+  projects: projectInkContours[0],
   odds: musicInkContours[0],
 };

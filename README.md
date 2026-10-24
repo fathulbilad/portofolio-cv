@@ -79,9 +79,15 @@ or time-synchronized visuals are used. If the controller cannot load, a normal
 Spotify iframe remains available and the boundary stays still. Playback availability is determined by Spotify.
 See [Music sources and playback notes](docs/lab-music.md).
 
-Projects uses the closed-archive design: quiet cyan space on the left and one
-matte cyan [React Bits Folder](https://reactbits.dev/components/folder?tilt=1.05&size=1.8&speed=0.75)
-on the black workspace. Click or press Enter/Space to open the folder; its
+Projects uses the full-width sweep layout: a cyan heading area above a wide
+black workspace, with one centered matte cyan [React Bits Folder](https://reactbits.dev/components/folder?tilt=1.05&size=1.8&speed=0.75)
+on the black workspace. Its persistent ink path turns from the menu's vertical
+boundary into the horizontal sweep over 850ms, then follows the same gentle
+eight-second cycle used for Music playback. The edge and halftone dots move
+together; the heading, folder, reader, and drag bounds stay still. The cycle
+stops on exit, hidden tabs, or reduced motion. The project reader is centered
+in the lower workspace, and Sound stays dark against the cyan header.
+Click or press Enter/Space to open the folder; its
 three ivory project pages fan out. Drag a page onto the desk, click it to read,
 and drop it back over the folder to file it. Loose pages stay inside the black
 workspace, including after resizing. File everything away returns all pages.
@@ -148,6 +154,8 @@ highlights, fresh patterns on re-entry, stable patterns during pointer movement,
 sections, selections, artwork loading, focus restoration, browser history,
 opt-in sound, tablet layouts, hidden phone entry, reduced motion, and invalid URL
 fragment recovery.
+The Projects check also samples a full sweep cycle for movement, contrast, stable
+folder placement, visibility pausing, and reduced motion.
 The focused Music check uses a test controller to exercise playback, pause,
 buffering, completion, error recovery, hidden tabs, cleanup, reduced motion,
 the full album selection, and a blocked-API iframe fallback without streaming audio.

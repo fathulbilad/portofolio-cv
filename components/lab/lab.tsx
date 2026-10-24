@@ -173,7 +173,7 @@ export function Lab() {
       <p>This corner is made for desktop and tablet.<br />The phone-sized version is a story for another day.</p>
       <Link href="/">← Back to my CV</Link>
     </div>
-    <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""}`}>
+    <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""} ${section === "projects" ? styles.projectsScene : ""}`}>
       <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>

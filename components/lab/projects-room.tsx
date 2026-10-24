@@ -63,7 +63,7 @@ export function ProjectsRoom({ headingRef, onSelectSound, onExplore }: {
   useEffect(() => {
     const desk = workspace.current;
     if (!desk) return;
-    const observer = new ResizeObserver(() => setSize(Math.min(1.8, desk.clientWidth / 405, desk.clientHeight / 390)));
+    const observer = new ResizeObserver(() => setSize(Math.min(1.8, desk.clientWidth / 405, desk.clientHeight / 300)));
     observer.observe(desk);
     return () => observer.disconnect();
   }, []);
@@ -95,7 +95,6 @@ export function ProjectsRoom({ headingRef, onSelectSound, onExplore }: {
     <div className={styles.intro}>
       <h1 id="lab-heading" ref={headingRef} tabIndex={-1}>Projects</h1>
       <p>Things I make, just because.</p>
-      <span className={styles.collection}>03 files. Some finished.<br />Some still becoming something.</span>
     </div>
     <section className={styles.deskArea} aria-label="Project archive" data-reading={selected !== null} onClick={selected !== null ? closeReader : undefined}>
       <div className={styles.workspace} ref={workspace} aria-label="Draggable project workspace" inert={selected !== null}>
@@ -115,6 +114,7 @@ export function ProjectsRoom({ headingRef, onSelectSound, onExplore }: {
         {loose.length > 0 && <button type="button" onClick={fileAll}>File everything away ↙</button>}
       </footer>
     </section>
+    {selected === null && <p className={styles.collection}>03 files.<br />Always a work in progress.</p>}
     <p className={styles.announcement} role="status">{announcement}</p>
     {selected !== null && <ProjectReader index={selected} onClose={closeReader} onExplore={onExplore} />}
   </>;
