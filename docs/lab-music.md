@@ -1,9 +1,10 @@
 # Music room sources
 
-The collection contains nine full albums chosen by the site owner. Album titles,
+The collection contains sixteen full albums chosen by the site owner. Album titles,
 artists, release years, and artwork are verified against the official Spotify
 album pages and oEmbed metadata. The original two records were verified October
-23, 2026; the seven additions were verified October 24, 2026.
+23, 2026; the next seven were verified October 24, 2026, and the latest seven
+were verified October 25, 2026.
 
 | Album | Artist | Spotify release year | Official album | oEmbed metadata |
 | --- | --- | --- | --- | --- |
@@ -16,6 +17,13 @@ album pages and oEmbed metadata. The original two records were verified October
 | Heavy Metal | Cameron Winter | 2024 | [Album](https://open.spotify.com/album/7mOrnQqDad3RgYQsJGaaqk) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F7mOrnQqDad3RgYQsJGaaqk) |
 | Faces | Mac Miller | 2021 | [Album](https://open.spotify.com/album/5SKnXCvB4fcGSZu32o3LRY) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F5SKnXCvB4fcGSZu32o3LRY) |
 | I Love My Computer | Ninajirachi | 2025 | [Album](https://open.spotify.com/album/77CZUF57sYqgtznUe3OikQ) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F77CZUF57sYqgtznUe3OikQ) |
+| Atrocity Exhibition | Danny Brown | 2016 | [Album](https://open.spotify.com/album/5pjvBM0oPH7RNcgPKxIJmR) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F5pjvBM0oPH7RNcgPKxIJmR) |
+| Ants From Up There | Black Country, New Road | 2022 | [Album](https://open.spotify.com/album/21xp7NdU1ajmO1CX0w2Egd) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F21xp7NdU1ajmO1CX0w2Egd) |
+| WHO CARES? | Rex Orange County | 2022 | [Album](https://open.spotify.com/album/2yI4m5Yu2tl8v0It5P9WVz) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F2yI4m5Yu2tl8v0It5P9WVz) |
+| Cave World | Viagra Boys | 2022 | [Album](https://open.spotify.com/album/2IC2TP7bnwkfl56vjabLQt) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F2IC2TP7bnwkfl56vjabLQt) |
+| KIDS SEE GHOSTS | KIDS SEE GHOSTS | 2018 | [Album](https://open.spotify.com/album/6pwuKxMUkNg673KETsXPUV) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F6pwuKxMUkNg673KETsXPUV) |
+| I LAY DOWN MY LIFE FOR YOU | JPEGMAFIA | 2024 | [Album](https://open.spotify.com/album/1ezs1QD5SYQ6LtxpC9y5I2) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F1ezs1QD5SYQ6LtxpC9y5I2) |
+| Madvillainy | Madvillain | 2004 | [Album](https://open.spotify.com/album/61809gZj46tFYs0g4s51nu) | [Metadata](https://open.spotify.com/oembed?url=https%3A%2F%2Fopen.spotify.com%2Falbum%2F61809gZj46tFYs0g4s51nu) |
 
 Faces uses the 2021 Spotify streaming edition.
 
@@ -45,7 +53,7 @@ Faint decorative grooves are clipped to the same morphing contour. The original
 Odds & Ends silhouette is independent of the record contour.
 The React Bits Option Wheel previews covers while browsing; clicking a cover
 or activating an item opens the Spotify player below it. Changing the wheel
-selection closes the previous player and ends playback. The nine albums remain
+selection closes the previous player and ends playback. All sixteen albums remain
 available, including on desktop and tablet; the room does not mount on phones.
 
 Selecting a record loads its cover from Spotify's image CDN. Opening its player
