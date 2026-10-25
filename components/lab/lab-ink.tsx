@@ -5,7 +5,6 @@ import { useEffect, useSyncExternalStore } from "react";
 import type { LabSection } from "@/lib/lab";
 import { musicInkContours, projectInkContours, roomInkContours } from "@/lib/lab-ink-contours";
 import styles from "./lab.module.css";
-import { labMusicTiming } from "./use-lab-music";
 
 // Matching cubic segments let every contour morph directly into every other one.
 // The shared right edge keeps the menu on solid ink throughout the animation.
@@ -23,27 +22,14 @@ const subscribeVisibility = (notify: () => void) => {
 };
 const readVisible = () => !document.hidden;
 const serverVisible = () => true;
-const noMusicPosition = () => null;
 
-export function LabInk({ section, mood, animated, musicPlaying = false, soundtrackPlaying = false, readMusicPosition = noMusicPosition, oddsContour }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean; soundtrackPlaying?: boolean; readMusicPosition?: () => number | null; oddsContour?: string }) {
+export function LabInk({ section, mood, animated, musicPlaying = false, oddsContour }: { section: LabSection | null; mood: LabSection; animated: boolean; musicPlaying?: boolean; oddsContour?: string }) {
   const visible = useSyncExternalStore(subscribeVisibility, readVisible, serverVisible);
-  const soundtrackMotion = soundtrackPlaying && (section === "projects" || section === "music");
-  const moving = animated && visible && (section === "projects" || (section === "music" && musicPlaying) || soundtrackMotion);
+  const moving = animated && visible && (section === "projects" || (section === "music" && musicPlaying));
   const contour = section === "odds" && oddsContour ? oddsContour : section ? roomInkContours[section] : menuContours[mood];
   const path = useMotionValue(contour);
 
   useEffect(() => {
-    if (moving && soundtrackMotion) {
-      const cycle = animate(path, section === "music" ? musicInkContours : projectInkContours, { duration: labMusicTiming.phrase, ease: "easeInOut", autoplay: false });
-      let frame = 0;
-      const update = () => {
-        const position = readMusicPosition();
-        if (position !== null) cycle.time = position % labMusicTiming.phrase;
-        frame = requestAnimationFrame(update);
-      };
-      update();
-      return () => { cancelAnimationFrame(frame); cycle.stop(); };
-    }
     let active = true;
     let cycle: ReturnType<typeof animate> | undefined;
     const cycleOptions = { duration: 8, ease: "easeInOut" as const, repeat: Infinity };
@@ -58,9 +44,9 @@ export function LabInk({ section, mood, animated, musicPlaying = false, soundtra
       });
     }
     return () => { active = false; entry.stop(); cycle?.stop(); };
-  }, [animated, contour, moving, path, section, visible, soundtrackMotion, readMusicPosition]);
+  }, [animated, contour, moving, path, section, visible]);
 
-  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} data-ink-motion={moving ? (soundtrackMotion ? "soundtrack" : section === "projects" ? "sweeping" : "playing") : "resting"} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+  return <svg className={`${styles.ink} ${section === "life" ? styles.lifeInk : ""}`} data-ink-shape={section ? `room-${section}` : mood} data-ink-motion={moving ? (section === "projects" ? "sweeping" : "playing") : "resting"} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <motion.path id="lab-ink-path" d={path} />
       <pattern id="lab-ink-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(12)"><circle cx="4" cy="4" r="2.7" fill="#111011" /></pattern>
