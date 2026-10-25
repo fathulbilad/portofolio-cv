@@ -124,7 +124,10 @@ exchanges with “me,” with no visitor composer, reply options, or chat servic
 Starter copy lives in `oddVoices` in `lib/lab.ts`. Selecting a voice moves the
 black speech-bubble tail toward its contact. The previous conversation exits over
 160ms while each new bubble uses the vendored React Bits Animated Content
-400ms pop, staggered by 85ms. The contact entrance and moving selection reference
+400ms pop, staggered by 85ms with the delay capped at 255ms for longer threads.
+Each voice has thirteen starter messages in an independently scrollable,
+keyboard-focusable log; the conversation header and close button stay in place.
+Switching voices starts the new log at the top. The contact entrance and moving selection reference
 [Animated List](https://reactbits.dev/components/animated-list), adapted to five
 native keyboard-accessible buttons. Sound Lab provides the existing opt-in
 selection cue. Close or the first Escape closes the thoughts and restores contact

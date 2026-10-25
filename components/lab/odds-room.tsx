@@ -55,7 +55,7 @@ export function OddsRoom({ reduced, headingRef, onSelectSound, onInkChange }: {
   }}>
     <div className={styles.intro}>
       <h1 id="lab-heading" ref={headingRef} tabIndex={-1}>Odds &amp; Ends</h1>
-      <p>five tabs open. one brain.</p>
+      <p>Five tabs, one brain and I don’t know where the music is coming from?</p>
     </div>
 
     <nav className={styles.contacts} aria-label="Five sides of my mind" ref={contacts}>
@@ -87,14 +87,14 @@ export function OddsRoom({ reduced, headingRef, onSelectSound, onInkChange }: {
               <div><h2>{voice.name}</h2><p>{voice.description}</p></div>
               <button type="button" onClick={close} aria-label="Close thoughts">Close ×</button>
             </header>
-            <ol className={styles.messages} aria-label={`${voice.name} and me`}>
+            <ol className={styles.messages} aria-label={`${voice.name} and me`} tabIndex={0}>
               {voice.messages.map((message, index) => <li key={`${voice.id}-${index}`} className={styles.messageEntrance} data-from={message.from} data-odds-message>
-                <AnimatedContent trigger="mount" distance={16} scale={0.96} duration={0.4} ease="back.out(1.15)" delay={reduced ? 0 : index * 0.085} className={styles.message}>
+                <AnimatedContent trigger="mount" distance={16} scale={0.96} duration={0.4} ease="back.out(1.15)" delay={reduced ? 0 : Math.min(index, 3) * 0.085} className={styles.message}>
                   <span className={styles.sender}>{message.from === "me" ? "me" : voice.name}</span><p>{message.text}</p>
                 </AnimatedContent>
               </li>)}
             </ol>
-            <p className={styles.chatNote}>a thought, left here.</p>
+            <p className={styles.chatNote}>scroll through the brain noise ↓</p>
           </> : <div className={styles.empty}>
             <span>five voices. one head.</span><h2>who’s on<br />my mind?</h2><p>pick someone on the left.<br />the group chat never really ends.</p>
           </div>}
