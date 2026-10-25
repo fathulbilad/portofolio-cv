@@ -16,6 +16,8 @@ import { ProjectsRoom } from "./projects-room";
 import { OddsRoom } from "./odds-room";
 import { LabRouteLink } from "@/components/portfolio/lab-route-transition";
 import { LabMenuLabel, createMenuHighlight, type MenuHighlight } from "./lab-menu-label";
+import { useLabMusic } from "./use-lab-music";
+import { MusicIndicator } from "./music-indicator";
 
 const navigationEvent = "lab:navigate";
 const largeScreenQuery = "(min-width: 768px) and (min-height: 501px), (min-width: 768px) and (pointer: fine)";
@@ -59,6 +61,8 @@ export function Lab() {
   const [wipe, setWipe] = useState<"cover" | "reveal" | null>(null);
   const [game, setGame] = useState(0);
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [albumOpen, setAlbumOpen] = useState(false);
+  const backgroundMusic = useLabMusic({ available: large, blocked: albumOpen });
   const [oddsShape, setOddsShape] = useState<string>();
   const soundEnabled = useRef(false);
   const musicIsOpen = useRef(false);
@@ -131,6 +135,7 @@ export function Lab() {
 
   const onAlbumOpenChange = useCallback((open: boolean) => {
     musicIsOpen.current = open;
+    setAlbumOpen(open);
     setSoundMuted(document.hidden || open || !soundEnabled.current);
   }, []);
 
@@ -168,13 +173,19 @@ export function Lab() {
       <Link href="/">← Back to my CV</Link>
     </div>
     <div className={`${styles.desktop} ${section ? styles.inRoom : ""} ${section === "games" ? styles.gamesScene : ""} ${section === "projects" ? styles.projectsScene : ""} ${section === "odds" ? styles.oddsScene : ""}`}>
-      <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} oddsContour={oddsShape} />
+      <LabInk section={section} mood={mood} animated={large && !reduced} musicPlaying={section === "music" && musicPlaying} soundtrackPlaying={backgroundMusic.playing} readMusicPosition={backgroundMusic.readPosition} oddsContour={oddsShape} />
       <div className={styles.grain} aria-hidden="true" />
       <header className={styles.utilities}>
         {section ? <button type="button" onClick={() => go(null)}>← <span>Menu</span></button> : <LabRouteLink href="/">← <span>CV</span></LabRouteLink>}
-        <button type="button" className={styles.sound} onClick={toggleSound} aria-pressed={sound} aria-label={sound ? "Turn interface sounds off" : "Turn interface sounds on"}><span>Sound {sound ? "on" : "off"}</span>{sound ? <Volume2 size={16} /> : <VolumeX size={16} />}</button>
+        <div className={styles.audioControls}>
+          <button type="button" className={styles.sound} onClick={toggleSound} aria-pressed={sound} aria-label={sound ? "Turn interface sounds off" : "Turn interface sounds on"}><span>Sound {sound ? "on" : "off"}</span>{sound ? <Volume2 size={16} aria-hidden="true" /> : <VolumeX size={16} aria-hidden="true" />}</button>
+          <button type="button" className={styles.sound} onClick={backgroundMusic.toggle} aria-pressed={backgroundMusic.enabled} aria-busy={backgroundMusic.loading} aria-label={backgroundMusic.enabled ? "Music on" : "Music off"} title={albumOpen && backgroundMusic.enabled ? "Music pauses while a record is open." : "Off Duty FM"} data-lab-music={backgroundMusic.loading ? "loading" : backgroundMusic.playing ? "playing" : backgroundMusic.enabled ? "paused" : "off"}>
+            <span>Music {backgroundMusic.enabled ? "on" : "off"}</span><MusicIndicator playing={backgroundMusic.playing} animated={!reduced} readPosition={backgroundMusic.readPosition} />
+          </button>
+        </div>
       </header>
       <p className={styles.srOnly} role="status">{soundMessage}</p>
+      <p className={styles.srOnly} role="status">{backgroundMusic.message}</p>
 
       {!section ? <main className={styles.entrance} id="lab-content">
         <h1 className={styles.offDuty}>off duty.<span>a little corner<br />of my own.</span></h1>

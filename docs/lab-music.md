@@ -32,13 +32,13 @@ Faces uses the 2021 Spotify streaming edition.
 - The official album player uses the supported compact height and dark theme.
   Its Spotify branding and controls remain visible and unmodified.
 
-Spotify serves playback. There is no autoplay, locally hosted audio, custom
-5–10 second excerpt, beat detector, audio capture, or time-synchronized visuals.
+Spotify serves the album collection's playback. There is no autoplay, custom
+5–10 second excerpt, beat detector, or audio capture of Spotify playback.
 The black contour runs an independent eight-second morph only while Spotify's
 official `playback_update` event reports `isPaused: false` and no buffering.
 Position and duration are compared only to detect the end of a preview, since
-Spotify can leave its paused flag unset at completion. No audio timing, waveform,
-spectrum, or beat data drives the shape.
+Spotify can leave its paused flag unset at completion. No Spotify audio timing,
+waveform, spectrum, or beat data drives the shape.
 Pause, completion, playback errors, closing, switching records, or leaving the room end the
 animation and smoothly return to the resting contour. Hidden tabs and reduced
 motion disable the contour cycle. The dot mask shares the same path as the fill.
@@ -73,3 +73,33 @@ References:
 - [React Bits Animated Content](https://reactbits.dev/animations/animated-content)
 
 Album artwork, music, and trademarks belong to their respective rightsholders.
+
+## Original background score
+
+The separate **Music on / Music off** button sits to the right of **Sound on /
+Sound off**, on the same row. Sound continues to control only the interface
+effects. Music starts off on every visit and does not create an audio context or fetch a recording
+until the visitor opts in. The background track is the original **Off Duty FM**
+breakbeat version chosen by the site owner, not its later jazz mix.
+
+The hosted files are `public/lab/audio/off-duty-fm.ogg` (Ogg Opus, approximately
+2.2 MB) and an MP3 fallback (approximately 3.8 MB). Both are the complete
+two-minute, 120 BPM composition. No third-party reference recordings are
+included. The full-resolution master and composition sources are preserved in
+the original local music delivery rather than shipped with the website.
+
+After opt-in, a decoded Web Audio buffer loops continuously, including the
+track's composed transition from the last four bars into the first. Short gain
+ramps avoid clicks when enabling or pausing. The background volume is 30%.
+Navigation between Lab rooms preserves the playhead. Opening a Spotify album,
+hiding the tab, or switching to the phone layout pauses the score; closing the
+player or returning resumes at its paused position when Music remains on.
+Turning Music off prevents automatic resumption. Leaving `/lab` stops playback,
+cancels pending fetches, and closes the background audio context.
+
+The music indicator follows the half-second beat. The existing Projects and
+Music room contour cycles follow the score's eight-second phrase, using the
+audio output clock, so navigation, pauses, and the two-minute wrap do not create
+an independent timer that drifts. Spotify playback retains its separate,
+unsynchronized contour behavior described above. Reduced-motion preferences
+disable the indicator animation and all contour motion without disabling music.
